@@ -1,0 +1,3492 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SongLetter v5.2 — Scrisoare &amp; Invitație Muzicală</title>
+  <style>
+    /* =====================================================================
+       DESIGN TOKENS — DARK (DEFAULT) & LIGHT THEMES (ZERO EXTERNAL CDNs)
+       ===================================================================== */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-serif: Georgia, "Times New Roman", Cambria, serif;
+
+      --bg: #090d16;
+      --bg-dot: rgba(139, 92, 246, 0.10);
+      --surface: #111827;
+      --surface-2: #182235;
+      --surface-input: #0b1120;
+      --border: #243047;
+      --border-strong: #334155;
+
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-soft: #cbd5e1;
+
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-soft: rgba(124, 58, 237, 0.22);
+      --accent-text: #ddd6fe;
+
+      --emerald: #10b981;
+      --emerald-hover: #059669;
+      --emerald-soft: rgba(16, 185, 129, 0.20);
+      --emerald-text: #a7f3d0;
+
+      --danger: #f43f5e;
+      --danger-soft: rgba(244, 63, 94, 0.16);
+      --amber-soft: rgba(245, 158, 11, 0.18);
+      --amber-text: #fcd34d;
+
+      /* Streaming Brand Tokens (Dark Mode) */
+      --spotify-bg: rgba(29, 185, 84, 0.16);
+      --spotify-border: rgba(29, 185, 84, 0.36);
+      --spotify-text: #6ee7b7;
+
+      --apple-bg: rgba(250, 36, 60, 0.16);
+      --apple-border: rgba(250, 36, 60, 0.36);
+      --apple-text: #fda4af;
+
+      --tidal-bg: rgba(56, 189, 248, 0.14);
+      --tidal-border: rgba(226, 232, 240, 0.28);
+      --tidal-text: #e0f2fe;
+
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.28);
+      --shadow-lg: 0 18px 42px rgba(0, 0, 0, 0.48);
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f6f2e9;
+      --bg-dot: rgba(124, 58, 237, 0.06);
+      --surface: #fdfbf7;
+      --surface-2: #f1ebe0;
+      --surface-input: #ffffff;
+      --border: #e3d9c6;
+      --border-strong: #cfc2aa;
+
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-soft: #334155;
+
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-soft: rgba(124, 58, 237, 0.12);
+      --accent-text: #5b21b6;
+
+      --emerald: #059669;
+      --emerald-hover: #047857;
+      --emerald-soft: rgba(16, 185, 129, 0.14);
+      --emerald-text: #065f46;
+
+      --danger: #e11d48;
+      --danger-soft: rgba(225, 29, 72, 0.10);
+      --amber-soft: rgba(245, 158, 11, 0.14);
+      --amber-text: #92400e;
+
+      /* Streaming Brand Tokens (Light Mode) */
+      --spotify-bg: rgba(29, 185, 84, 0.12);
+      --spotify-border: rgba(29, 185, 84, 0.32);
+      --spotify-text: #15803d;
+
+      --apple-bg: rgba(250, 36, 60, 0.10);
+      --apple-border: rgba(250, 36, 60, 0.28);
+      --apple-text: #be123c;
+
+      --tidal-bg: rgba(15, 23, 42, 0.08);
+      --tidal-border: rgba(15, 23, 42, 0.22);
+      --tidal-text: #0f172a;
+
+      --shadow-sm: 0 2px 10px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 18px 42px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: var(--font-sans);
+      color: var(--text);
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--bg-dot) 1px, transparent 1px);
+      background-size: 24px 24px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    button, input, textarea, select {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =====================================================================
+       HEADER
+       ===================================================================== */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5, #10b981);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .badge-ver {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+
+    .brand-sub {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--emerald-soft);
+      color: var(--emerald-text);
+      border: 1px solid color-mix(in srgb, var(--emerald) 35%, transparent);
+    }
+
+    /* =====================================================================
+       BUTTONS, INPUTS & STREAMING LINKS
+       ===================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-input);
+      color: var(--text);
+      transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.30);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-emerald {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      color: #ffffff;
+    }
+
+    .btn-emerald:hover {
+      background: var(--emerald-hover);
+      border-color: var(--emerald-hover);
+    }
+
+    .btn-amber {
+      background: var(--amber-soft);
+      border-color: color-mix(in srgb, #f59e0b 45%, transparent);
+      color: var(--amber-text);
+    }
+
+    .btn-amber:hover {
+      border-color: #f59e0b;
+    }
+
+    .btn-danger-ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .btn-danger-ghost:hover {
+      color: var(--danger);
+      background: var(--danger-soft);
+      border-color: transparent;
+    }
+
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    /* Streaming Platform Badges (Spotify, Apple Music, Tidal) */
+    .stream-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .stream-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform 0.12s ease, opacity 0.15s ease, filter 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .stream-btn:hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .stream-btn:active {
+      transform: scale(0.97);
+    }
+
+    .stream-spotify {
+      background: var(--spotify-bg);
+      border-color: var(--spotify-border);
+      color: var(--spotify-text);
+    }
+
+    .stream-apple {
+      background: var(--apple-bg);
+      border-color: var(--apple-border);
+      color: var(--apple-text);
+    }
+
+    .stream-tidal {
+      background: var(--tidal-bg);
+      border-color: var(--tidal-border);
+      color: var(--tidal-text);
+    }
+
+    .tidal-icon {
+      width: 12px;
+      height: 10px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .input-field, .textarea-field, .select-field {
+      width: 100%;
+      background: var(--surface-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 13px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .input-field:focus, .textarea-field:focus, .select-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.22);
+    }
+
+    .textarea-field {
+      min-height: 145px;
+      resize: vertical;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* =====================================================================
+       LAYOUT & CARDS
+       ===================================================================== */
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--surface-input);
+      color: var(--text-soft);
+      border: 1px solid var(--border);
+      transition: all 0.15s ease;
+    }
+
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.30);
+    }
+
+    /* Occasion-specific active pill colors */
+    .pill.active[data-occasion="wedding"]  { background: #d97706; border-color: #d97706; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.32); }
+    .pill.active[data-occasion="baptism"]  { background: #0284c7; border-color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.32); }
+    .pill.active[data-occasion="friend"]   { background: #0d9488; border-color: #0d9488; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.32); }
+    .pill.active[data-occasion="birthday"] { background: #ea580c; border-color: #ea580c; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.32); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .grid-meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding-top: 14px;
+      margin-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .grid-event {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .grid-bottom {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 720px) {
+      .grid-meta { grid-template-columns: 1fr 1fr auto; align-items: end; }
+      .grid-event { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 920px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .grid-bottom { grid-template-columns: 7fr 5fr; align-items: start; }
+    }
+
+    .event-drawer {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    /* =====================================================================
+       INTERACTIVE LETTER CANVAS & SONG CHIPS
+       ===================================================================== */
+    .hint-box {
+      padding: 10px 13px;
+      border-radius: var(--radius-md);
+      background: var(--accent-soft);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      color: var(--accent-text);
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .interactive-canvas {
+      min-height: 165px;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: var(--surface-input);
+      border: 1px solid var(--border);
+      font-family: var(--font-serif);
+      font-size: 19px;
+      line-height: 1.95;
+      color: var(--text);
+      user-select: text;
+      word-break: break-word;
+    }
+
+    .word-token {
+      border-radius: 6px;
+      padding: 1px 2px;
+      cursor: pointer;
+      transition: background-color 0.14s ease, color 0.14s ease;
+    }
+
+    .word-token:hover {
+      background: var(--accent-soft);
+      color: var(--accent-text);
+    }
+
+    .song-chip {
+      display: inline;
+      border-radius: 8px;
+      padding: 2px 7px;
+      margin: 0 1px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+
+    .song-chip-auto {
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .song-chip-auto:hover {
+      background: color-mix(in srgb, var(--accent) 34%, transparent);
+    }
+
+    .song-chip-manual {
+      background: var(--emerald-soft);
+      color: var(--emerald-text);
+      border: 1px solid color-mix(in srgb, var(--emerald) 50%, transparent);
+      border-bottom: 2px solid var(--emerald);
+    }
+
+    .song-chip-manual:hover {
+      background: color-mix(in srgb, var(--emerald) 34%, transparent);
+    }
+
+    .song-chip.playing-now {
+      background: var(--accent) !important;
+      color: #ffffff !important;
+      border-color: #c4b5fd !important;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.42);
+    }
+
+    .chip-icon {
+      font-size: 0.76em;
+      margin-right: 4px;
+      user-select: none;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    /* =====================================================================
+       TRACKLIST & SHARE BOX
+       ===================================================================== */
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 440px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .track-item {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      padding: 11px 13px;
+      border-radius: var(--radius-md);
+      background: var(--surface-input);
+      border: 1px solid var(--border);
+      transition: border-color 0.15s ease;
+    }
+
+    .track-item:hover {
+      border-color: var(--accent);
+    }
+
+    .track-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .track-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .track-art {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .track-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .track-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .track-title-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .track-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+    }
+
+    .track-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .tag-mini {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .tag-auto { background: var(--accent-soft); color: var(--accent-text); }
+    .tag-manual { background: var(--emerald-soft); color: var(--emerald-text); }
+
+    .track-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .track-bottom-links {
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .share-card {
+      background: linear-gradient(155deg, #161d31 0%, #0f172a 100%);
+      color: #f8fafc;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .share-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .share-card code {
+      color: #6ee7b7;
+      font-weight: 700;
+    }
+
+    .share-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .share-btns .btn {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+
+    /* =====================================================================
+       RECIPIENT CARD VIEW & OCCASION THEMES
+       ===================================================================== */
+    .recipient-wrap {
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 24px 18px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      flex: 1;
+    }
+
+    .card-shell {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .card-top-ribbon {
+      height: 10px;
+      background: linear-gradient(90deg, #7c3aed, #4f46e5, #10b981);
+    }
+
+    .card-shell[data-occasion="wedding"] { border-color: rgba(245, 158, 11, 0.5); }
+    .card-shell[data-occasion="wedding"] .card-top-ribbon { background: linear-gradient(90deg, #fcd34d, #d97706, #b45309); }
+
+    .card-shell[data-occasion="baptism"] { border-color: rgba(56, 189, 248, 0.5); }
+    .card-shell[data-occasion="baptism"] .card-top-ribbon { background: linear-gradient(90deg, #7dd3fc, #0ea5e9, #fcd34d); }
+
+    .card-shell[data-occasion="friend"] { border-color: rgba(20, 184, 166, 0.5); }
+    .card-shell[data-occasion="friend"] .card-top-ribbon { background: linear-gradient(90deg, #2dd4bf, #10b981, #06b6d4); }
+
+    .card-shell[data-occasion="birthday"] { border-color: rgba(249, 115, 22, 0.5); }
+    .card-shell[data-occasion="birthday"] .card-top-ribbon { background: linear-gradient(90deg, #fbbf24, #f97316, #f43f5e); }
+
+    .card-body {
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .card-body { padding: 38px 40px; }
+    }
+
+    .card-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-occasion-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .event-banner {
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .event-banner-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 24px;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .event-banner-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    @media (min-width: 560px) {
+      .event-banner-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .recipient-letter-text {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      line-height: 1.9;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .card-shell[data-occasion="friend"] .recipient-letter-text,
+    .card-shell[data-occasion="birthday"] .recipient-letter-text {
+      font-family: var(--font-sans);
+      font-size: 19px;
+      line-height: 1.8;
+    }
+
+    .recipient-salutation {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .recipient-signature {
+      text-align: right;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 19px;
+      color: var(--text-soft);
+    }
+
+    /* =====================================================================
+       STICKY MINI-PLAYER (CARD VIEW)
+       ===================================================================== */
+    .mini-player {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: rgba(9, 13, 22, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #f8fafc;
+      border-top: 1px solid rgba(139, 92, 246, 0.35);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .mp-progress-track {
+      height: 4px;
+      background: #1e293b;
+      width: 100%;
+    }
+
+    .mp-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a78bfa, #34d399, #fbbf24);
+      transition: width 0.14s linear;
+    }
+
+    .mp-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mini-player .stream-spotify {
+      background: rgba(29, 185, 84, 0.22);
+      border-color: rgba(29, 185, 84, 0.42);
+      color: #6ee7b7;
+    }
+
+    .mini-player .stream-apple {
+      background: rgba(250, 36, 60, 0.22);
+      border-color: rgba(250, 36, 60, 0.42);
+      color: #fda4af;
+    }
+
+    .mini-player .stream-tidal {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: rgba(226, 232, 240, 0.32);
+      color: #e0f2fe;
+    }
+
+    /* =====================================================================
+       FLOATING SELECTION BUTTON & MODAL & TOASTS
+       ===================================================================== */
+    .floating-sel-btn {
+      position: fixed;
+      z-index: 45;
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      max-width: 90vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(2, 6, 23, 0.76);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      background: var(--surface-input);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .modal-current-box {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: var(--emerald-soft);
+      border: 1px solid color-mix(in srgb, var(--emerald) 40%, transparent);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .search-bar-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-bar-row .input-field {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .search-bar-row .select-field {
+      width: auto;
+      min-width: 112px;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 340px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      padding: 11px 15px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      animation: toastIn 0.2s ease;
+    }
+
+    .toast-success { background: #059669; }
+    .toast-error   { background: #e11d48; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .muted-empty {
+      text-align: center;
+      padding: 24px 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .stats-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .counter-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      font-weight: 700;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notifications -->
+  <div id="toast-stack" class="toast-stack"></div>
+
+  <!-- Floating Button for Drag-Selected Text -->
+  <button id="floating-sel-btn" type="button" class="floating-sel-btn hidden"></button>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div id="brand-home" class="brand" role="button" tabindex="0">
+        <div class="brand-icon">🎵</div>
+        <div>
+          <div class="brand-title-row">
+            <h1 class="brand-title">SongLetter</h1>
+            <span class="badge-ver">v5.2</span>
+          </div>
+          <p class="brand-sub">Scrisoare &amp; Invitație Muzicală</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span class="privacy-badge">🔒 Zero-Storage • 100% în browser</span>
+        <button id="theme-toggle-btn" type="button" class="btn btn-sm">☀️ Light</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       EDITOR VIEW
+       ===================================================================== -->
+  <main id="editor-view" class="container">
+
+    <!-- 1. Occasion Selector + Recipient/Sender + Event Details -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">✨ Tip mesaj / Ocazie</h2>
+        <button id="load-template-btn" type="button" class="btn btn-amber btn-sm">✨ Încarcă șablon</button>
+      </div>
+
+      <div id="occasion-pills" class="pill-row">
+        <button type="button" class="pill" data-occasion="letter">💌 Scrisoare</button>
+        <button type="button" class="pill" data-occasion="wedding">💍 Invitație Nuntă</button>
+        <button type="button" class="pill" data-occasion="baptism">👶 Invitație Botez</button>
+        <button type="button" class="pill" data-occasion="friend">🍻 Mesaj prieten</button>
+        <button type="button" class="pill" data-occasion="birthday">🎂 La Mulți Ani</button>
+      </div>
+
+      <!-- Optional Recipient / Sender + Event Toggle -->
+      <div class="grid-meta">
+        <div>
+          <label class="field-label" for="meta-recipient">Către (Destinatar — opțional)</label>
+          <input id="meta-recipient" class="input-field" type="text" placeholder="ex: Andrei / Dragii noștri prieteni" />
+        </div>
+        <div>
+          <label class="field-label" for="meta-sender">De la (Expeditor — opțional)</label>
+          <input id="meta-sender" class="input-field" type="text" placeholder="ex: Ana &amp; Mihai / Alex" />
+        </div>
+        <div>
+          <button id="toggle-event-btn" type="button" class="btn">➕ Adaugă detalii eveniment</button>
+        </div>
+      </div>
+
+      <!-- Collapsible Event Details -->
+      <div id="event-drawer" class="event-drawer hidden">
+        <div class="panel-head" style="margin-bottom: 10px;">
+          <span class="panel-title" style="color: var(--amber-text);">📅 Detalii eveniment (opționale)</span>
+          <button id="clear-event-btn" type="button" class="btn btn-danger-ghost">Curăță detalii</button>
+        </div>
+        <div class="grid-event">
+          <div>
+            <label class="field-label" for="event-title">Titlu invitație</label>
+            <input id="event-title" class="input-field" type="text" placeholder="ex: Ana &amp; Mihai se căsătoresc" />
+          </div>
+          <div>
+            <label class="field-label" for="event-datetime">Dată &amp; Oră</label>
+            <input id="event-datetime" class="input-field" type="text" placeholder="ex: Sâmbătă, 14 Iunie, ora 17:00" />
+          </div>
+          <div>
+            <label class="field-label" for="event-location">Locație</label>
+            <input id="event-location" class="input-field" type="text" placeholder="ex: Biserica Sf. Elefterie &amp; Salonul Grădina" />
+          </div>
+          <div>
+            <label class="field-label" for="event-rsvp">Confirmare / RSVP</label>
+            <input id="event-rsvp" class="input-field" type="text" placeholder="ex: Confirmă până pe 1 Iunie la 07xx..." />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Language Selector -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">🌐 Limba pieselor</h2>
+        <span id="storefront-indicator" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">iTunes Storefront: US</span>
+      </div>
+      <div id="language-pills" class="pill-row">
+        <button type="button" class="pill" data-lang="ro">🇷🇴 Română</button>
+        <button type="button" class="pill" data-lang="en">🇬🇧 Engleză</button>
+        <button type="button" class="pill" data-lang="de">🇩🇪 Germană</button>
+        <button type="button" class="pill" data-lang="fr">🇫🇷 Franceză</button>
+        <button type="button" class="pill" data-lang="es">🇪🇸 Spaniolă</button>
+        <button type="button" class="pill" data-lang="all">🌍 Toate</button>
+      </div>
+    </section>
+
+    <!-- 3. Mood Bar -->
+    <section class="panel" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+      <div id="mood-pills" class="pill-row" style="align-items: center;">
+        <span class="field-label" style="margin: 0 4px 0 0;">Stare:</span>
+        <button type="button" class="pill btn-sm" data-mood="auto">✨ Auto</button>
+        <button type="button" class="pill btn-sm" data-mood="melancolic">🌧️ Melancolic</button>
+        <button type="button" class="pill btn-sm" data-mood="romantic">❤️ Romantic</button>
+        <button type="button" class="pill btn-sm" data-mood="energic">⚡ Energic</button>
+        <button type="button" class="pill btn-sm" data-mood="vesel">☀️ Vesel</button>
+      </div>
+      <button id="analyze-mood-btn" type="button" class="btn btn-primary">🎭 Analizează starea &amp; Potrivește piesele</button>
+    </section>
+
+    <!-- 4. Split Workspace: Textarea + Interactive Letter -->
+    <section class="grid-2">
+      <!-- Raw Editor -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">1. Scrie textul tău</h2>
+          <button id="clear-text-btn" type="button" class="btn btn-danger-ghost">Șterge textul</button>
+        </div>
+        <textarea id="letter-textarea" class="textarea-field" placeholder="Scrie scrisoarea, invitația sau mesajul tău aici..."></textarea>
+        <div class="stats-row">
+          <span id="mood-status-label">Stare activă: <strong>Melancolic</strong></span>
+          <span id="song-count-pill" class="counter-pill">0 piese active</span>
+        </div>
+      </div>
+
+      <!-- Interactive Letter -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">2. Scrisoarea Interactivă</h2>
+          <div class="legend-row">
+            <span><span class="legend-dot" style="background: var(--accent);"></span>Auto (♪)</span>
+            <span><span class="legend-dot" style="background: var(--emerald);"></span>Fixat (📌)</span>
+          </div>
+        </div>
+        <div class="hint-box">
+          💡 Apasă pe <strong>orice expresie evidențiată</strong> pentru a schimba piesa, pe <strong>orice cuvânt simplu</strong>, sau <strong>selectează cu mouse-ul</strong> mai multe cuvinte pentru a căuta direct pe iTunes.
+        </div>
+        <div id="interactive-canvas" class="interactive-canvas"></div>
+      </div>
+    </section>
+
+    <!-- 5. Active Tracklist + Share Panel -->
+    <section class="grid-bottom">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">🎼 Piese detectate &amp; selectate</h2>
+          <span id="manual-count-label" style="font-size: 12px; color: var(--emerald-text); font-weight: 700;"></span>
+        </div>
+        <div id="editor-tracklist" class="tracklist"></div>
+      </div>
+
+      <div class="share-card">
+        <div>
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #c4b5fd;">✉️ Card Muzical Zero-Storage</span>
+          <h3 style="margin: 6px 0 8px; font-family: var(--font-serif); font-size: 22px;">Trimite ca link unic</h3>
+          <p>
+            Tot mesajul, piesele fixate, tema și detaliile evenimentului sunt împachetate local în <code>#d=...</code>. Destinatarul poate asculta direct sau deschide piesele în Spotify, Apple Music și Tidal.
+          </p>
+        </div>
+        <div class="share-btns">
+          <button id="preview-card-btn" type="button" class="btn btn-primary">👁️ Previzualizează Cardul</button>
+          <button id="copy-link-btn" type="button" class="btn btn-glass">🔗 Copiază Link-ul</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       RECIPIENT CARD VIEW
+       ===================================================================== -->
+  <section id="recipient-view" class="recipient-wrap hidden">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+      <button id="back-to-editor-btn" type="button" class="btn btn-sm">✏️ Creează propria scrisoare</button>
+      <button id="recipient-copy-link-btn" type="button" class="btn btn-primary btn-sm">🔗 Copiază link-ul cardului</button>
+    </div>
+
+    <article id="recipient-card-shell" class="card-shell" data-occasion="letter">
+      <div class="card-top-ribbon"></div>
+      <div class="card-body">
+        <div class="card-meta-bar">
+          <div id="recipient-occasion-badge" class="card-occasion-title">💌 Scrisoare Muzicală</div>
+          <span id="recipient-mood-pill" class="counter-pill">Stare: Melancolic</span>
+        </div>
+
+        <!-- Optional Event Details Banner -->
+        <div id="recipient-event-banner" class="event-banner hidden">
+          <h2 id="rec-event-title" class="event-banner-title hidden"></h2>
+          <div class="event-banner-grid">
+            <div id="rec-event-dt-wrap" class="hidden">🗓️ <strong>Dată &amp; Oră:</strong> <span id="rec-event-dt"></span></div>
+            <div id="rec-event-loc-wrap" class="hidden">📍 <strong>Locație:</strong> <span id="rec-event-loc"></span></div>
+          </div>
+          <div id="rec-event-rsvp-wrap" class="hidden" style="font-size: 13px; padding-top: 8px; border-top: 1px solid var(--border);">
+            📞 <span id="rec-event-rsvp"></span>
+          </div>
+        </div>
+
+        <div id="recipient-salutation" class="recipient-salutation hidden"></div>
+        <div id="recipient-letter" class="recipient-letter-text"></div>
+        <div id="recipient-signature" class="recipient-signature hidden"></div>
+
+        <div style="padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <button id="play-all-btn" type="button" class="btn btn-primary">▶ Play All (12s/piesă)</button>
+          <span style="font-size: 12.5px; color: var(--text-muted);">Apasă pe orice expresie evidențiată pentru redare instant</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h3 class="panel-title">🎧 Coloana sonoră a mesajului</h3>
+      </div>
+      <div id="recipient-tracklist" class="tracklist"></div>
+    </div>
+  </section>
+
+  <!-- Sticky Mini-Player -->
+  <div id="mini-player" class="mini-player hidden">
+    <div class="mp-progress-track">
+      <div id="mp-progress-fill" class="mp-progress-fill"></div>
+    </div>
+    <div class="mp-inner">
+      <div class="track-left">
+        <div id="mp-art-box" class="track-art">🎵</div>
+        <div class="track-info">
+          <div id="mp-title" class="track-title" style="color: #fff;">Titlu piesă</div>
+          <div id="mp-artist" class="track-sub" style="color: #94a3b8;">Artist</div>
+        </div>
+      </div>
+
+      <div class="track-actions" style="flex-wrap: wrap;">
+        <button id="mp-prev-btn" type="button" class="btn btn-icon btn-glass" title="Anterioara">⏮</button>
+        <button id="mp-toggle-btn" type="button" class="btn btn-icon btn-primary" title="Pauză / Redă">⏸</button>
+        <button id="mp-next-btn" type="button" class="btn btn-icon btn-glass" title="Următoarea">⏭</button>
+        <div class="stream-links" style="margin-left: 4px;">
+          <a id="mp-spotify" class="stream-btn stream-spotify" href="#" target="_blank" rel="noopener noreferrer">Spotify ↗</a>
+          <a id="mp-apple" class="stream-btn stream-apple" href="#" target="_blank" rel="noopener noreferrer">Apple Music ↗</a>
+          <a id="mp-tidal" class="stream-btn stream-tidal" href="#" target="_blank" rel="noopener noreferrer">
+            <svg class="tidal-icon" viewBox="0 0 24 16" fill="currentColor" aria-hidden="true"><polygon points="4,0 8,4 4,8 0,4"/><polygon points="12,0 16,4 12,8 8,4"/><polygon points="20,0 24,4 20,8 16,4"/><polygon points="12,8 16,12 12,16 8,12"/></svg>
+            Tidal ↗
+          </a>
+        </div>
+        <button id="mp-stop-btn" type="button" class="btn btn-icon btn-glass" title="Oprește">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SONG PICKER MODAL (CHANGE SONG, STREAMING LINKS & LIVE ITUNES SEARCH)
+       ===================================================================== -->
+  <div id="song-modal" class="modal-backdrop hidden">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div style="min-width: 0;">
+          <div class="field-label" style="margin-bottom: 3px; color: var(--accent-text);">Alege sau schimbă piesa pentru</div>
+          <h3 id="modal-phrase-title" style="margin: 0; font-family: var(--font-serif); font-size: 20px; word-break: break-word;">„...”</h3>
+        </div>
+        <button id="modal-close-btn" type="button" class="btn btn-icon" aria-label="Închide">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Current Assigned Song -->
+        <div id="modal-current-box" class="modal-current-box hidden">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+            <span class="field-label" style="margin: 0; color: var(--emerald-text);">Piesa curentă</span>
+            <span id="modal-current-source" class="tag-mini tag-manual">📌 Fixată manual</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <div class="track-left">
+              <div id="modal-current-art" class="track-art">🎵</div>
+              <div class="track-info">
+                <div id="modal-current-title" class="track-title"></div>
+                <div id="modal-current-artist" class="track-sub"></div>
+              </div>
+            </div>
+            <div class="track-actions">
+              <button id="modal-current-play" type="button" class="btn btn-icon btn-primary" title="Ascultă preview 30s">▶</button>
+              <button id="modal-remove-btn" type="button" class="btn btn-sm" style="color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, transparent);">🗑️ Elimină</button>
+            </div>
+          </div>
+          <!-- Direct Streaming Links for Current Song (Spotify, Apple Music, Tidal) -->
+          <div id="modal-current-links" class="stream-links" style="padding-top: 8px; border-top: 1px dashed color-mix(in srgb, var(--emerald) 35%, transparent);"></div>
+        </div>
+
+        <!-- Quick Suggested Variants -->
+        <div id="modal-variants-section" class="hidden">
+          <div class="field-label">Variante rapide sugerate</div>
+          <div id="modal-variants-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <!-- Live iTunes Search -->
+        <div>
+          <div class="field-label">Căutare live pe iTunes (preview 30s)</div>
+          <div class="search-bar-row">
+            <input id="modal-search-input" class="input-field" type="text" placeholder="ex: Londonbeat, Holograf, Rammstein..." />
+            <select id="modal-country-select" class="select-field" aria-label="Magazin iTunes">
+              <option value="RO">🇷🇴 RO</option>
+              <option value="US">🇬🇧 US</option>
+              <option value="DE">🇩🇪 DE</option>
+              <option value="FR">🇫🇷 FR</option>
+              <option value="ES">🇪🇸 ES</option>
+            </select>
+            <button id="modal-search-btn" type="button" class="btn btn-primary">Caută</button>
+          </div>
+          <div id="modal-itunes-results" style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       APPLICATION JAVASCRIPT — 100% SELF-CONTAINED, ZERO INLINE HANDLERS
+       ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* -------------------------------------------------------------------
+         1. SAFE STORAGE, CLIPBOARD, STREAMING LINKS & UTF-8 BASE64 HELPERS
+         ------------------------------------------------------------------- */
+      function safeGetStorage(key, fallback) {
+        try {
+          var v = window.localStorage.getItem(key);
+          return v !== null ? v : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      function safeSetStorage(key, value) {
+        try {
+          window.localStorage.setItem(key, value);
+        } catch (e) {
+          // Ignore sandboxed iframe SecurityError
+        }
+      }
+
+      function safeSetHash(hashValue) {
+        try {
+          if (window.history && typeof window.history.replaceState === 'function') {
+            window.history.replaceState(null, '', hashValue);
+          } else {
+            window.location.hash = hashValue;
+          }
+        } catch (e) {
+          try {
+            window.location.hash = hashValue;
+          } catch (e2) {}
+        }
+      }
+
+      function safeGetHash() {
+        try {
+          return window.location.hash || '';
+        } catch (e) {
+          return '';
+        }
+      }
+
+      function utf8ToBase64Url(str) {
+        try {
+          if (typeof TextEncoder !== 'undefined') {
+            var bytes = new TextEncoder().encode(str);
+            var bin = '';
+            for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+          }
+          return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        } catch (e) {
+          return '';
+        }
+      }
+
+      function base64UrlToUtf8(b64) {
+        try {
+          var norm = b64.replace(/-/g, '+').replace(/_/g, '/');
+          while (norm.length % 4) norm += '=';
+          var bin = atob(norm);
+          if (typeof TextDecoder !== 'undefined') {
+            var bytes = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder().decode(bytes);
+          }
+          return decodeURIComponent(escape(bin));
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function copyTextSafely(text) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '-9999px';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (ok) return true;
+        } catch (e) {}
+
+        try {
+          if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            navigator.clipboard.writeText(text).catch(function () {});
+            return true;
+          }
+        } catch (e2) {}
+        return false;
+      }
+
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      var TIDAL_SVG = '<svg class="tidal-icon" viewBox="0 0 24 16" fill="currentColor" aria-hidden="true">' +
+        '<polygon points="4,0 8,4 4,8 0,4"/>' +
+        '<polygon points="12,0 16,4 12,8 8,4"/>' +
+        '<polygon points="20,0 24,4 20,8 16,4"/>' +
+        '<polygon points="12,8 16,12 12,16 8,12"/>' +
+        '</svg>';
+
+      /**
+       * Builds direct search/track URLs for Spotify, Apple Music, and Tidal.
+       */
+      function getStreamingUrls(track) {
+        var query = encodeURIComponent(((track.artist || '') + ' ' + (track.title || '')).trim());
+        return {
+          spotify: 'https://open.spotify.com/search/' + query,
+          apple: track.trackViewUrl || ('https://music.apple.com/search?term=' + query),
+          tidal: 'https://listen.tidal.com/search?q=' + query
+        };
+      }
+
+      /**
+       * Renders the 3 streaming platform buttons (Spotify, Apple Music, Tidal).
+       */
+      function renderStreamingButtonsHtml(track) {
+        var urls = getStreamingUrls(track);
+        return (
+          '<a class="stream-btn stream-spotify" href="' + escapeHtml(urls.spotify) + '" target="_blank" rel="noopener noreferrer" title="Caută pe Spotify">Spotify ↗</a>' +
+          '<a class="stream-btn stream-apple" href="' + escapeHtml(urls.apple) + '" target="_blank" rel="noopener noreferrer" title="Deschide în Apple Music">Apple Music ↗</a>' +
+          '<a class="stream-btn stream-tidal" href="' + escapeHtml(urls.tidal) + '" target="_blank" rel="noopener noreferrer" title="Caută pe Tidal">' + TIDAL_SVG + ' Tidal ↗</a>'
+        );
+      }
+
+      /* -------------------------------------------------------------------
+         2. CONSTANTS: OCCASIONS, LANGUAGES, TEMPLATES & MULTI-MOOD DICTIONARY
+         ------------------------------------------------------------------- */
+      var OCCASIONS = {
+        letter:   { id: 'letter',   icon: '💌', label: 'Scrisoare',          cardTitle: 'Scrisoare Muzicală',                 hasEvent: false },
+        wedding:  { id: 'wedding',  icon: '💍', label: 'Invitație Nuntă',    cardTitle: 'Invitație Muzicală la Nuntă',        hasEvent: true  },
+        baptism:  { id: 'baptism',  icon: '👶', label: 'Invitație Botez',    cardTitle: 'Invitație Muzicală la Botez ✨',     hasEvent: true  },
+        friend:   { id: 'friend',   icon: '🍻', label: 'Mesaj prieten',      cardTitle: 'Mesaj Muzical pentru Tine',          hasEvent: false },
+        birthday: { id: 'birthday', icon: '🎂', label: 'La Mulți Ani',       cardTitle: 'Felicitare Muzicală · La Mulți Ani!', hasEvent: false }
+      };
+
+      var LANGUAGES = {
+        ro:  { code: 'ro',  label: 'Română',   flag: '🇷🇴', country: 'RO' },
+        en:  { code: 'en',  label: 'Engleză',  flag: '🇬🇧', country: 'US' },
+        de:  { code: 'de',  label: 'Germană',  flag: '🇩🇪', country: 'DE' },
+        fr:  { code: 'fr',  label: 'Franceză', flag: '🇫🇷', country: 'FR' },
+        es:  { code: 'es',  label: 'Spaniolă', flag: '🇪🇸', country: 'ES' },
+        all: { code: 'all', label: 'Toate',    flag: '🌍', country: 'US' }
+      };
+
+      var MOOD_LABELS = {
+        auto: 'Auto',
+        melancolic: 'Melancolic',
+        romantic: 'Romantic',
+        energic: 'Energic',
+        vesel: 'Vesel'
+      };
+
+      var TEMPLATES = {
+        letter: {
+          en: { text: "I'm doing things on my way because I feel lonely and I'm looking forward for the one.", recipient: '', sender: '' },
+          ro: { text: "Bună dimineața! Mi-e dor de tine și nu pot sta fără tine. Când mă întorc acasă, mă gândesc la ochii tăi, la noi doi și la dragostea din tei. Te iubesc!", recipient: 'Dragă Mara', sender: 'Cu dor, Vlad' },
+          de: { text: "Ohne dich fühle ich mich allein, aber über den Wolken scheint immer die Sonne. Ich wünsche mir Tage wie diese, atemlos und für immer!", recipient: 'Liebe Anna', sender: 'Dein Lukas' },
+          fr: { text: "Je veux voir la vie en rose avec toi. Même si c'est formidable, je t'aime et alors on danse!", recipient: 'Ma chère Camille', sender: 'Avec amour' },
+          es: { text: "Quiero vivir mi vida contigo, despacito y bailando. Besame mucho con todo mi corazon!", recipient: 'Querida Sofía', sender: 'Con cariño' }
+        },
+        wedding: {
+          ro: {
+            text: "Vă invităm cu drag la nunta noastră! Nu ne putem imagina această zi perfect fără tine. Dragostea ne-a adus împreună și vrem să sărbătorim noi doi într-o lume minunată alături de prietenii dragi!",
+            recipient: 'Dragii noștri prieteni', sender: 'Ana & Mihai',
+            eventTitle: 'Nunta Anei & lui Mihai', eventDateTime: 'Sâmbătă, 14 Iunie, ora 17:00',
+            eventLocation: 'Biserica Sf. Elefterie & Salonul Grădina', eventRsvp: 'Confirmă până pe 1 Iunie la 07xx xxx xxx'
+          },
+          en: {
+            text: "We can't imagine this perfect day without you! From the moment I knew I wanted to marry you, I gave you all of me. Stand by me as we celebrate together!",
+            recipient: 'Dear Friends & Family', sender: 'Emma & Liam',
+            eventTitle: "Emma & Liam's Wedding", eventDateTime: 'Saturday, June 14th, 5:00 PM',
+            eventLocation: 'St. Jude Chapel & The Garden Pavilion', eventRsvp: 'Kindly RSVP by June 1st'
+          }
+        },
+        baptism: {
+          ro: {
+            text: "Bine ai venit într-o lume minunată, înger drag! Ochii tăi ne luminează viața — you are my sunshine și abia așteptăm să sărbătorim împreună acest moment perfect!",
+            recipient: 'Dragi prieteni și familie', sender: 'Elena, Radu & micuța Sofia',
+            eventTitle: 'Botezul micuței Sofia', eventDateTime: 'Duminică, 22 Iunie, ora 12:30',
+            eventLocation: 'Biserica Sf. Spiridon & Restaurantul Povestea', eventRsvp: 'Confirmare până pe 10 Iunie la 07xx xxx xxx'
+          },
+          en: {
+            text: "Welcome to our world, little angel! You are my sunshine every single day. Come celebrate this perfect blessing with us!",
+            recipient: 'Dear Family & Friends', sender: 'Clara, David & Baby Sofia',
+            eventTitle: "Sofia's Christening", eventDateTime: 'Sunday, June 22nd, 12:30 PM',
+            eventLocation: 'Grace Chapel & Lakeside Terrace', eventRsvp: 'Please RSVP by June 10th'
+          }
+        },
+        friend: {
+          ro: {
+            text: "Hei, prieten drag! N-am mai vorbit de mult și chiar mi-e dor de tine. Știi că poți conta pe mine — count on me oricând, chiar dacă fiecare își face lucrurile on my way!",
+            recipient: 'Andrei', sender: 'Alex'
+          },
+          en: {
+            text: "Hey friend! You know you can always count on me and stand by me no matter what. Let's catch up soon for some good times, doing things on my way!",
+            recipient: 'Chris', sender: 'Alex'
+          }
+        },
+        birthday: {
+          ro: {
+            text: "La mulți ani! Îți doresc o zi bună, să fii mereu happy și să te bucuri de toate clipele frumoase alături de prietenii tăi!",
+            recipient: 'Ioana', sender: 'Gașca ta'
+          },
+          en: {
+            text: "Happy birthday! Wishing you all the good times, stay happy and know you can always count on me!",
+            recipient: 'Maya', sender: 'Your friends'
+          }
+        }
+      };
+
+      // Normalized keys (lowercase, no diacritics, ß -> ss)
+      var SONG_DICTIONARY = {
+        en: {
+          'my way': [
+            { title: 'My Way', artist: 'Frank Sinatra', mood: 'melancolic', lang: 'en' },
+            { title: 'My Way', artist: 'Limp Bizkit', mood: 'energic', lang: 'en' },
+            { title: 'My Way', artist: 'Usher', mood: 'romantic', lang: 'en' }
+          ],
+          'the one': [
+            { title: 'One', artist: 'U2', mood: 'melancolic', lang: 'en' },
+            { title: 'One', artist: 'Metallica', mood: 'energic', lang: 'en' },
+            { title: 'The One', artist: 'Elton John', mood: 'romantic', lang: 'en' }
+          ],
+          'one': [
+            { title: 'One', artist: 'U2', mood: 'melancolic', lang: 'en' },
+            { title: 'One', artist: 'Metallica', mood: 'energic', lang: 'en' },
+            { title: 'One', artist: 'Ed Sheeran', mood: 'romantic', lang: 'en' }
+          ],
+          'i feel lonely': [
+            { title: 'Lonely', artist: 'Akon', mood: 'melancolic', lang: 'en' },
+            { title: 'Lonely', artist: 'Justin Bieber & benny blanco', mood: 'melancolic', lang: 'en' },
+            { title: 'So Lonely', artist: 'The Police', mood: 'energic', lang: 'en' }
+          ],
+          'feel lonely': [
+            { title: 'Lonely', artist: 'Akon', mood: 'melancolic', lang: 'en' },
+            { title: 'Lonely', artist: 'Justin Bieber & benny blanco', mood: 'melancolic', lang: 'en' },
+            { title: 'So Lonely', artist: 'The Police', mood: 'energic', lang: 'en' }
+          ],
+          'lonely': [
+            { title: 'Lonely', artist: 'Akon', mood: 'melancolic', lang: 'en' },
+            { title: 'Lonely', artist: 'Justin Bieber & benny blanco', mood: 'melancolic', lang: 'en' },
+            { title: 'So Lonely', artist: 'The Police', mood: 'energic', lang: 'en' }
+          ],
+          'perfect': [
+            { title: 'Perfect', artist: 'Ed Sheeran', mood: 'romantic', lang: 'en' }
+          ],
+          'happy birthday': [
+            { title: 'Happy Birthday', artist: 'Stevie Wonder', mood: 'vesel', lang: 'en' }
+          ],
+          'count on me': [
+            { title: 'Count on Me', artist: 'Bruno Mars', mood: 'vesel', lang: 'en' }
+          ],
+          'stand by me': [
+            { title: 'Stand by Me', artist: 'Ben E. King', mood: 'romantic', lang: 'en' }
+          ],
+          'marry you': [
+            { title: 'Marry You', artist: 'Bruno Mars', mood: 'vesel', lang: 'en' }
+          ],
+          'all of me': [
+            { title: 'All of Me', artist: 'John Legend', mood: 'romantic', lang: 'en' }
+          ],
+          'you are my sunshine': [
+            { title: 'You Are My Sunshine', artist: 'Johnny Cash', mood: 'melancolic', lang: 'en' },
+            { title: 'You Are My Sunshine', artist: 'Christina Perri', mood: 'romantic', lang: 'en' }
+          ],
+          'good times': [
+            { title: 'Good Times', artist: 'Chic', mood: 'vesel', lang: 'en' },
+            { title: 'Good Times', artist: 'All Time Low', mood: 'energic', lang: 'en' }
+          ],
+          'thinking about you': [
+            { title: "I've Been Thinking About You", artist: 'Londonbeat', mood: 'vesel', lang: 'en' },
+            { title: 'Thinkin Bout You', artist: 'Frank Ocean', mood: 'romantic', lang: 'en' }
+          ],
+          'happy': [
+            { title: 'Happy', artist: 'Pharrell Williams', mood: 'vesel', lang: 'en' }
+          ],
+          'hello': [
+            { title: 'Hello', artist: 'Adele', mood: 'melancolic', lang: 'en' },
+            { title: 'Hello', artist: 'Lionel Richie', mood: 'romantic', lang: 'en' }
+          ],
+          'stay': [
+            { title: 'Stay', artist: 'Rihanna ft. Mikky Ekko', mood: 'melancolic', lang: 'en' },
+            { title: 'STAY', artist: 'The Kid LAROI & Justin Bieber', mood: 'energic', lang: 'en' }
+          ],
+          'always': [
+            { title: 'Always', artist: 'Bon Jovi', mood: 'romantic', lang: 'en' }
+          ]
+        },
+        ro: {
+          'dragostea din tei': [
+            { title: 'Dragostea din tei', artist: 'O-Zone', mood: 'vesel', lang: 'ro' }
+          ],
+          'ochii tai': [
+            { title: 'Ochii tăi', artist: 'Elena Gheorghe', mood: 'romantic', lang: 'ro' },
+            { title: 'Ochii tăi', artist: 'Holograf', mood: 'melancolic', lang: 'ro' }
+          ],
+          'fara tine': [
+            { title: 'Fără tine', artist: 'Holograf', mood: 'melancolic', lang: 'ro' },
+            { title: 'Fără tine', artist: 'Smiley', mood: 'romantic', lang: 'ro' },
+            { title: 'Fără tine', artist: "Carla's Dreams", mood: 'energic', lang: 'ro' }
+          ],
+          'dragostea': [
+            { title: 'Să nu-mi iei niciodată dragostea', artist: 'Holograf', mood: 'melancolic', lang: 'ro' },
+            { title: 'Dacă ai ști', artist: 'Direcția 5', mood: 'romantic', lang: 'ro' }
+          ],
+          'la multi ani': [
+            { title: 'La mulți ani', artist: 'Smiley', mood: 'vesel', lang: 'ro' },
+            { title: 'La mulți ani', artist: 'Ștefan Bănică', mood: 'energic', lang: 'ro' }
+          ],
+          'prietenii': [
+            { title: 'Prietenii', artist: 'Vama Veche', mood: 'melancolic', lang: 'ro' },
+            { title: 'Prietenii', artist: 'Bosquito', mood: 'vesel', lang: 'ro' }
+          ],
+          'prieten': [
+            { title: 'Prietenii', artist: 'Vama', mood: 'melancolic', lang: 'ro' },
+            { title: 'O fată ca ea', artist: 'Direcția 5', mood: 'romantic', lang: 'ro' }
+          ],
+          'nunta': [
+            { title: 'Nunta', artist: 'Phoenix', mood: 'energic', lang: 'ro' },
+            { title: 'Vals', artist: 'Smiley', mood: 'romantic', lang: 'ro' }
+          ],
+          'inger': [
+            { title: 'Îngerul meu', artist: 'Holograf', mood: 'romantic', lang: 'ro' },
+            { title: 'Îngerul meu', artist: '3 Sud Est', mood: 'melancolic', lang: 'ro' }
+          ],
+          'acasa': [
+            { title: 'Acasă', artist: 'Smiley', mood: 'melancolic', lang: 'ro' },
+            { title: 'Acasă', artist: 'Alternosfera', mood: 'energic', lang: 'ro' }
+          ],
+          'te iubesc': [
+            { title: 'Te iubesc', artist: 'Holograf', mood: 'romantic', lang: 'ro' },
+            { title: 'Te iubesc', artist: 'Voltaj', mood: 'energic', lang: 'ro' },
+            { title: 'Te iubesc', artist: 'Connect-R', mood: 'vesel', lang: 'ro' }
+          ],
+          'dor de tine': [
+            { title: 'Dor de tine', artist: '3 Sud Est', mood: 'melancolic', lang: 'ro' },
+            { title: 'Dor de tine', artist: 'Delia', mood: 'romantic', lang: 'ro' },
+            { title: 'Dor de tine', artist: 'Voltaj', mood: 'energic', lang: 'ro' }
+          ],
+          'o lume minunata': [
+            { title: 'O lume minunată', artist: 'Mihai Constantinescu', mood: 'vesel', lang: 'ro' }
+          ],
+          'inima mea': [
+            { title: 'Inima mea', artist: 'Andra', mood: 'romantic', lang: 'ro' },
+            { title: 'Inima mea', artist: '3 Sud Est', mood: 'melancolic', lang: 'ro' }
+          ],
+          'buna dimineata': [
+            { title: 'Bună dimineața', artist: 'Spitalul de Urgență', mood: 'vesel', lang: 'ro' }
+          ],
+          'noi doi': [
+            { title: 'Noi doi', artist: 'Direcția 5', mood: 'romantic', lang: 'ro' }
+          ],
+          'o zi buna': [
+            { title: 'O zi bună', artist: 'Smiley', mood: 'vesel', lang: 'ro' }
+          ]
+        },
+        de: {
+          'uber den wolken': [
+            { title: 'Über den Wolken', artist: 'Reinhard Mey', mood: 'melancolic', lang: 'de' }
+          ],
+          '99 luftballons': [
+            { title: '99 Luftballons', artist: 'Nena', mood: 'vesel', lang: 'de' }
+          ],
+          'atemlos': [
+            { title: 'Atemlos durch die Nacht', artist: 'Helene Fischer', mood: 'vesel', lang: 'de' }
+          ],
+          'du hast': [
+            { title: 'Du hast', artist: 'Rammstein', mood: 'energic', lang: 'de' }
+          ],
+          'ohne dich': [
+            { title: 'Ohne dich', artist: 'Rammstein', mood: 'melancolic', lang: 'de' },
+            { title: 'Ohne dich (schlaf ich heut Nacht nicht ein)', artist: 'Münchener Freiheit', mood: 'romantic', lang: 'de' }
+          ],
+          'tage wie diese': [
+            { title: 'Tage wie diese', artist: 'Die Toten Hosen', mood: 'vesel', lang: 'de' }
+          ],
+          'sonne': [
+            { title: 'Sonne', artist: 'Rammstein', mood: 'energic', lang: 'de' }
+          ],
+          'fur immer': [
+            { title: 'Für immer', artist: 'Die Toten Hosen', mood: 'romantic', lang: 'de' }
+          ]
+        },
+        fr: {
+          'la vie en rose': [
+            { title: 'La vie en rose', artist: 'Édith Piaf', mood: 'romantic', lang: 'fr' }
+          ],
+          "je t'aime": [
+            { title: "Je t'aime", artist: 'Lara Fabian', mood: 'melancolic', lang: 'fr' }
+          ],
+          'formidable': [
+            { title: 'Formidable', artist: 'Stromae', mood: 'melancolic', lang: 'fr' }
+          ],
+          'alors on danse': [
+            { title: 'Alors on danse', artist: 'Stromae', mood: 'energic', lang: 'fr' }
+          ],
+          'je veux': [
+            { title: 'Je veux', artist: 'Zaz', mood: 'vesel', lang: 'fr' }
+          ]
+        },
+        es: {
+          'besame mucho': [
+            { title: 'Bésame Mucho', artist: 'Cesária Évora', mood: 'romantic', lang: 'es' }
+          ],
+          'despacito': [
+            { title: 'Despacito', artist: 'Luis Fonsi', mood: 'vesel', lang: 'es' }
+          ],
+          'vivir mi vida': [
+            { title: 'Vivir Mi Vida', artist: 'Marc Anthony', mood: 'vesel', lang: 'es' }
+          ],
+          'bailando': [
+            { title: 'Bailando', artist: 'Enrique Iglesias', mood: 'energic', lang: 'es' }
+          ],
+          'corazon': [
+            { title: 'Corazón', artist: 'Maluma', mood: 'energic', lang: 'es' }
+          ]
+        }
+      };
+
+      /* -------------------------------------------------------------------
+         3. APPLICATION STATE & AUDIO ENGINE
+         ------------------------------------------------------------------- */
+      var state = {
+        theme: 'dark',
+        occasion: 'letter',
+        language: 'all',
+        moodMode: 'auto',
+        effectiveMood: 'melancolic',
+        text: "I'm doing things on my way because I feel lonely and I'm looking forward for the one.",
+        recipient: '',
+        sender: '',
+        showEventDetails: false,
+        eventTitle: '',
+        eventDateTime: '',
+        eventLocation: '',
+        eventRsvp: '',
+        manualBindings: [],
+        suppressedKeys: {},
+        activeBindings: [],
+        segments: [],
+        pendingSelection: null,
+        modalContext: null,
+        modalItunesResults: [],
+        modalVariants: [],
+        isRecipientView: false
+      };
+
+      var itunesCache = {};
+      var audioPlayer = null;
+      try {
+        audioPlayer = new Audio();
+      } catch (e) {
+        audioPlayer = { paused: true, pause: function () {}, play: function () { return Promise.reject(); }, addEventListener: function () {} };
+      }
+      var activeAudioKey = null;
+
+      var playAllState = {
+        active: false,
+        index: 0,
+        timer: null,
+        progressTimer: null,
+        startedAt: 0,
+        durationMs: 12000
+      };
+
+      /* -------------------------------------------------------------------
+         4. DIACRITIC-INSENSITIVE NORMALIZATION & MATCHING ENGINE
+         ------------------------------------------------------------------- */
+      function normalizeSimple(str) {
+        return String(str || '')
+          .toLowerCase()
+          .replace(/ß/g, 'ss')
+          .replace(/[’‘`]/g, "'")
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+
+      function normalizeWithMap(original) {
+        var norm = '';
+        var map = [];
+        for (var i = 0; i < original.length; i++) {
+          var ch = original[i];
+          var rep = '';
+          if (ch === 'ß') {
+            rep = 'ss';
+          } else if (ch === '’' || ch === '‘' || ch === '`') {
+            rep = "'";
+          } else {
+            rep = ch.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          }
+          for (var j = 0; j < rep.length; j++) {
+            norm += rep[j];
+            map.push({ start: i, end: i + 1 });
+          }
+        }
+        return { norm: norm, map: map };
+      }
+
+      function isAlphaNum(ch) {
+        return ch ? /[a-z0-9]/.test(ch) : false;
+      }
+
+      function escapeRegex(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function getDictionaryForLang(langCode) {
+        if (langCode !== 'all' && SONG_DICTIONARY[langCode]) {
+          return SONG_DICTIONARY[langCode];
+        }
+        var merged = {};
+        Object.keys(SONG_DICTIONARY).forEach(function (lk) {
+          var d = SONG_DICTIONARY[lk];
+          Object.keys(d).forEach(function (phraseKey) {
+            if (!merged[phraseKey]) merged[phraseKey] = [];
+            merged[phraseKey] = merged[phraseKey].concat(d[phraseKey]);
+          });
+        });
+        return merged;
+      }
+
+      function getVariantsForPhrase(phrase) {
+        var norm = normalizeSimple(phrase).trim();
+        var activeDict = getDictionaryForLang(state.language);
+        if (activeDict[norm]) return activeDict[norm];
+        var allDict = getDictionaryForLang('all');
+        return allDict[norm] || [];
+      }
+
+      function detectMoodFromText(text) {
+        var norm = normalizeSimple(text);
+        var scores = { melancolic: 0, romantic: 0, energic: 0, vesel: 0 };
+        var kw = {
+          melancolic: ['lonely', 'sad', 'miss', 'dor', 'fara tine', 'acasa', 'ohne dich', 'uber den wolken', 'formidable', 'prieten'],
+          romantic: ['love', 'the one', 'perfect', 'all of me', 'stand by me', 'te iubesc', 'dragostea', 'inima', 'inger', 'ochii tai', 'noi doi', 'la vie en rose', 'besame mucho'],
+          energic: ['!', 'rock', 'fight', 'nunta', 'du hast', 'sonne', 'alors on danse', 'bailando', 'corazon'],
+          vesel: ['happy', 'birthday', 'la multi ani', 'count on me', 'marry you', 'good times', 'o lume minunata', 'dragostea din tei', 'buna dimineata', '99 luftballons', 'atemlos', 'despacito', 'vivir mi vida', 'o zi buna']
+        };
+        Object.keys(kw).forEach(function (m) {
+          kw[m].forEach(function (word) {
+            if (norm.indexOf(word) !== -1) scores[m] += 2;
+          });
+        });
+        var best = 'melancolic';
+        var max = 0;
+        Object.keys(scores).forEach(function (m) {
+          if (scores[m] > max) {
+            max = scores[m];
+            best = m;
+          }
+        });
+        return best;
+      }
+
+      function rangesOverlap(aStart, aEnd, list) {
+        for (var i = 0; i < list.length; i++) {
+          if (aStart < list[i].end && aEnd > list[i].start) return true;
+        }
+        return false;
+      }
+
+      function reconcileManualBindings(newText) {
+        var lowerNew = newText.toLowerCase();
+        var claimed = [];
+        var kept = [];
+
+        state.manualBindings.forEach(function (b) {
+          var pLow = b.phrase.toLowerCase();
+          if (newText.slice(b.start, b.end).toLowerCase() === pLow && !rangesOverlap(b.start, b.end, claimed)) {
+            b.phrase = newText.slice(b.start, b.end);
+            claimed.push({ start: b.start, end: b.end });
+            kept.push(b);
+            return;
+          }
+          var from = 0;
+          var bestIdx = -1;
+          var bestDist = Infinity;
+          while (true) {
+            var idx = lowerNew.indexOf(pLow, from);
+            if (idx === -1) break;
+            var end = idx + pLow.length;
+            if (!rangesOverlap(idx, end, claimed)) {
+              var dist = Math.abs(idx - b.start);
+              if (dist < bestDist) {
+                bestDist = dist;
+                bestIdx = idx;
+              }
+            }
+            from = idx + 1;
+          }
+          if (bestIdx !== -1) {
+            b.start = bestIdx;
+            b.end = bestIdx + pLow.length;
+            b.phrase = newText.slice(b.start, b.end);
+            claimed.push({ start: b.start, end: b.end });
+            kept.push(b);
+          }
+        });
+
+        state.manualBindings = kept;
+      }
+
+      function computeActiveBindings() {
+        var text = state.text;
+        var detectedMood = detectMoodFromText(text);
+        state.effectiveMood = state.moodMode === 'auto' ? detectedMood : state.moodMode;
+
+        // 1. Pinned manual bindings always take priority
+        var merged = state.manualBindings.map(function (b) {
+          return {
+            id: b.id,
+            start: b.start,
+            end: b.end,
+            phrase: b.phrase,
+            isManual: true,
+            track: b.track
+          };
+        });
+
+        // 2. Longest-match-first dictionary detection
+        var dict = getDictionaryForLang(state.language);
+        var keys = Object.keys(dict).sort(function (a, b) { return b.length - a.length; });
+
+        if (text.trim() && keys.length > 0) {
+          var mapped = normalizeWithMap(text);
+          var norm = mapped.norm;
+          var map = mapped.map;
+          var regex = new RegExp('(' + keys.map(escapeRegex).join('|') + ')', 'g');
+          var match;
+
+          while ((match = regex.exec(norm)) !== null) {
+            var nStart = match.index;
+            var nEnd = regex.lastIndex;
+
+            var prevCh = nStart > 0 ? norm[nStart - 1] : '';
+            var nextCh = nEnd < norm.length ? norm[nEnd] : '';
+            if (isAlphaNum(prevCh) || isAlphaNum(nextCh)) {
+              regex.lastIndex = nStart + 1;
+              continue;
+            }
+
+            if (!map[nStart] || !map[nEnd - 1]) continue;
+            var oStart = map[nStart].start;
+            var oEnd = map[nEnd - 1].end;
+            var keyNorm = match[0];
+            var suppressId = oStart + ':' + oEnd + ':' + keyNorm;
+
+            if (state.suppressedKeys[suppressId]) continue;
+            if (rangesOverlap(oStart, oEnd, merged)) continue;
+
+            var variants = dict[keyNorm] || [];
+            var chosen = null;
+            for (var v = 0; v < variants.length; v++) {
+              if (variants[v].mood === state.effectiveMood) {
+                chosen = variants[v];
+                break;
+              }
+            }
+            if (!chosen) chosen = variants[0];
+
+            if (chosen) {
+              merged.push({
+                id: 'auto_' + oStart + '_' + oEnd,
+                start: oStart,
+                end: oEnd,
+                phrase: text.slice(oStart, oEnd),
+                isManual: false,
+                track: Object.assign({}, chosen)
+              });
+            }
+          }
+        }
+
+        merged.sort(function (a, b) { return a.start - b.start; });
+        state.activeBindings = merged;
+
+        // 3. Build segments
+        var segs = [];
+        var cursor = 0;
+        merged.forEach(function (b, idx) {
+          if (b.start > cursor) {
+            segs.push({ type: 'plain', start: cursor, end: b.start, text: text.slice(cursor, b.start) });
+          }
+          segs.push({ type: 'binding', binding: b, bindingIndex: idx });
+          cursor = b.end;
+        });
+        if (cursor < text.length) {
+          segs.push({ type: 'plain', start: cursor, end: text.length, text: text.slice(cursor) });
+        }
+        state.segments = segs;
+      }
+
+      /* -------------------------------------------------------------------
+         5. ITUNES SEARCH API (FETCH + JSONP FALLBACK)
+         ------------------------------------------------------------------- */
+      function getCurrentCountry() {
+        return (LANGUAGES[state.language] || LANGUAGES.en).country;
+      }
+
+      function getTrackCountry(track) {
+        if (track && track.lang && LANGUAGES[track.lang]) return LANGUAGES[track.lang].country;
+        return getCurrentCountry();
+      }
+
+      function jsonpRequest(url) {
+        return new Promise(function (resolve) {
+          var cbName = 'sl_itunes_' + Date.now() + '_' + Math.floor(Math.random() * 99999);
+          var script = document.createElement('script');
+          var done = false;
+
+          function cleanup() {
+            if (script.parentNode) script.parentNode.removeChild(script);
+            try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+          }
+
+          var timer = setTimeout(function () {
+            if (!done) {
+              done = true;
+              cleanup();
+              resolve({ results: [] });
+            }
+          }, 7000);
+
+          window[cbName] = function (data) {
+            if (!done) {
+              done = true;
+              clearTimeout(timer);
+              cleanup();
+              resolve(data || { results: [] });
+            }
+          };
+
+          script.onerror = function () {
+            if (!done) {
+              done = true;
+              clearTimeout(timer);
+              cleanup();
+              resolve({ results: [] });
+            }
+          };
+
+          script.src = url + '&callback=' + cbName;
+          document.body.appendChild(script);
+        });
+      }
+
+      function queryItunesRaw(term, country, limit) {
+        var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
+          '&media=music&entity=song&limit=' + (limit || 8) +
+          '&country=' + encodeURIComponent(country || 'US');
+
+        return fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .catch(function () {
+            return jsonpRequest(url);
+          });
+      }
+
+      function fetchSingleTrackMeta(title, artist, country) {
+        var c = country || getCurrentCountry();
+        var q = (title + ' ' + artist).trim();
+        var cacheKey = c + ':' + q.toLowerCase();
+        if (Object.prototype.hasOwnProperty.call(itunesCache, cacheKey)) {
+          return Promise.resolve(itunesCache[cacheKey]);
+        }
+
+        return queryItunesRaw(q, c, 3).then(function (data) {
+          var list = (data && data.results) || [];
+          var hit = null;
+          for (var i = 0; i < list.length; i++) {
+            if (list[i].previewUrl) { hit = list[i]; break; }
+          }
+          if (!hit && list.length > 0) hit = list[0];
+
+          var info = hit ? {
+            previewUrl: hit.previewUrl || null,
+            artworkUrl: hit.artworkUrl100 ? hit.artworkUrl100.replace('100x100', '200x200') : null,
+            trackViewUrl: hit.trackViewUrl || null
+          } : null;
+
+          itunesCache[cacheKey] = info;
+          return info;
+        });
+      }
+
+      function searchItunesSongs(term, country) {
+        var c = country || getCurrentCountry();
+        return queryItunesRaw(term, c, 8).then(function (data) {
+          var list = (data && data.results) || [];
+          return list
+            .filter(function (r) { return r.trackName && r.artistName; })
+            .map(function (r) {
+              return {
+                title: r.trackName,
+                artist: r.artistName,
+                previewUrl: r.previewUrl || null,
+                artworkUrl: r.artworkUrl100 ? r.artworkUrl100.replace('100x100', '200x200') : null,
+                trackViewUrl: r.trackViewUrl || null,
+                mood: state.effectiveMood,
+                lang: c === 'RO' ? 'ro' : c === 'DE' ? 'de' : c === 'FR' ? 'fr' : c === 'ES' ? 'es' : 'en'
+              };
+            });
+        });
+      }
+
+      /* -------------------------------------------------------------------
+         6. AUDIO PLAYBACK & SEQUENTIAL PLAY ALL (12s / SONG)
+         ------------------------------------------------------------------- */
+      audioPlayer.addEventListener('ended', function () {
+        if (playAllState.active) {
+          playAllStep(playAllState.index + 1);
+        } else {
+          stopAllAudio();
+        }
+      });
+
+      function stopAllAudio() {
+        try {
+          audioPlayer.pause();
+          audioPlayer.currentTime = 0;
+        } catch (e) {}
+        activeAudioKey = null;
+
+        if (playAllState.timer) clearTimeout(playAllState.timer);
+        if (playAllState.progressTimer) clearInterval(playAllState.progressTimer);
+        playAllState.timer = null;
+        playAllState.progressTimer = null;
+        playAllState.active = false;
+
+        document.querySelectorAll('.playing-now').forEach(function (el) {
+          el.classList.remove('playing-now');
+        });
+        document.getElementById('mini-player').classList.add('hidden');
+        syncPlayButtonsUI();
+      }
+
+      function playTrackPreview(audioKey, track, bindingIndex) {
+        if (activeAudioKey === audioKey && !audioPlayer.paused) {
+          stopAllAudio();
+          return;
+        }
+
+        stopAllAudio();
+        activeAudioKey = audioKey;
+        syncPlayButtonsUI(audioKey);
+
+        var ensureMeta = track.previewUrl
+          ? Promise.resolve({ previewUrl: track.previewUrl, artworkUrl: track.artworkUrl, trackViewUrl: track.trackViewUrl })
+          : fetchSingleTrackMeta(track.title, track.artist, getTrackCountry(track));
+
+        ensureMeta.then(function (info) {
+          if (activeAudioKey !== audioKey) return;
+          if (!info || !info.previewUrl) {
+            stopAllAudio();
+            showToast('Nu există preview audio pe iTunes pentru „' + track.title + '”.', 'error');
+            return;
+          }
+
+          track.previewUrl = info.previewUrl;
+          if (info.artworkUrl && !track.artworkUrl) track.artworkUrl = info.artworkUrl;
+          if (info.trackViewUrl && !track.trackViewUrl) track.trackViewUrl = info.trackViewUrl;
+
+          try {
+            audioPlayer.src = track.previewUrl;
+            var p = audioPlayer.play();
+            if (p && typeof p.then === 'function') {
+              p.then(function () {
+                syncPlayButtonsUI();
+                if (typeof bindingIndex === 'number') {
+                  highlightChip(bindingIndex);
+                  if (state.isRecipientView) updateMiniPlayer(track, false);
+                }
+              }).catch(function () {
+                stopAllAudio();
+                showToast('Browserul a blocat redarea automată. Apasă din nou.', 'error');
+              });
+            }
+          } catch (e) {
+            stopAllAudio();
+            showToast('Eroare la redarea audio.', 'error');
+          }
+        });
+      }
+
+      function togglePlayAll() {
+        if (playAllState.active) {
+          stopAllAudio();
+          return;
+        }
+        if (state.activeBindings.length === 0) {
+          showToast('Nu există piese active în mesaj.', 'info');
+          return;
+        }
+        stopAllAudio();
+        playAllState.active = true;
+        syncPlayButtonsUI();
+        playAllStep(0);
+      }
+
+      function playAllStep(idx) {
+        if (!playAllState.active) return;
+        if (playAllState.timer) clearTimeout(playAllState.timer);
+        if (playAllState.progressTimer) clearInterval(playAllState.progressTimer);
+
+        if (idx >= state.activeBindings.length) {
+          stopAllAudio();
+          showToast('Redarea mesajului muzical s-a încheiat!', 'success');
+          return;
+        }
+        if (idx < 0) idx = 0;
+
+        playAllState.index = idx;
+        var binding = state.activeBindings[idx];
+        var track = binding.track;
+        activeAudioKey = 'binding_' + idx;
+
+        highlightChip(idx);
+        updateMiniPlayer(track, true);
+        syncPlayButtonsUI();
+
+        var ensureMeta = track.previewUrl
+          ? Promise.resolve({ previewUrl: track.previewUrl, artworkUrl: track.artworkUrl, trackViewUrl: track.trackViewUrl })
+          : fetchSingleTrackMeta(track.title, track.artist, getTrackCountry(track));
+
+        ensureMeta.then(function (info) {
+          if (!playAllState.active || playAllState.index !== idx) return;
+
+          if (!info || !info.previewUrl) {
+            showToast('Fără preview pentru „' + track.title + '”, trec la următoarea...', 'info');
+            playAllState.timer = setTimeout(function () { playAllStep(idx + 1); }, 1400);
+            return;
+          }
+
+          track.previewUrl = info.previewUrl;
+          if (info.artworkUrl && !track.artworkUrl) track.artworkUrl = info.artworkUrl;
+          if (info.trackViewUrl && !track.trackViewUrl) track.trackViewUrl = info.trackViewUrl;
+          updateMiniPlayer(track, true);
+
+          try {
+            audioPlayer.src = track.previewUrl;
+            var p = audioPlayer.play();
+            if (p && typeof p.catch === 'function') {
+              p.catch(function () {
+                playAllState.timer = setTimeout(function () { playAllStep(idx + 1); }, 1200);
+              });
+            }
+          } catch (e) {
+            playAllState.timer = setTimeout(function () { playAllStep(idx + 1); }, 1200);
+            return;
+          }
+
+          playAllState.startedAt = Date.now();
+          var fill = document.getElementById('mp-progress-fill');
+          if (fill) fill.style.width = '0%';
+
+          playAllState.progressTimer = setInterval(function () {
+            if (!playAllState.active || audioPlayer.paused) return;
+            var pct = Math.min(100, ((Date.now() - playAllState.startedAt) / playAllState.durationMs) * 100);
+            if (fill) fill.style.width = pct + '%';
+          }, 120);
+
+          playAllState.timer = setTimeout(function () {
+            if (playAllState.active) playAllStep(idx + 1);
+          }, playAllState.durationMs);
+        });
+      }
+
+      function highlightChip(bindingIdx) {
+        document.querySelectorAll('.playing-now').forEach(function (el) { el.classList.remove('playing-now'); });
+        document.querySelectorAll('[data-binding-index="' + bindingIdx + '"]').forEach(function (el) {
+          el.classList.add('playing-now');
+        });
+      }
+
+      function updateMiniPlayer(track, isPlayAll) {
+        var mp = document.getElementById('mini-player');
+        mp.classList.remove('hidden');
+        document.getElementById('mp-title').textContent = track.title;
+        document.getElementById('mp-artist').textContent = track.artist;
+
+        var artBox = document.getElementById('mp-art-box');
+        if (track.artworkUrl) {
+          artBox.innerHTML = '<img src="' + escapeHtml(track.artworkUrl) + '" alt="Copertă" />';
+        } else {
+          artBox.textContent = '🎵';
+        }
+
+        var urls = getStreamingUrls(track);
+        document.getElementById('mp-spotify').href = urls.spotify;
+        document.getElementById('mp-apple').href = urls.apple;
+        document.getElementById('mp-tidal').href = urls.tidal;
+
+        if (!isPlayAll) {
+          document.getElementById('mp-progress-fill').style.width = '100%';
+        }
+      }
+
+      function syncPlayButtonsUI(loadingKey) {
+        document.querySelectorAll('[data-play-key]').forEach(function (btn) {
+          var k = btn.getAttribute('data-play-key');
+          if (loadingKey && k === loadingKey) {
+            btn.textContent = '⏳';
+          } else if (activeAudioKey === k && !audioPlayer.paused) {
+            btn.textContent = '⏸';
+          } else {
+            btn.textContent = '▶';
+          }
+        });
+
+        var playAllBtn = document.getElementById('play-all-btn');
+        if (playAllBtn) {
+          playAllBtn.textContent = playAllState.active ? '⏹ Oprește redarea' : '▶ Play All (12s/piesă)';
+        }
+
+        var mpToggle = document.getElementById('mp-toggle-btn');
+        if (mpToggle) {
+          mpToggle.textContent = audioPlayer.paused ? '▶' : '⏸';
+        }
+      }
+
+      /* -------------------------------------------------------------------
+         7. RENDERING UI
+         ------------------------------------------------------------------- */
+      function applyTheme(theme) {
+        state.theme = theme === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', state.theme);
+        safeSetStorage('songletter_theme', state.theme);
+        var btn = document.getElementById('theme-toggle-btn');
+        if (btn) btn.textContent = state.theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+      }
+
+      function renderControlsState() {
+        document.querySelectorAll('#occasion-pills .pill').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-occasion') === state.occasion);
+        });
+
+        var drawer = document.getElementById('event-drawer');
+        var toggleBtn = document.getElementById('toggle-event-btn');
+        if (state.showEventDetails) {
+          drawer.classList.remove('hidden');
+          toggleBtn.textContent = '➖ Ascunde detalii eveniment';
+        } else {
+          drawer.classList.add('hidden');
+          toggleBtn.textContent = '➕ Adaugă detalii eveniment';
+        }
+
+        document.querySelectorAll('#language-pills .pill').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-lang') === state.language);
+        });
+        var langInfo = LANGUAGES[state.language] || LANGUAGES.en;
+        document.getElementById('storefront-indicator').textContent = 'iTunes Storefront: ' + langInfo.country;
+
+        document.querySelectorAll('#mood-pills .pill').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-mood') === state.moodMode);
+        });
+
+        var moodLabel = MOOD_LABELS[state.effectiveMood] || 'Melancolic';
+        document.getElementById('mood-status-label').innerHTML =
+          'Stare ' + (state.moodMode === 'auto' ? 'detectată' : 'selectată') + ': <strong>' + escapeHtml(moodLabel) + '</strong>';
+      }
+
+      function renderLetterInto(container, isRecipient) {
+        if (!state.text.trim()) {
+          container.innerHTML = '<span style="color: var(--text-muted); font-style: italic; font-size: 16px;">Scrie câteva propoziții sau apasă „✨ Încarcă șablon”...</span>';
+          return;
+        }
+
+        var frag = document.createDocumentFragment();
+        var wordSplitRe = /([a-zA-Z0-9À-ÖØ-öø-ÿĂăÂâÎîȘșȚțŞşŢţ'’-]+|[^a-zA-Z0-9À-ÖØ-öø-ÿĂăÂâÎîȘșȚțŞşŢţ'’-]+)/g;
+
+        state.segments.forEach(function (seg) {
+          if (seg.type === 'plain') {
+            var localCursor = seg.start;
+            var m;
+            wordSplitRe.lastIndex = 0;
+
+            while ((m = wordSplitRe.exec(seg.text)) !== null) {
+              var chunk = m[0];
+              var s = localCursor;
+              var e = localCursor + chunk.length;
+              localCursor = e;
+
+              if (chunk.indexOf('\n') !== -1) {
+                var lines = chunk.split('\n');
+                var linePos = s;
+                for (var li = 0; li < lines.length; li++) {
+                  if (li > 0) {
+                    frag.appendChild(document.createElement('br'));
+                    linePos += 1;
+                  }
+                  if (lines[li].length > 0) {
+                    var lsp = document.createElement('span');
+                    lsp.setAttribute('data-token', '1');
+                    lsp.setAttribute('data-start', String(linePos));
+                    lsp.setAttribute('data-end', String(linePos + lines[li].length));
+                    lsp.textContent = lines[li];
+                    frag.appendChild(lsp);
+                    linePos += lines[li].length;
+                  }
+                }
+                continue;
+              }
+
+              var isWord = /[a-zA-Z0-9À-ÖØ-öø-ÿĂăÂâÎîȘșȚțŞşŢţ]/.test(chunk);
+              var sp = document.createElement('span');
+              sp.setAttribute('data-token', '1');
+              sp.setAttribute('data-start', String(s));
+              sp.setAttribute('data-end', String(e));
+              sp.textContent = chunk;
+
+              if (isWord && !isRecipient) {
+                sp.className = 'word-token';
+                sp.setAttribute('data-word-clickable', '1');
+                sp.title = 'Click pentru a căuta o piesă pentru acest cuvânt';
+              }
+              frag.appendChild(sp);
+            }
+          } else {
+            var b = seg.binding;
+            var idx = seg.bindingIndex;
+            var chip = document.createElement('span');
+            chip.className = 'song-chip ' + (b.isManual ? 'song-chip-manual' : 'song-chip-auto');
+            chip.setAttribute('data-binding-index', String(idx));
+            chip.setAttribute('data-start', String(b.start));
+            chip.setAttribute('data-end', String(b.end));
+            chip.title = b.track.title + ' — ' + b.track.artist + (isRecipient ? ' (Click pentru redare)' : ' (Click pentru a schimba piesa)');
+
+            var iconSpan = document.createElement('span');
+            iconSpan.className = 'chip-icon';
+            iconSpan.textContent = b.isManual ? '📌' : '♪';
+
+            var phraseSpan = document.createElement('span');
+            phraseSpan.setAttribute('data-token', '1');
+            phraseSpan.setAttribute('data-start', String(b.start));
+            phraseSpan.setAttribute('data-end', String(b.end));
+            phraseSpan.textContent = b.phrase;
+
+            chip.appendChild(iconSpan);
+            chip.appendChild(phraseSpan);
+            frag.appendChild(chip);
+          }
+        });
+
+        container.innerHTML = '';
+        container.appendChild(frag);
+      }
+
+      function renderTracklistInto(container, isRecipient) {
+        if (state.activeBindings.length === 0) {
+          container.innerHTML = '<div class="muted-empty">Nicio piesă activă încă. Scrie un text sau selectează orice cuvinte din scrisoarea interactivă.</div>';
+          return;
+        }
+
+        var html = '';
+        state.activeBindings.forEach(function (b, idx) {
+          var t = b.track;
+          var key = 'binding_' + idx;
+          var artId = (isRecipient ? 'r_art_' : 'e_art_') + idx;
+          var artHtml = t.artworkUrl
+            ? '<img src="' + escapeHtml(t.artworkUrl) + '" alt="Album" />'
+            : '🎵';
+
+          html += '<div class="track-item">';
+          html += '  <div class="track-top-row">';
+          html += '    <div class="track-left">';
+          html += '      <div id="' + artId + '" class="track-art">' + artHtml + '</div>';
+          html += '      <div class="track-info">';
+          html += '        <div class="track-title-row">';
+          html += '          <span class="track-title">' + escapeHtml(t.title) + '</span>';
+          html += b.isManual
+            ? '<span class="tag-mini tag-manual">📌 Fixat</span>'
+            : '<span class="tag-mini tag-auto">♪ Auto</span>';
+          html += '        </div>';
+          html += '        <div class="track-sub">' + escapeHtml(t.artist) + ' • „' + escapeHtml(b.phrase) + '”</div>';
+          html += '      </div>';
+          html += '    </div>';
+          html += '    <div class="track-actions">';
+          html += '      <button type="button" class="btn btn-icon btn-primary" data-action="play-binding" data-index="' + idx + '" data-play-key="' + key + '" title="Ascultă preview 30s">▶</button>';
+          if (!isRecipient) {
+            html += '    <button type="button" class="btn btn-sm" data-action="change-binding" data-index="' + idx + '">Schimbă</button>';
+            html += '    <button type="button" class="btn btn-icon btn-danger-ghost" data-action="remove-binding" data-index="' + idx + '" title="Elimină">✕</button>';
+          }
+          html += '    </div>';
+          html += '  </div>';
+          html += '  <div class="track-bottom-links">';
+          html += '    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Ascultă integral pe:</span>';
+          html += '    <div class="stream-links">' + renderStreamingButtonsHtml(t) + '</div>';
+          html += '  </div>';
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+        syncPlayButtonsUI();
+
+        // Lazy-load artwork & preview metadata for dictionary tracks
+        state.activeBindings.forEach(function (b, idx) {
+          if (!b.track.artworkUrl) {
+            var artId = (isRecipient ? 'r_art_' : 'e_art_') + idx;
+            fetchSingleTrackMeta(b.track.title, b.track.artist, getTrackCountry(b.track)).then(function (info) {
+              if (info && info.artworkUrl) {
+                b.track.artworkUrl = info.artworkUrl;
+                if (info.previewUrl && !b.track.previewUrl) b.track.previewUrl = info.previewUrl;
+                if (info.trackViewUrl && !b.track.trackViewUrl) b.track.trackViewUrl = info.trackViewUrl;
+                var box = document.getElementById(artId);
+                if (box) box.innerHTML = '<img src="' + escapeHtml(info.artworkUrl) + '" alt="Album" />';
+              }
+            });
+          }
+        });
+      }
+
+      function renderAll() {
+        computeActiveBindings();
+        renderControlsState();
+
+        var total = state.activeBindings.length;
+        var manual = state.activeBindings.filter(function (b) { return b.isManual; }).length;
+        document.getElementById('song-count-pill').textContent = total === 1 ? '1 piesă activă' : (total + ' piese active');
+        document.getElementById('manual-count-label').textContent = manual > 0 ? ('📌 ' + manual + ' fixate manual') : '';
+
+        renderLetterInto(document.getElementById('interactive-canvas'), false);
+        renderTracklistInto(document.getElementById('editor-tracklist'), false);
+      }
+
+      /* -------------------------------------------------------------------
+         8. DRAG-TO-SELECT FLOATING ACTION BUTTON
+         ------------------------------------------------------------------- */
+      function resolveOffsetFromNode(node, offset, isEnd) {
+        var el = node.nodeType === 3 ? node.parentElement : node;
+        if (!el) return null;
+        var tok = el.closest('[data-token="1"]');
+        if (tok) {
+          var base = Number(tok.getAttribute('data-start'));
+          var max = Number(tok.getAttribute('data-end'));
+          if (node.nodeType === 3) {
+            return Math.min(max, Math.max(base, base + offset));
+          }
+          return isEnd ? max : base;
+        }
+        var bounded = el.closest('[data-start]');
+        if (bounded) {
+          return Number(bounded.getAttribute(isEnd ? 'data-end' : 'data-start'));
+        }
+        return null;
+      }
+
+      function hideFloatingSelectionBtn() {
+        document.getElementById('floating-sel-btn').classList.add('hidden');
+      }
+
+      function checkCanvasSelection() {
+        if (state.isRecipientView) return;
+        var canvas = document.getElementById('interactive-canvas');
+        var sel = window.getSelection ? window.getSelection() : null;
+        if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+          hideFloatingSelectionBtn();
+          return;
+        }
+
+        var range = sel.getRangeAt(0);
+        if (!canvas.contains(range.startContainer) || !canvas.contains(range.endContainer)) {
+          hideFloatingSelectionBtn();
+          return;
+        }
+
+        var s = resolveOffsetFromNode(range.startContainer, range.startOffset, false);
+        var e = resolveOffsetFromNode(range.endContainer, range.endOffset, true);
+        if (s === null || e === null) {
+          hideFloatingSelectionBtn();
+          return;
+        }
+        if (s > e) { var tmp = s; s = e; e = tmp; }
+
+        var slice = state.text.slice(s, e);
+        var lead = slice.match(/^\s+/);
+        if (lead) s += lead[0].length;
+        var trail = slice.match(/\s+$/);
+        if (trail) e -= trail[0].length;
+
+        if (e <= s) {
+          hideFloatingSelectionBtn();
+          return;
+        }
+
+        var phrase = state.text.slice(s, e);
+        state.pendingSelection = { start: s, end: e, phrase: phrase };
+
+        var btn = document.getElementById('floating-sel-btn');
+        btn.textContent = '🎵 Caută piesă pentru „' + (phrase.length > 32 ? phrase.slice(0, 32) + '…' : phrase) + '”';
+        btn.classList.remove('hidden');
+
+        var rect = range.getBoundingClientRect();
+        var bw = btn.offsetWidth || 220;
+        var bh = btn.offsetHeight || 36;
+        var left = Math.max(12, Math.min(window.innerWidth - bw - 12, rect.left + rect.width / 2 - bw / 2));
+        var top = rect.top > bh + 18 ? (rect.top - bh - 10) : (rect.bottom + 10);
+        btn.style.left = left + 'px';
+        btn.style.top = top + 'px';
+      }
+
+      /* -------------------------------------------------------------------
+         9. SONG PICKER MODAL
+         ------------------------------------------------------------------- */
+      function openSongModal(ctx) {
+        stopAllAudio();
+        hideFloatingSelectionBtn();
+        state.modalContext = ctx;
+        state.modalItunesResults = [];
+
+        document.getElementById('modal-phrase-title').textContent = '„' + ctx.phrase + '”';
+        document.getElementById('modal-country-select').value = getCurrentCountry();
+
+        var curBox = document.getElementById('modal-current-box');
+        if (ctx.existingBinding) {
+          var b = ctx.existingBinding;
+          curBox.classList.remove('hidden');
+          document.getElementById('modal-current-title').textContent = b.track.title;
+          document.getElementById('modal-current-artist').textContent = b.track.artist;
+          document.getElementById('modal-current-source').textContent = b.isManual ? '📌 Fixată manual' : '♪ Detectată automat';
+
+          var artEl = document.getElementById('modal-current-art');
+          artEl.innerHTML = b.track.artworkUrl
+            ? '<img src="' + escapeHtml(b.track.artworkUrl) + '" alt="Album" />'
+            : '🎵';
+
+          var playBtn = document.getElementById('modal-current-play');
+          playBtn.setAttribute('data-play-key', 'modal_current');
+          playBtn.textContent = '▶';
+
+          // Direct Spotify, Apple Music & Tidal links for current song
+          document.getElementById('modal-current-links').innerHTML =
+            '<span style="font-size: 11px; color: var(--emerald-text); font-weight: 700; margin-right: 4px;">Deschide în:</span>' +
+            renderStreamingButtonsHtml(b.track);
+        } else {
+          curBox.classList.add('hidden');
+        }
+
+        // Suggested variants from dictionary
+        var variants = getVariantsForPhrase(ctx.phrase);
+        state.modalVariants = variants;
+        var varSec = document.getElementById('modal-variants-section');
+        var varList = document.getElementById('modal-variants-list');
+
+        if (variants.length > 0) {
+          varSec.classList.remove('hidden');
+          var vHtml = '';
+          variants.forEach(function (v, idx) {
+            var flag = (LANGUAGES[v.lang] && LANGUAGES[v.lang].flag) || '';
+            var moodTxt = MOOD_LABELS[v.mood] || v.mood;
+            vHtml += '<div class="track-item">';
+            vHtml += '  <div class="track-top-row">';
+            vHtml += '    <div class="track-info">';
+            vHtml += '      <div class="track-title-row">';
+            vHtml += '        <span class="track-title">' + escapeHtml(v.title) + '</span>';
+            vHtml += '        <span class="tag-mini tag-auto">' + escapeHtml(moodTxt) + '</span>';
+            if (flag) vHtml += '<span style="font-size:12px;">' + flag + '</span>';
+            vHtml += '      </div>';
+            vHtml += '      <div class="track-sub">' + escapeHtml(v.artist) + '</div>';
+            vHtml += '    </div>';
+            vHtml += '    <div class="track-actions">';
+            vHtml += '      <button type="button" class="btn btn-icon btn-primary" data-action="play-variant" data-index="' + idx + '" data-play-key="variant_' + idx + '">▶</button>';
+            vHtml += '      <button type="button" class="btn btn-emerald btn-sm" data-action="pin-variant" data-index="' + idx + '">📌 Fixează</button>';
+            vHtml += '    </div>';
+            vHtml += '  </div>';
+            vHtml += '</div>';
+          });
+          varList.innerHTML = vHtml;
+        } else {
+          varSec.classList.add('hidden');
+          varList.innerHTML = '';
+        }
+
+        document.getElementById('modal-search-input').value = ctx.phrase;
+        document.getElementById('song-modal').classList.remove('hidden');
+        runModalItunesSearch();
+      }
+
+      function closeSongModal() {
+        stopAllAudio();
+        document.getElementById('song-modal').classList.add('hidden');
+        state.modalContext = null;
+      }
+
+      function runModalItunesSearch() {
+        var term = document.getElementById('modal-search-input').value.trim();
+        var country = document.getElementById('modal-country-select').value || getCurrentCountry();
+        var resBox = document.getElementById('modal-itunes-results');
+
+        if (!term) {
+          resBox.innerHTML = '<div class="muted-empty">Scrie un titlu sau un artist pentru a căuta pe iTunes.</div>';
+          return;
+        }
+
+        resBox.innerHTML = '<div class="muted-empty">⏳ Se caută „' + escapeHtml(term) + '” pe iTunes (' + escapeHtml(country) + ')...</div>';
+
+        searchItunesSongs(term, country).then(function (tracks) {
+          state.modalItunesResults = tracks;
+          if (!tracks.length) {
+            resBox.innerHTML = '<div class="muted-empty">Nu am găsit rezultate în magazinul ' + escapeHtml(country) + '. Încearcă să adaugi artistul sau să schimbi țara.</div>';
+            return;
+          }
+
+          var html = '';
+          tracks.forEach(function (t, idx) {
+            var artHtml = t.artworkUrl ? '<img src="' + escapeHtml(t.artworkUrl) + '" alt="Album" />' : '🎵';
+            html += '<div class="track-item">';
+            html += '  <div class="track-top-row">';
+            html += '    <div class="track-left">';
+            html += '      <div class="track-art">' + artHtml + '</div>';
+            html += '      <div class="track-info">';
+            html += '        <div class="track-title">' + escapeHtml(t.title) + '</div>';
+            html += '        <div class="track-sub">' + escapeHtml(t.artist) + '</div>';
+            html += '      </div>';
+            html += '    </div>';
+            html += '    <div class="track-actions">';
+            if (t.previewUrl) {
+              html += '    <button type="button" class="btn btn-icon btn-primary" data-action="play-itunes" data-index="' + idx + '" data-play-key="itunes_' + idx + '" title="Ascultă preview 30s">▶</button>';
+            } else {
+              html += '    <button type="button" class="btn btn-icon" disabled title="Fără preview">🔇</button>';
+            }
+            html += '      <button type="button" class="btn btn-emerald btn-sm" data-action="pin-itunes" data-index="' + idx + '">📌 Fixează pe text</button>';
+            html += '    </div>';
+            html += '  </div>';
+            html += '</div>';
+          });
+          resBox.innerHTML = html;
+        });
+      }
+
+      function pinTrackToContext(track) {
+        if (!state.modalContext) return;
+        var ctx = state.modalContext;
+
+        state.manualBindings = state.manualBindings.filter(function (b) {
+          return !(ctx.start < b.end && ctx.end > b.start);
+        });
+        delete state.suppressedKeys[ctx.start + ':' + ctx.end + ':' + normalizeSimple(ctx.phrase)];
+
+        state.manualBindings.push({
+          id: 'man_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
+          start: ctx.start,
+          end: ctx.end,
+          phrase: ctx.phrase,
+          track: {
+            title: track.title,
+            artist: track.artist,
+            previewUrl: track.previewUrl || null,
+            artworkUrl: track.artworkUrl || null,
+            trackViewUrl: track.trackViewUrl || null,
+            mood: track.mood || state.effectiveMood,
+            lang: track.lang || state.language
+          }
+        });
+
+        closeSongModal();
+        renderAll();
+        showToast('📌 Piesă fixată: „' + track.title + '” — ' + track.artist, 'success');
+      }
+
+      function removeBinding(b) {
+        if (!b) return;
+        if (b.isManual) {
+          state.manualBindings = state.manualBindings.filter(function (m) { return m.id !== b.id; });
+        }
+        state.suppressedKeys[b.start + ':' + b.end + ':' + normalizeSimple(b.phrase)] = true;
+        renderAll();
+        showToast('Piesa a fost eliminată de pe „' + b.phrase + '”.', 'info');
+      }
+
+      /* -------------------------------------------------------------------
+         10. ZERO-STORAGE CARD ENCODING & RECIPIENT VIEW
+         ------------------------------------------------------------------- */
+      function syncInputsToState() {
+        state.recipient = document.getElementById('meta-recipient').value || '';
+        state.sender = document.getElementById('meta-sender').value || '';
+        state.eventTitle = document.getElementById('event-title').value || '';
+        state.eventDateTime = document.getElementById('event-datetime').value || '';
+        state.eventLocation = document.getElementById('event-location').value || '';
+        state.eventRsvp = document.getElementById('event-rsvp').value || '';
+      }
+
+      function syncStateToInputs() {
+        document.getElementById('letter-textarea').value = state.text;
+        document.getElementById('meta-recipient').value = state.recipient;
+        document.getElementById('meta-sender').value = state.sender;
+        document.getElementById('event-title').value = state.eventTitle;
+        document.getElementById('event-datetime').value = state.eventDateTime;
+        document.getElementById('event-location').value = state.eventLocation;
+        document.getElementById('event-rsvp').value = state.eventRsvp;
+      }
+
+      function encodeCardState() {
+        syncInputsToState();
+        var payload = {
+          o: state.occasion,
+          l: state.language,
+          m: state.effectiveMood,
+          th: state.theme === 'light' ? 'l' : 'd',
+          t: state.text,
+          b: state.activeBindings.map(function (b) {
+            return [
+              b.start,
+              b.end,
+              b.track.title,
+              b.track.artist,
+              b.track.previewUrl || '',
+              b.track.artworkUrl || '',
+              b.track.trackViewUrl || '',
+              b.isManual ? 1 : 0
+            ];
+          })
+        };
+        if (state.recipient.trim()) payload.rc = state.recipient.trim();
+        if (state.sender.trim()) payload.sn = state.sender.trim();
+        if (state.eventTitle.trim()) payload.et = state.eventTitle.trim();
+        if (state.eventDateTime.trim()) payload.ed = state.eventDateTime.trim();
+        if (state.eventLocation.trim()) payload.el = state.eventLocation.trim();
+        if (state.eventRsvp.trim()) payload.er = state.eventRsvp.trim();
+
+        return utf8ToBase64Url(JSON.stringify(payload));
+      }
+
+      function decodeCardState(b64) {
+        var jsonStr = base64UrlToUtf8(b64);
+        if (!jsonStr) return null;
+        try {
+          return JSON.parse(jsonStr);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function copyShareLink() {
+        if (!state.text.trim()) {
+          showToast('Scrie un mesaj înainte de a copia link-ul.', 'info');
+          return;
+        }
+        var encoded = encodeCardState();
+        safeSetHash('#d=' + encoded);
+        var baseUrl = '';
+        try { baseUrl = window.location.href.split('#')[0]; } catch (e) {}
+        var fullUrl = baseUrl + '#d=' + encoded;
+
+        if (copyTextSafely(fullUrl)) {
+          showToast('🔗 Link copiat! Îl poți trimite pe WhatsApp, Messenger sau Email.', 'success');
+        } else {
+          showToast('Link-ul a fost generat în bara de adrese.', 'info');
+        }
+      }
+
+      function enterRecipientView(updateHash) {
+        if (!state.text.trim()) {
+          showToast('Scrie un mesaj înainte de a previzualiza cardul.', 'info');
+          return;
+        }
+        stopAllAudio();
+        hideFloatingSelectionBtn();
+        syncInputsToState();
+
+        if (updateHash) {
+          var encoded = encodeCardState();
+          safeSetHash('#d=' + encoded);
+        }
+
+        state.isRecipientView = true;
+        document.getElementById('editor-view').classList.add('hidden');
+        document.getElementById('recipient-view').classList.remove('hidden');
+
+        var cfg = OCCASIONS[state.occasion] || OCCASIONS.letter;
+        var shell = document.getElementById('recipient-card-shell');
+        shell.setAttribute('data-occasion', cfg.id);
+        document.getElementById('recipient-occasion-badge').textContent = cfg.icon + ' ' + cfg.cardTitle;
+        document.getElementById('recipient-mood-pill').textContent = 'Stare: ' + (MOOD_LABELS[state.effectiveMood] || 'Melancolic');
+
+        var hasEvent = Boolean(state.eventTitle.trim() || state.eventDateTime.trim() || state.eventLocation.trim() || state.eventRsvp.trim());
+        var banner = document.getElementById('recipient-event-banner');
+        if (hasEvent) {
+          banner.classList.remove('hidden');
+          toggleFieldDisplay('rec-event-title', 'rec-event-title', state.eventTitle);
+          toggleFieldDisplay('rec-event-dt-wrap', 'rec-event-dt', state.eventDateTime);
+          toggleFieldDisplay('rec-event-loc-wrap', 'rec-event-loc', state.eventLocation);
+          toggleFieldDisplay('rec-event-rsvp-wrap', 'rec-event-rsvp', state.eventRsvp);
+        } else {
+          banner.classList.add('hidden');
+        }
+
+        var salEl = document.getElementById('recipient-salutation');
+        if (state.recipient.trim()) {
+          salEl.textContent = 'Către: ' + state.recipient.trim();
+          salEl.classList.remove('hidden');
+        } else {
+          salEl.classList.add('hidden');
+        }
+
+        var sigEl = document.getElementById('recipient-signature');
+        if (state.sender.trim()) {
+          sigEl.textContent = '— ' + state.sender.trim();
+          sigEl.classList.remove('hidden');
+        } else {
+          sigEl.classList.add('hidden');
+        }
+
+        renderLetterInto(document.getElementById('recipient-letter'), true);
+        renderTracklistInto(document.getElementById('recipient-tracklist'), true);
+        try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {}
+      }
+
+      function toggleFieldDisplay(wrapId, textId, val) {
+        var wrap = document.getElementById(wrapId);
+        var txt = document.getElementById(textId);
+        if (val && val.trim()) {
+          txt.textContent = val.trim();
+          wrap.classList.remove('hidden');
+        } else {
+          wrap.classList.add('hidden');
+        }
+      }
+
+      function exitRecipientView() {
+        stopAllAudio();
+        state.isRecipientView = false;
+        document.getElementById('recipient-view').classList.add('hidden');
+        document.getElementById('editor-view').classList.remove('hidden');
+        if (safeGetHash().indexOf('#d=') === 0) {
+          try {
+            safeSetHash(window.location.pathname + window.location.search);
+          } catch (e) {}
+        }
+        renderAll();
+      }
+
+      /* -------------------------------------------------------------------
+         11. TOASTS
+         ------------------------------------------------------------------- */
+      function showToast(msg, type) {
+        var stack = document.getElementById('toast-stack');
+        var el = document.createElement('div');
+        el.className = 'toast ' + (type === 'success' ? 'toast-success' : type === 'error' ? 'toast-error' : '');
+        el.textContent = msg;
+        stack.appendChild(el);
+        setTimeout(function () {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, 3200);
+      }
+
+      /* -------------------------------------------------------------------
+         12. EVENT WIRING (100% addEventListener & DELEGATION)
+         ------------------------------------------------------------------- */
+      function loadTemplateForCurrentSelection() {
+        stopAllAudio();
+        var occTemplates = TEMPLATES[state.occasion] || TEMPLATES.letter;
+        var langKey = state.language === 'all' ? 'ro' : state.language;
+        var tpl = occTemplates[langKey] || occTemplates.ro || occTemplates.en;
+
+        state.manualBindings = [];
+        state.suppressedKeys = {};
+        state.moodMode = 'auto';
+        state.text = tpl.text || '';
+        state.recipient = tpl.recipient || '';
+        state.sender = tpl.sender || '';
+        state.eventTitle = tpl.eventTitle || '';
+        state.eventDateTime = tpl.eventDateTime || '';
+        state.eventLocation = tpl.eventLocation || '';
+        state.eventRsvp = tpl.eventRsvp || '';
+        state.showEventDetails = Boolean(OCCASIONS[state.occasion].hasEvent || state.eventTitle || state.eventDateTime || state.eventLocation || state.eventRsvp);
+
+        syncStateToInputs();
+        renderAll();
+        showToast('✨ Șablon încărcat pentru ' + OCCASIONS[state.occasion].icon + ' ' + OCCASIONS[state.occasion].label + '.', 'success');
+      }
+
+      function wireEvents() {
+        document.getElementById('brand-home').addEventListener('click', function () {
+          if (state.isRecipientView) exitRecipientView();
+        });
+
+        document.getElementById('theme-toggle-btn').addEventListener('click', function () {
+          applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+        });
+
+        document.getElementById('occasion-pills').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-occasion]');
+          if (!btn) return;
+          var occ = btn.getAttribute('data-occasion');
+          if (!OCCASIONS[occ]) return;
+          state.occasion = occ;
+          if (OCCASIONS[occ].hasEvent) {
+            state.showEventDetails = true;
+          } else if (!state.eventTitle && !state.eventDateTime && !state.eventLocation && !state.eventRsvp) {
+            state.showEventDetails = false;
+          }
+          renderControlsState();
+          showToast('Ocazie activă: ' + OCCASIONS[occ].icon + ' ' + OCCASIONS[occ].label + ' (textul tău a rămas neatins).', 'info');
+        });
+
+        document.getElementById('load-template-btn').addEventListener('click', loadTemplateForCurrentSelection);
+
+        document.getElementById('toggle-event-btn').addEventListener('click', function () {
+          state.showEventDetails = !state.showEventDetails;
+          renderControlsState();
+        });
+
+        document.getElementById('clear-event-btn').addEventListener('click', function () {
+          state.eventTitle = '';
+          state.eventDateTime = '';
+          state.eventLocation = '';
+          state.eventRsvp = '';
+          syncStateToInputs();
+          showToast('Detaliile evenimentului au fost șterse.', 'info');
+        });
+
+        ['meta-recipient', 'meta-sender', 'event-title', 'event-datetime', 'event-location', 'event-rsvp'].forEach(function (id) {
+          document.getElementById(id).addEventListener('input', syncInputsToState);
+        });
+
+        document.getElementById('language-pills').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-lang]');
+          if (!btn) return;
+          var lang = btn.getAttribute('data-lang');
+          if (!LANGUAGES[lang]) return;
+          state.language = lang;
+          renderAll();
+          showToast('Limba pieselor: ' + LANGUAGES[lang].flag + ' ' + LANGUAGES[lang].label, 'info');
+        });
+
+        document.getElementById('mood-pills').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-mood]');
+          if (!btn) return;
+          state.moodMode = btn.getAttribute('data-mood');
+          renderAll();
+        });
+
+        document.getElementById('analyze-mood-btn').addEventListener('click', function () {
+          if (!state.text.trim()) {
+            showToast('Scrie mai întâi un text.', 'info');
+            return;
+          }
+          var detected = detectMoodFromText(state.text);
+          state.moodMode = detected;
+          renderAll();
+          showToast('🎭 Stare potrivită: ' + MOOD_LABELS[detected] + ' (piesele fixate 📌 au rămas protejate).', 'success');
+        });
+
+        document.getElementById('letter-textarea').addEventListener('input', function (ev) {
+          state.text = ev.target.value;
+          reconcileManualBindings(state.text);
+          hideFloatingSelectionBtn();
+          renderAll();
+        });
+
+        document.getElementById('clear-text-btn').addEventListener('click', function () {
+          stopAllAudio();
+          state.text = '';
+          state.manualBindings = [];
+          state.suppressedKeys = {};
+          document.getElementById('letter-textarea').value = '';
+          renderAll();
+        });
+
+        var canvas = document.getElementById('interactive-canvas');
+        canvas.addEventListener('click', function (ev) {
+          var sel = window.getSelection ? window.getSelection() : null;
+          if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) return;
+
+          var chip = ev.target.closest('.song-chip');
+          if (chip) {
+            var idx = Number(chip.getAttribute('data-binding-index'));
+            var b = state.activeBindings[idx];
+            if (b) openSongModal({ start: b.start, end: b.end, phrase: b.phrase, existingBinding: b });
+            return;
+          }
+
+          var word = ev.target.closest('[data-word-clickable="1"]');
+          if (word) {
+            var s = Number(word.getAttribute('data-start'));
+            var e = Number(word.getAttribute('data-end'));
+            openSongModal({ start: s, end: e, phrase: state.text.slice(s, e), existingBinding: null });
+          }
+        });
+
+        canvas.addEventListener('mouseup', function () { setTimeout(checkCanvasSelection, 15); });
+        canvas.addEventListener('touchend', function () { setTimeout(checkCanvasSelection, 80); });
+
+        var selTimer = null;
+        document.addEventListener('selectionchange', function () {
+          if (state.isRecipientView) return;
+          clearTimeout(selTimer);
+          selTimer = setTimeout(checkCanvasSelection, 130);
+        });
+
+        var floatBtn = document.getElementById('floating-sel-btn');
+        floatBtn.addEventListener('mousedown', function (ev) { ev.preventDefault(); });
+        floatBtn.addEventListener('click', function () {
+          if (!state.pendingSelection) return;
+          var p = state.pendingSelection;
+          var existing = null;
+          for (var i = 0; i < state.activeBindings.length; i++) {
+            if (state.activeBindings[i].start === p.start && state.activeBindings[i].end === p.end) {
+              existing = state.activeBindings[i];
+              break;
+            }
+          }
+          try { window.getSelection().removeAllRanges(); } catch (e) {}
+          openSongModal({ start: p.start, end: p.end, phrase: p.phrase, existingBinding: existing });
+        });
+
+        document.addEventListener('mousedown', function (ev) {
+          if (!canvas.contains(ev.target) && !floatBtn.contains(ev.target)) {
+            hideFloatingSelectionBtn();
+          }
+        });
+
+        document.getElementById('editor-tracklist').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action]');
+          if (!btn) return;
+          var action = btn.getAttribute('data-action');
+          var idx = Number(btn.getAttribute('data-index'));
+          var b = state.activeBindings[idx];
+          if (!b) return;
+
+          if (action === 'play-binding') {
+            playTrackPreview('binding_' + idx, b.track, idx);
+          } else if (action === 'change-binding') {
+            openSongModal({ start: b.start, end: b.end, phrase: b.phrase, existingBinding: b });
+          } else if (action === 'remove-binding') {
+            removeBinding(b);
+          }
+        });
+
+        document.getElementById('preview-card-btn').addEventListener('click', function () { enterRecipientView(true); });
+        document.getElementById('copy-link-btn').addEventListener('click', copyShareLink);
+        document.getElementById('recipient-copy-link-btn').addEventListener('click', copyShareLink);
+        document.getElementById('back-to-editor-btn').addEventListener('click', exitRecipientView);
+
+        document.getElementById('recipient-letter').addEventListener('click', function (ev) {
+          var chip = ev.target.closest('.song-chip');
+          if (!chip) return;
+          var idx = Number(chip.getAttribute('data-binding-index'));
+          var b = state.activeBindings[idx];
+          if (b) playTrackPreview('binding_' + idx, b.track, idx);
+        });
+
+        document.getElementById('recipient-tracklist').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action="play-binding"]');
+          if (!btn) return;
+          var idx = Number(btn.getAttribute('data-index'));
+          var b = state.activeBindings[idx];
+          if (b) playTrackPreview('binding_' + idx, b.track, idx);
+        });
+
+        document.getElementById('play-all-btn').addEventListener('click', togglePlayAll);
+
+        document.getElementById('mp-prev-btn').addEventListener('click', function () {
+          if (!playAllState.active) { playAllState.active = true; playAllStep(0); return; }
+          playAllStep(playAllState.index - 1);
+        });
+        document.getElementById('mp-next-btn').addEventListener('click', function () {
+          if (!playAllState.active) { playAllState.active = true; playAllStep(0); return; }
+          playAllStep(playAllState.index + 1);
+        });
+        document.getElementById('mp-toggle-btn').addEventListener('click', function () {
+          try {
+            if (!audioPlayer.src) return;
+            if (audioPlayer.paused) {
+              audioPlayer.play().catch(function () {});
+              if (playAllState.active) {
+                playAllState.timer = setTimeout(function () { playAllStep(playAllState.index + 1); }, 6000);
+              }
+            } else {
+              audioPlayer.pause();
+              if (playAllState.timer) clearTimeout(playAllState.timer);
+            }
+            syncPlayButtonsUI();
+          } catch (e) {}
+        });
+        document.getElementById('mp-stop-btn').addEventListener('click', stopAllAudio);
+
+        document.getElementById('modal-close-btn').addEventListener('click', closeSongModal);
+        document.getElementById('song-modal').addEventListener('click', function (ev) {
+          if (ev.target.id === 'song-modal') closeSongModal();
+        });
+        document.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Escape' && state.modalContext) closeSongModal();
+        });
+
+        document.getElementById('modal-current-play').addEventListener('click', function () {
+          if (state.modalContext && state.modalContext.existingBinding) {
+            playTrackPreview('modal_current', state.modalContext.existingBinding.track);
+          }
+        });
+
+        document.getElementById('modal-remove-btn').addEventListener('click', function () {
+          if (state.modalContext && state.modalContext.existingBinding) {
+            var b = state.modalContext.existingBinding;
+            closeSongModal();
+            removeBinding(b);
+          }
+        });
+
+        document.getElementById('modal-search-btn').addEventListener('click', runModalItunesSearch);
+        document.getElementById('modal-country-select').addEventListener('change', runModalItunesSearch);
+        document.getElementById('modal-search-input').addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter') {
+            ev.preventDefault();
+            runModalItunesSearch();
+          }
+        });
+
+        document.getElementById('modal-variants-list').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action]');
+          if (!btn) return;
+          var idx = Number(btn.getAttribute('data-index'));
+          var track = state.modalVariants[idx];
+          if (!track) return;
+          if (btn.getAttribute('data-action') === 'play-variant') {
+            playTrackPreview('variant_' + idx, track);
+          } else if (btn.getAttribute('data-action') === 'pin-variant') {
+            pinTrackToContext(track);
+          }
+        });
+
+        document.getElementById('modal-itunes-results').addEventListener('click', function (ev) {
+          var btn = ev.target.closest('[data-action]');
+          if (!btn) return;
+          var idx = Number(btn.getAttribute('data-index'));
+          var track = state.modalItunesResults[idx];
+          if (!track) return;
+          if (btn.getAttribute('data-action') === 'play-itunes') {
+            playTrackPreview('itunes_' + idx, track);
+          } else if (btn.getAttribute('data-action') === 'pin-itunes') {
+            pinTrackToContext(track);
+          }
+        });
+      }
+
+      /* -------------------------------------------------------------------
+         13. INITIALIZATION & ZERO-STORAGE HASH RESTORE
+         ------------------------------------------------------------------- */
+      function init() {
+        applyTheme(safeGetStorage('songletter_theme', 'dark'));
+        wireEvents();
+
+        var hash = safeGetHash();
+        if (hash.indexOf('#d=') === 0) {
+          var payload = decodeCardState(hash.slice(3));
+          if (payload && typeof payload.t === 'string') {
+            if (payload.th === 'l') applyTheme('light');
+            else if (payload.th === 'd') applyTheme('dark');
+
+            state.occasion = OCCASIONS[payload.o] ? payload.o : 'letter';
+            state.language = LANGUAGES[payload.l] ? payload.l : 'all';
+            state.moodMode = payload.m || 'auto';
+            state.effectiveMood = payload.m || 'melancolic';
+            state.text = payload.t;
+            state.recipient = payload.rc || '';
+            state.sender = payload.sn || '';
+            state.eventTitle = payload.et || '';
+            state.eventDateTime = payload.ed || '';
+            state.eventLocation = payload.el || '';
+            state.eventRsvp = payload.er || '';
+            state.showEventDetails = Boolean(OCCASIONS[state.occasion].hasEvent || state.eventTitle || state.eventDateTime || state.eventLocation || state.eventRsvp);
+
+            state.manualBindings = (payload.b || []).map(function (arr, idx) {
+              return {
+                id: 'shared_' + idx,
+                start: arr[0],
+                end: arr[1],
+                phrase: payload.t.slice(arr[0], arr[1]),
+                track: {
+                  title: arr[2],
+                  artist: arr[3],
+                  previewUrl: arr[4] || null,
+                  artworkUrl: arr[5] || null,
+                  trackViewUrl: arr[6] || null,
+                  mood: state.effectiveMood,
+                  lang: state.language
+                }
+              };
+            });
+
+            syncStateToInputs();
+            renderAll();
+            enterRecipientView(false);
+            return;
+          }
+        }
+
+        syncStateToInputs();
+        renderAll();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
