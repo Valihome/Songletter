@@ -4,28 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>SongLetter — Scrisoare &amp; Invitație Muzicală</title>
-  <meta name="description" content="Transformă o scrisoare, o invitație de nuntă/botez sau un mesaj către prieteni într-o experiență muzicală interactivă. 100% privat, fără stocare pe server." />
-  <meta property="og:title" content="SongLetter — Ai primit o scrisoare muzicală 🎵" />
-  <meta property="og:description" content="Deschide mesajul și ascultă coloana sonoră ascunsă printre cuvinte." />
+  <meta name="description" content="Transformă o scrisoare, o invitație sau un mesaj într-o experiență muzicală interactivă. 100% privat, zero stocare pe server." />
+  <meta property="og:title" content="SongLetter — Ai primit un mesaj muzical 🎵" />
+  <meta property="og:description" content="Deschide mesajul și ascultă melodiile ascunse printre cuvinte." />
   <meta property="og:type" content="website" />
   <style>
     :root {
       --bg: #0b0f19;
       --bg-elev: #131a2a;
-      --bg-card: #182135;
+      --bg-card: #161f33;
       --bg-input: #0e1422;
-      --border: #26334f;
+      --border: #25324d;
       --text: #eef2ff;
       --text-muted: #94a3b8;
       --accent: #8b5cf6;
       --accent-2: #ec4899;
-      --accent-soft: rgba(139, 92, 246, 0.18);
+      --accent-soft: rgba(139, 92, 246, 0.2);
       --pin: #10b981;
-      --pin-soft: rgba(16, 185, 129, 0.18);
+      --pin-soft: rgba(16, 185, 129, 0.2);
       --danger: #ef4444;
-      --warn: #f59e0b;
       --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-      --radius: 14px;
+      --radius: 16px;
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
       --font-serif: Georgia, "Times New Roman", serif;
     }
@@ -60,9 +59,14 @@
     }
 
     .container {
-      max-width: 980px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 16px 16px 80px;
+      padding: 16px 16px 72px;
+    }
+
+    body.card-mode .container {
+      max-width: 660px;
+      padding-top: 24px;
     }
 
     header.topbar {
@@ -70,10 +74,14 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 0 18px;
+      padding: 10px 0 16px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 18px;
       flex-wrap: wrap;
+    }
+
+    body.card-mode header.topbar {
+      display: none;
     }
 
     .brand {
@@ -83,25 +91,25 @@
     }
 
     .brand-logo {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       display: grid;
       place-items: center;
-      font-size: 20px;
+      font-size: 19px;
       box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
       flex-shrink: 0;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: 1.2rem;
+      font-size: 1.18rem;
       letter-spacing: -0.02em;
     }
 
     .brand .sub {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
     }
 
@@ -114,7 +122,7 @@
 
     .badge-ver {
       font-size: 0.72rem;
-      padding: 4px 8px;
+      padding: 4px 9px;
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent);
@@ -140,18 +148,9 @@
       user-select: none;
     }
 
-    button:hover, .btn:hover {
-      border-color: var(--accent);
-    }
-
-    button:active, .btn:active {
-      transform: scale(0.98);
-    }
-
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
+    button:hover, .btn:hover { border-color: var(--accent); }
+    button:active, .btn:active { transform: scale(0.98); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -159,10 +158,7 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
-      filter: brightness(1.08);
-      border-color: transparent;
-    }
+    .btn-primary:hover { filter: brightness(1.08); border-color: transparent; }
 
     .btn-pin {
       background: var(--pin);
@@ -176,17 +172,22 @@
       color: var(--danger);
     }
 
-    .btn-sm {
-      padding: 5px 10px;
-      font-size: 0.78rem;
-      border-radius: 8px;
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      font-size: 0.8rem;
     }
 
-    .btn-xs {
-      padding: 4px 8px;
-      font-size: 0.72rem;
-      border-radius: 7px;
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: transparent;
+      background: var(--accent-soft);
     }
+
+    .btn-sm { padding: 6px 11px; font-size: 0.8rem; border-radius: 9px; }
+    .btn-xs { padding: 4px 8px; font-size: 0.73rem; border-radius: 7px; }
 
     .btn-spotify { background: rgba(29, 185, 84, 0.14); border-color: rgba(29, 185, 84, 0.4); color: #1db954; }
     .btn-apple { background: rgba(250, 45, 72, 0.14); border-color: rgba(250, 45, 72, 0.4); color: #fa2d48; }
@@ -205,7 +206,7 @@
     }
 
     .panel-title {
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
@@ -218,11 +219,7 @@
       flex-wrap: wrap;
     }
 
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
 
     .chip {
       padding: 6px 11px;
@@ -247,7 +244,7 @@
       gap: 12px;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 700px) {
       .grid-2 { grid-template-columns: 1fr; }
     }
 
@@ -272,12 +269,10 @@
       transition: border-color 0.15s ease;
     }
 
-    input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: var(--accent);
-    }
+    input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--accent); }
 
     textarea#letterInput {
-      min-height: 130px;
+      min-height: 125px;
       resize: vertical;
       line-height: 1.6;
     }
@@ -296,13 +291,12 @@
       border-radius: 12px;
       padding: 16px;
       font-size: 1.05rem;
-      line-height: 1.9;
+      line-height: 1.95;
       white-space: pre-wrap;
       word-wrap: break-word;
       user-select: text;
       -webkit-user-select: text;
-      position: relative;
-      min-height: 90px;
+      min-height: 84px;
     }
 
     .word-plain {
@@ -312,9 +306,7 @@
       transition: background 0.12s;
     }
 
-    .word-plain:hover {
-      background: rgba(148, 163, 184, 0.18);
-    }
+    .word-plain:hover { background: rgba(148, 163, 184, 0.18); }
 
     .phrase-hit {
       display: inline;
@@ -326,18 +318,11 @@
       color: var(--text);
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s, transform 0.1s;
+      transition: background 0.15s, box-shadow 0.15s;
     }
 
-    .phrase-hit:hover {
-      background: rgba(139, 92, 246, 0.32);
-    }
-
-    .phrase-hit.pinned {
-      background: var(--pin-soft);
-      border-bottom-color: var(--pin);
-    }
-
+    .phrase-hit:hover { background: rgba(139, 92, 246, 0.32); }
+    .phrase-hit.pinned { background: var(--pin-soft); border-bottom-color: var(--pin); }
     .phrase-hit.playing {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: #fff;
@@ -345,11 +330,7 @@
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.35);
     }
 
-    .phrase-badge {
-      font-size: 0.72em;
-      margin-right: 3px;
-      opacity: 0.9;
-    }
+    .phrase-badge { font-size: 0.72em; margin-right: 3px; opacity: 0.9; }
 
     .hint-box {
       font-size: 0.8rem;
@@ -377,16 +358,12 @@
       cursor: pointer;
     }
 
-    .track-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .track-list { display: flex; flex-direction: column; gap: 9px; }
 
     .track-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       padding: 10px 12px;
       background: var(--bg-input);
       border: 1px solid var(--border);
@@ -400,64 +377,29 @@
     }
 
     .track-cover {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 9px;
-      object-fit: cover;
       background: var(--bg-card);
       flex-shrink: 0;
       display: grid;
       place-items: center;
-      font-size: 20px;
+      font-size: 18px;
       overflow: hidden;
     }
 
-    .track-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .track-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .track-meta { flex: 1; min-width: 150px; }
+    .track-phrase { font-size: 0.74rem; color: var(--accent); font-weight: 700; margin-bottom: 2px; }
+    .track-phrase.pinned { color: var(--pin); }
+    .track-title { font-weight: 700; font-size: 0.92rem; }
+    .track-artist { font-size: 0.8rem; color: var(--text-muted); }
+    .track-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
-    .track-meta {
-      flex: 1;
-      min-width: 160px;
-    }
-
-    .track-phrase {
-      font-size: 0.75rem;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .track-phrase.pinned {
-      color: var(--pin);
-    }
-
-    .track-title {
-      font-weight: 700;
-      font-size: 0.94rem;
-    }
-
-    .track-artist {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .track-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    /* Card / Recipient Mode */
+    /* ==================== MINIMALIST CARD VIEW ==================== */
     .card-shell {
-      max-width: 720px;
-      margin: 0 auto;
-      border-radius: 22px;
-      padding: 28px 24px;
+      border-radius: 24px;
+      padding: 28px 24px 22px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
@@ -469,7 +411,7 @@
       content: "";
       position: absolute;
       inset: 0 0 auto 0;
-      height: 6px;
+      height: 5px;
       background: linear-gradient(90deg, var(--card-c1, var(--accent)), var(--card-c2, var(--accent-2)));
     }
 
@@ -479,102 +421,128 @@
     .card-shell.occ-friend { --card-c1: #10b981; --card-c2: #06b6d4; }
     .card-shell.occ-birthday { --card-c1: #f43f5e; --card-c2: #f59e0b; }
 
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-family: var(--font-sans);
+    }
+
     .card-occ-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 12px;
+      padding: 4px 11px;
       border-radius: 999px;
-      font-family: var(--font-sans);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
       background: var(--accent-soft);
       color: var(--text);
-      margin-bottom: 12px;
     }
 
     .card-event-box {
       background: var(--bg-input);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 14px 16px;
-      margin: 14px 0 18px;
+      padding: 13px 15px;
+      margin: 0 0 18px;
       font-family: var(--font-sans);
     }
 
-    .card-event-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin: 0 0 8px;
-    }
+    .card-event-title { font-size: 1.08rem; font-weight: 800; margin: 0 0 6px; }
 
     .card-event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       font-size: 0.86rem;
       color: var(--text-muted);
     }
 
-    .card-event-grid strong {
-      color: var(--text);
-    }
+    .card-event-grid strong { color: var(--text); }
 
     .card-salutation {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       font-weight: 700;
       margin-bottom: 10px;
     }
 
     .card-body {
-      font-size: 1.12rem;
-      line-height: 1.95;
+      font-size: 1.16rem;
+      line-height: 2;
       white-space: pre-wrap;
-      margin: 12px 0 18px;
+      margin: 8px 0 18px;
     }
 
     .card-signature {
       text-align: right;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-style: italic;
       color: var(--text-muted);
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
-    .mini-player {
-      margin-top: 20px;
-      padding: 14px;
-      border-radius: 14px;
+    /* Clean Simple Player */
+    .simple-player {
+      margin-top: 22px;
+      padding: 14px 16px;
+      border-radius: 16px;
       background: var(--bg-input);
       border: 1px solid var(--border);
       font-family: var(--font-sans);
     }
 
-    .mp-top {
+    .sp-main {
       display: flex;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
     }
 
-    .mp-info {
+    .sp-play-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .sp-meta {
       flex: 1;
-      min-width: 150px;
+      min-width: 0;
     }
 
-    .mp-controls {
+    .sp-title {
+      font-weight: 700;
+      font-size: 0.94rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sp-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sp-nav {
       display: flex;
       align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      gap: 4px;
+      flex-shrink: 0;
     }
 
     .progress-bar {
       width: 100%;
-      height: 6px;
+      height: 4px;
       background: var(--border);
       border-radius: 999px;
-      margin-top: 10px;
+      margin-top: 11px;
       overflow: hidden;
     }
 
@@ -583,6 +551,29 @@
       width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
       transition: width 0.15s linear;
+    }
+
+    .card-tracks-toggle {
+      margin-top: 14px;
+      text-align: center;
+      font-family: var(--font-sans);
+    }
+
+    .card-tracks-drawer {
+      margin-top: 12px;
+      font-family: var(--font-sans);
+    }
+
+    .card-footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-family: var(--font-sans);
     }
 
     /* Modal */
@@ -598,9 +589,7 @@
       padding: 14px;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
+    .modal-backdrop.open { display: flex; }
 
     .modal {
       width: 100%;
@@ -622,10 +611,7 @@
       margin-bottom: 12px;
     }
 
-    .modal-head h3 {
-      margin: 0;
-      font-size: 1.05rem;
-    }
+    .modal-head h3 { margin: 0; font-size: 1.04rem; }
 
     .search-row {
       display: flex;
@@ -634,21 +620,10 @@
       flex-wrap: wrap;
     }
 
-    .search-row input {
-      flex: 1;
-      min-width: 160px;
-    }
+    .search-row input { flex: 1; min-width: 160px; }
+    .search-row select { width: auto; min-width: 90px; }
 
-    .search-row select {
-      width: auto;
-      min-width: 90px;
-    }
-
-    .result-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .result-list { display: flex; flex-direction: column; gap: 8px; }
 
     .result-row {
       display: flex;
@@ -670,7 +645,7 @@
       color: #fff;
       padding: 10px 16px;
       border-radius: 999px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 600;
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
       opacity: 0;
@@ -681,10 +656,7 @@
       text-align: center;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     .alert-banner {
       background: rgba(245, 158, 11, 0.14);
@@ -693,14 +665,11 @@
       padding: 12px 14px;
       border-radius: 12px;
       margin-bottom: 14px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       display: none;
     }
 
-    .alert-banner.show {
-      display: block;
-    }
-
+    .alert-banner.show { display: block; }
     .hidden { display: none !important; }
 
     .link-box {
@@ -709,21 +678,14 @@
       background: var(--bg-input);
       border: 1px solid var(--border);
       border-radius: 10px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
       word-break: break-all;
       display: none;
     }
 
     .link-box.show { display: block; }
-
-    .share-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-      align-items: center;
-    }
+    .share-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
   </style>
 </head>
 <body>
@@ -737,8 +699,7 @@
         </div>
       </div>
       <div class="top-actions">
-        <span class="badge-ver">v5.3 ShortLink</span>
-        <button id="btnModeToggle" class="btn-sm hidden" type="button">✏️ Editează</button>
+        <span class="badge-ver">v5.4.1 SmartMatch</span>
         <button id="btnThemeToggle" class="btn-sm" type="button">☀️ Light</button>
       </div>
     </header>
@@ -747,7 +708,6 @@
 
     <!-- ==================== EDITOR VIEW ==================== -->
     <main id="editorView">
-      <!-- Occasion & Language -->
       <section class="panel">
         <div class="panel-title">
           <span>✨ Tip mesaj / Ocazie</span>
@@ -755,24 +715,23 @@
         </div>
         <div id="occasionChips" class="chip-row" style="margin-bottom: 14px;">
           <button type="button" class="chip active" data-occ="letter">💌 Scrisoare</button>
-          <button type="button" class="chip" data-occ="wedding">💍 Invitație Nuntă</button>
-          <button type="button" class="chip" data-occ="baptism">👶 Invitație Botez</button>
-          <button type="button" class="chip" data-occ="friend">🍻 Mesaj prieten</button>
-          <button type="button" class="chip" data-occ="birthday">🎂 La Mulți Ani</button>
+          <button type="button" class="chip" data-occ="wedding">💍 Nuntă</button>
+          <button type="button" class="chip" data-occ="baptism">👶 Botez</button>
+          <button type="button" class="chip" data-occ="friend">🍻 Prieten</button>
+          <button type="button" class="chip" data-occ="birthday">🎂 Aniversare</button>
         </div>
 
-        <div class="panel-title"><span>🌐 Limba pieselor &amp; Magazin iTunes</span></div>
+        <div class="panel-title"><span>🌐 Prioritate limbă &amp; Magazin iTunes (detecția funcționează în toate limbile)</span></div>
         <div id="langChips" class="chip-row">
-          <button type="button" class="chip active" data-lang="ro">🇷🇴 Română</button>
+          <button type="button" class="chip active" data-lang="all">🌍 Auto (Toate)</button>
+          <button type="button" class="chip" data-lang="ro">🇷🇴 Română</button>
           <button type="button" class="chip" data-lang="en">🇬🇧 Engleză</button>
           <button type="button" class="chip" data-lang="de">🇩🇪 Germană</button>
           <button type="button" class="chip" data-lang="fr">🇫🇷 Franceză</button>
           <button type="button" class="chip" data-lang="es">🇪🇸 Spaniolă</button>
-          <button type="button" class="chip" data-lang="all">🌍 Toate</button>
         </div>
       </section>
 
-      <!-- Recipient / Sender / Event Details -->
       <section class="panel">
         <div class="panel-title">
           <span>👤 Destinatar, Expeditor &amp; Detalii</span>
@@ -781,7 +740,7 @@
         <div class="grid-2">
           <div>
             <label class="field-label" for="inputTo">Pentru (opțional)</label>
-            <input id="inputTo" type="text" placeholder="ex. Dragă Ana / Dragii noștri" />
+            <input id="inputTo" type="text" placeholder="ex. Dragă Ana" />
           </div>
           <div>
             <label class="field-label" for="inputFrom">De la (opțional)</label>
@@ -811,15 +770,14 @@
         </div>
       </section>
 
-      <!-- Letter Editor -->
       <section class="panel">
         <div class="panel-title">
           <span>✍️ Textul mesajului</span>
           <span id="moodBadge" class="badge-ver">Stare: Auto</span>
         </div>
-        <textarea id="letterInput" placeholder="Scrie mesajul tău aici..."></textarea>
+        <textarea id="letterInput" placeholder="Scrie mesajul tău aici (ex: miss you too, cause i still haven't found what i'm looking for, cause everybody hurts)..."></textarea>
         <div class="toolbar">
-          <button id="btnAnalyzeMood" class="btn-sm" type="button">🎭 Analizează starea &amp; Potrivește piesele</button>
+          <button id="btnScanItunes" class="btn-primary btn-sm" type="button">✨ Găsește piese extra pe iTunes</button>
           <select id="moodSelect" style="width: auto; padding: 6px 10px; font-size: 0.82rem;">
             <option value="auto">Stare: Auto</option>
             <option value="melancholic">Melancolic / Sensibil</option>
@@ -827,47 +785,47 @@
             <option value="romantic">Romantic / Cald</option>
             <option value="party">Petrecere / Vesel</option>
           </select>
-          <button id="btnManualSearch" class="btn-sm" type="button">🔍 Caută manual o piesă</button>
+          <button id="btnManualSearch" class="btn-sm" type="button">🔍 Caută manual</button>
         </div>
       </section>
 
-      <!-- Interactive Letter Preview -->
       <section class="panel">
         <div class="panel-title">
-          <span>🎶 Scrisoarea interactivă (Click pe cuvânt sau selectează o frază)</span>
+          <span>🎶 Scrisoarea interactivă</span>
+          <span id="matchStats" class="badge-ver">0 piese</span>
         </div>
         <div id="interactiveLetter" class="interactive-letter"></div>
         <div class="hint-box">
-          <span>💡 <strong>Click</strong> pe o expresie subliniată pentru a schimba piesa, sau <strong>selectează orice text</strong> pentru a lega o piesă custom (📌).</span>
-          <span id="matchStats">0 piese</span>
+          <span>💡 <strong>Click</strong> pe orice expresie evidențiată ca să schimbi piesa, sau <strong>selectează / apasă</strong> pe orice cuvânt ca să legi o piesă nouă.</span>
         </div>
       </section>
 
-      <!-- Soundtrack List -->
       <section class="panel">
         <div class="panel-title">
-          <span>🎧 Coloana sonoră detectată &amp; fixată</span>
-          <button id="btnStopAllEditor" class="btn-xs hidden" type="button">⏹ Oprește audio</button>
+          <span>🎧 Coloana sonoră</span>
+          <button id="btnStopAllEditor" class="btn-xs hidden" type="button">⏹ Oprește</button>
         </div>
         <div id="editorTrackList" class="track-list"></div>
       </section>
 
-      <!-- Share & Preview Actions -->
       <section class="panel">
-        <div class="panel-title"><span>🚀 Creează &amp; Trimite Felicitarea (Link scurt, Zero-Storage)</span></div>
+        <div class="panel-title"><span>🚀 Trimite Felicitarea (Link scurt, Zero-Storage)</span></div>
         <div class="share-bar">
-          <button id="btnPreviewCard" class="btn-primary" type="button">💌 Previzualizează Cardul</button>
-          <button id="btnCopyLink" class="btn" type="button">🔗 Copiază Link Scurt</button>
-          <button id="btnShareWA" class="btn btn-wa" type="button">💬 Trimite pe WhatsApp</button>
+          <button id="btnPreviewCard" class="btn-primary" type="button">💌 Previzualizează</button>
+          <button id="btnCopyLink" class="btn" type="button">🔗 Copiază Link</button>
+          <button id="btnShareWA" class="btn btn-wa" type="button">💬 WhatsApp</button>
         </div>
         <div id="generatedLinkBox" class="link-box"></div>
       </section>
     </main>
 
-    <!-- ==================== CARD / RECIPIENT VIEW ==================== -->
+    <!-- ==================== MINIMALIST CARD / RECIPIENT VIEW ==================== -->
     <main id="cardView" class="hidden">
       <article id="cardShell" class="card-shell occ-letter">
-        <div id="cardOccBadge" class="card-occ-badge">💌 Scrisoare Muzicală</div>
+        <div class="card-top-row">
+          <div id="cardOccBadge" class="card-occ-badge">💌 Scrisoare Muzicală</div>
+          <button id="btnCardTheme" class="btn-ghost" type="button" title="Schimbă tema">☀️</button>
+        </div>
 
         <div id="cardEventBox" class="card-event-box hidden">
           <div id="cardEventTitle" class="card-event-title"></div>
@@ -878,33 +836,33 @@
         <div id="cardBody" class="card-body"></div>
         <div id="cardSignature" class="card-signature hidden"></div>
 
-        <!-- Mini Player -->
-        <div id="miniPlayer" class="mini-player">
-          <div class="mp-top">
-            <div id="mpCover" class="track-cover">🎵</div>
-            <div class="mp-info">
-              <div id="mpStatus" class="track-phrase">Gata de redare</div>
-              <div id="mpTitle" class="track-title">Apasă Play All pentru a asculta scrisoarea</div>
-              <div id="mpArtist" class="track-artist">Fiecare piesă se redă câte 12 secunde</div>
+        <!-- Simple Clean Player -->
+        <div id="simplePlayer" class="simple-player">
+          <div class="sp-main">
+            <button id="btnPlayAll" class="btn-primary sp-play-btn" type="button" aria-label="Ascultă scrisoarea">▶</button>
+            <div class="sp-meta">
+              <div id="mpTitle" class="sp-title">Ascultă scrisoarea</div>
+              <div id="mpArtist" class="sp-sub">Apasă Play sau atinge cuvintele evidențiate</div>
             </div>
-            <div class="mp-controls">
-              <button id="btnPlayAll" class="btn-primary btn-sm" type="button">▶ Play All</button>
-              <button id="btnPrevTrack" class="btn-sm" type="button" title="Piesa anterioară">⏮</button>
-              <button id="btnNextTrack" class="btn-sm" type="button" title="Piesa următoare">⏭</button>
+            <div id="spNav" class="sp-nav hidden">
+              <button id="btnPrevTrack" class="btn-ghost" type="button" title="Anterioara">⏮</button>
+              <button id="btnNextTrack" class="btn-ghost" type="button" title="Următoarea">⏭</button>
             </div>
           </div>
-          <div id="mpLinks" class="track-actions" style="margin-top: 10px;"></div>
           <div class="progress-bar"><div id="mpProgress" class="progress-fill"></div></div>
         </div>
 
-        <!-- Card Soundtrack -->
-        <div style="margin-top: 20px; font-family: var(--font-sans);">
-          <div class="panel-title"><span>🎶 Coloana sonoră a mesajului</span></div>
+        <!-- Collapsible Soundtrack Details (hidden by default for clean look) -->
+        <div id="cardTracksToggleWrap" class="card-tracks-toggle">
+          <button id="btnToggleCardTracks" class="btn-ghost" type="button">🎶 Vezi melodiile ▾</button>
+        </div>
+        <div id="cardTracksDrawer" class="card-tracks-drawer hidden">
           <div id="cardTrackList" class="track-list"></div>
         </div>
 
-        <div style="margin-top: 24px; text-align: center; font-family: var(--font-sans); border-top: 1px dashed var(--border); padding-top: 16px;">
-          <button id="btnCreateOwn" class="btn-sm" type="button">✨ Creează propria scrisoare muzicală</button>
+        <div class="card-footer">
+          <button id="btnCreateOwn" class="btn-ghost" type="button">✨ Creează și tu o scrisoare</button>
+          <button id="btnEditCard" class="btn-ghost" type="button">✏️ Editează</button>
         </div>
       </article>
     </main>
@@ -927,13 +885,13 @@
       </div>
 
       <div id="modalSuggestionsBox" class="hidden" style="margin-bottom: 14px;">
-        <div class="panel-title"><span>Variante sugerate (pe stări)</span></div>
+        <div class="panel-title"><span>Variante rapide</span></div>
         <div id="modalSuggestionsList" class="result-list"></div>
       </div>
 
       <div class="panel-title"><span>Căutare live pe iTunes (preview 30s)</span></div>
       <div class="search-row">
-        <input id="modalSearchInput" type="text" placeholder="Caută titlu sau artist (ex. Londonbeat)..." />
+        <input id="modalSearchInput" type="text" placeholder="Caută titlu sau artist..." />
         <select id="modalCountrySelect" title="Magazin iTunes">
           <option value="RO">🇷🇴 RO</option>
           <option value="US">🇬🇧/🇺🇸 US</option>
@@ -953,16 +911,15 @@
   (function () {
     'use strict';
 
-    // ==================== CONSTANTS & DICTIONARY ====================
     const OCCASIONS = {
       letter:   { label: '💌 Scrisoare Muzicală', cls: 'occ-letter', hasEvent: false },
       wedding:  { label: '💍 Invitație la Nuntă', cls: 'occ-wedding', hasEvent: true },
       baptism:  { label: '👶 Invitație la Botez', cls: 'occ-baptism', hasEvent: true },
-      friend:   { label: '🍻 Mesaj către un prieten', cls: 'occ-friend', hasEvent: false },
+      friend:   { label: '🍻 Mesaj pentru un prieten', cls: 'occ-friend', hasEvent: false },
       birthday: { label: '🎂 La Mulți Ani!', cls: 'occ-birthday', hasEvent: false }
     };
 
-    const LANG_COUNTRY = { ro: 'RO', en: 'US', de: 'DE', fr: 'FR', es: 'ES', all: 'RO' };
+    const LANG_COUNTRY = { all: 'RO', ro: 'RO', en: 'US', de: 'DE', fr: 'FR', es: 'ES' };
 
     const TEMPLATES = {
       ro: {
@@ -981,24 +938,24 @@
           to: 'Dragi prieteni și familie,',
           from: 'Ioana, Radu & micuțul Luca',
           ev: { ti: 'Botezul lui Luca', dt: 'Duminică, 12 Octombrie, ora 14:00', lo: 'Restaurant Belvedere', rs: 'Vă așteptăm cu drag!' },
-          text: 'Micuțul nostru îngeraș face primul pas mare din viața lui! Haideți să îi fim alături, să ne bucurăm împreună și să îi urăm o viață plină de soare și zâmbete.'
+          text: 'Micuțul nostru îngeraș face primul pas mare din viața lui! Haideți să îi fim alături și să îi urăm o viață plină de soare și zâmbete.'
         },
         friend: {
           to: 'Salut, prietene!',
           from: 'Al tău, Mihai',
-          text: 'A trecut prea mult timp de când nu am mai ieșit la o poveste. Știi că orice ar fi, suntem prieteni pe viață și mergem mereu pe drumul meu, fără regrete. Hai să ne vedem weekendul ăsta!'
+          text: 'A trecut prea mult timp de când nu am mai ieșit la o poveste. Știi că suntem prieteni pe viață și mergem mereu pe drumul meu, fără regrete. Hai să ne vedem weekendul ăsta!'
         },
         birthday: {
           to: 'La mulți ani, Vlad!',
           from: 'Toată gașca',
-          text: 'Azi e ziua ta și merită sărbătorită ca la carte! Îți dorim sănătate, chef de viață și să rămâi mereu un învingător. Ridicăm paharul pentru tine!'
+          text: 'Azi e ziua ta și merită sărbătorită ca la carte! Îți dorim sănătate și să rămâi mereu un învingător!'
         }
       },
       en: {
         letter: {
-          to: 'Dear Sarah,',
-          from: 'Always yours, Sam',
-          text: "I'm doing things my way because lately I feel lonely, yet you are still the one I think about every night. Take my hand and let's start a new chapter together."
+          to: 'Hey,',
+          from: 'Always yours',
+          text: "Miss you too, cause I still haven't found what I'm looking for, and sometimes everybody hurts. Still, you are the one I think about."
         },
         wedding: {
           to: 'Dear Friends & Family,',
@@ -1009,199 +966,237 @@
         baptism: {
           to: 'Dearest Family,',
           from: 'Claire & Noah',
-          ev: { ti: 'Baby Oliver Baptism', dt: 'Sunday, Oct 12 • 2:00 PM', lo: 'St. Mary Chapel & Garden', rs: 'Please RSVP' },
-          text: "Welcome to this wonderful world, little star! Come celebrate with us and wish him a lifetime of sunshine and joy."
+          ev: { ti: 'Baby Oliver Baptism', dt: 'Sunday, Oct 12 • 2:00 PM', lo: 'St. Mary Chapel', rs: 'Please RSVP' },
+          text: "Welcome to this wonderful world, little star! Come celebrate with us and wish him a lifetime of sunshine."
         },
         friend: {
-          to: 'Hey buddy,',
-          from: 'Chris',
-          text: "It's been way too long! Remember, you've got a friend in me no matter what. Let's grab a drink and celebrate the good times!"
+          to: 'My favorite people,',
+          from: 'Gratefully yours, Vali',
+          text: "I don't say this nearly enough, so here it is: thank you for being in my life. Having people like you who always stand by me, no matter what, makes everything lighter.\n\nFrom the random laughs to all the good times we've shared, I'm genuinely grateful for every single moment. Never forget that you've got a friend in me, always.\n\nLet's get together soon and celebrate — first round's on me!"
         },
         birthday: {
-          to: 'Happy Birthday, Mike!',
+          to: 'Happy Birthday!',
           from: 'The whole crew',
           text: "Today is all about you! Wishing you a happy birthday, endless laughs, and the best year ahead. Let's celebrate!"
         }
       },
       de: {
-        letter: {
-          to: 'Liebe Lena,',
-          from: 'Dein Lukas',
-          text: 'Manchmal fühle ich mich über den Wolken wenn ich an dich denke. Atemlos durch die Nacht träume ich von uns und 99 Luftballons am Himmel.'
-        },
+        letter: { to: 'Liebe Lena,', from: 'Dein Lukas', text: 'Manchmal fühle ich mich über den Wolken wenn ich an dich denke. Atemlos durch die Nacht träume ich von uns und 99 Luftballons.' },
         wedding: { to: 'Liebe Gäste,', from: 'Anna & Max', ev: { ti: 'Hochzeit Anna & Max', dt: 'Samstag, 20. September', lo: 'Schlossgarten', rs: 'Bitte um Rückmeldung' }, text: 'Wir sagen Ja! Kommt und feiert mit uns über den Wolken bis tief in die Nacht.' },
-        baptism: { to: 'Liebe Familie,', from: 'Sophie & Paul', ev: { ti: 'Taufe von Leo', dt: 'Sonntag, 12. Oktober', lo: 'Stadtkirche', rs: 'Wir freuen uns!' }, text: 'Ein kleines Wunder ist da! Feiert mit uns diesen besonderen Tag voller Sonne.' },
+        baptism: { to: 'Liebe Familie,', from: 'Sophie & Paul', ev: { ti: 'Taufe von Leo', dt: 'Sonntag, 12. Oktober', lo: 'Stadtkirche', rs: 'Wir freuen uns!' }, text: 'Ein kleines Wunder ist da! Feiert mit uns diesen Tag.' },
         friend: { to: 'Hey mein Freund,', from: 'Tom', text: 'Tage wie diese gehören gefeiert! Lass uns bald wieder zusammen lachen.' },
-        birthday: { to: 'Alles Gute zum Geburtstag!', from: 'Deine Freunde', text: 'Heute feiern wir dich! Auf ein wunderbares neues Jahr und Tage wie diese!' }
+        birthday: { to: 'Alles Gute zum Geburtstag!', from: 'Deine Freunde', text: 'Heute feiern wir dich! Auf Tage wie diese!' }
       },
       fr: {
         letter: { to: 'Chère Camille,', from: 'Ton Julien', text: 'Avec toi je vois la vie en rose. Je te promets que chaque jour à tes côtés est formidable.' },
-        wedding: { to: 'Chers amis,', from: 'Chloé & Lucas', ev: { ti: 'Mariage Chloé & Lucas', dt: 'Samedi 20 Septembre', lo: 'Domaine des Fleurs', rs: 'RSVP avant le 1er Septembre' }, text: 'Nous nous marions ! Venez célébrer la vie en rose avec nous.' },
+        wedding: { to: 'Chers amis,', from: 'Chloé & Lucas', ev: { ti: 'Mariage Chloé & Lucas', dt: 'Samedi 20 Septembre', lo: 'Domaine des Fleurs', rs: 'RSVP' }, text: 'Nous nous marions ! Venez célébrer la vie en rose avec nous.' },
         baptism: { to: 'Chère famille,', from: 'Marie & Théo', ev: { ti: 'Baptême de Léo', dt: 'Dimanche 12 Octobre', lo: 'Chapelle Saint-Paul', rs: 'Merci de confirmer' }, text: 'Bienvenue à notre petit ange ! Une journée formidable vous attend.' },
         friend: { to: 'Salut mon ami,', from: 'Nico', text: 'Ça fait trop longtemps ! On va passer une soirée formidable ensemble.' },
-        birthday: { to: 'Joyeux Anniversaire !', from: 'Tes amis', text: 'Je te souhaite une année formidable pleine de bonheur et de musique !' }
+        birthday: { to: 'Joyeux Anniversaire !', from: 'Tes amis', text: 'Je te souhaite une année formidable pleine de bonheur !' }
       },
       es: {
         letter: { to: 'Querida Sofía,', from: 'Con cariño, Mateo', text: 'Quiero vivir mi vida contigo, paso a paso, despacito, bailando bajo las estrellas.' },
         wedding: { to: 'Queridos amigos,', from: 'Lucía & Carlos', ev: { ti: 'Boda Lucía & Carlos', dt: 'Sábado 20 de Septiembre', lo: 'Hacienda del Sol', rs: 'Confirmar asistencia' }, text: '¡Nos casamos! Venid a celebrar y a bailar viviendo la vida con nosotros.' },
-        baptism: { to: 'Querida familia,', from: 'Elena & Diego', ev: { ti: 'Bautizo de Hugo', dt: 'Domingo 12 de Octubre', lo: 'Iglesia San Juan', rs: 'Os esperamos' }, text: 'Nuestro pequeño sol llega a nuestras vidas. ¡Celebremos juntos!' },
-        friend: { to: '¡Hola amigo!', from: 'Javier', text: 'Hace mucho que no nos vemos. ¡Vamos a vivir mi vida y celebrar pronto!' },
+        baptism: { to: 'Querida familia,', from: 'Elena & Diego', ev: { ti: 'Bautizo de Hugo', dt: 'Domingo 12 de Octubre', lo: 'Iglesia San Juan', rs: 'Os esperamos' }, text: 'Nuestro pequeño sol llega a nuestras vidas.' },
+        friend: { to: '¡Hola amigo!', from: 'Javier', text: 'Hace mucho que no nos vemos. ¡Vamos a vivir mi vida pronto!' },
         birthday: { to: '¡Feliz Cumpleaños!', from: 'Todos tus amigos', text: '¡Hoy celebramos tu día! A disfrutar y vivir mi vida al máximo.' }
       }
     };
 
-    // Curated dictionary: phrase (normalized lookup) -> lang + mood variants
-    const DICTIONARY = [
-      // Romanian
-      { phrase: 'fara tine', lang: 'ro', variants: [
-        { mood: 'melancholic', title: 'Fără tine', artist: 'B.U.G. Mafia', query: 'Fara tine BUG Mafia' },
-        { mood: 'romantic', title: 'Fără tine', artist: 'Andra', query: 'Fara tine Andra' }
-      ]},
-      { phrase: 'dragostea din tei', lang: 'ro', variants: [
-        { mood: 'party', title: 'Dragostea Din Tei', artist: 'O-Zone', query: 'Dragostea Din Tei O-Zone' },
-        { mood: 'energetic', title: 'Dragostea Din Tei', artist: 'O-Zone', query: 'Dragostea Din Tei O-Zone' }
-      ]},
-      { phrase: 'tot ce am', lang: 'ro', variants: [
-        { mood: 'romantic', title: 'Tot ce am', artist: 'Smiley', query: 'Tot ce am Smiley' }
-      ]},
-      { phrase: 'drumul spre casa', lang: 'ro', variants: [
-        { mood: 'romantic', title: 'Acasă', artist: 'Smiley', query: 'Acasa Smiley' }
-      ]},
-      { phrase: 'prieteni pe viata', lang: 'ro', variants: [
-        { mood: 'party', title: 'Prietenii', artist: 'Voltaj', query: 'Voltaj prieteni' },
-        { mood: 'energetic', title: 'De la capăt', artist: 'Voltaj', query: 'De la capat Voltaj' }
-      ]},
-      { phrase: 'drumul meu', lang: 'ro', variants: [
-        { mood: 'energetic', title: 'În drumul meu', artist: 'Cargo', query: 'Cargo' },
-        { mood: 'melancholic', title: 'My Way', artist: 'Frank Sinatra', query: 'My Way Frank Sinatra' }
-      ]},
-      { phrase: 'ziua ta', lang: 'ro', variants: [
-        { mood: 'party', title: 'De ziua ta', artist: '3 Sud Est', query: 'De ziua ta 3 Sud Est' },
-        { mood: 'romantic', title: 'La mulți ani', artist: 'Andra', query: 'La multi ani Andra' }
-      ]},
-      { phrase: 'la multi ani', lang: 'ro', variants: [
-        { mood: 'party', title: 'La Mulți Ani', artist: 'Andra', query: 'La Multi Ani Andra' }
-      ]},
-      { phrase: 'ingeras', lang: 'ro', variants: [
-        { mood: 'romantic', title: 'Înger și demon', artist: 'Holograf', query: 'Holograf' }
-      ]},
-      { phrase: 'perfect', lang: 'ro', variants: [
-        { mood: 'romantic', title: 'Perfect', artist: 'Ed Sheeran', query: 'Perfect Ed Sheeran' },
-        { mood: 'energetic', title: 'Perfect', artist: 'Simple Plan', query: 'Perfect Simple Plan' }
-      ]},
-      { phrase: 'vara', lang: 'ro', variants: [
-        { mood: 'party', title: 'Vara nu dorm', artist: 'Connect-R', query: 'Vara nu dorm Connect-R' }
-      ]},
-      { phrase: 'soare', lang: 'ro', variants: [
-        { mood: 'party', title: 'Soare din nori', artist: 'Delia', query: 'Delia Soare' },
-        { mood: 'romantic', title: 'Here Comes The Sun', artist: 'The Beatles', query: 'Here Comes The Sun Beatles' }
-      ]},
-      { phrase: 'invingator', lang: 'ro', variants: [
-        { mood: 'energetic', title: 'We Are The Champions', artist: 'Queen', query: 'We Are The Champions Queen' }
-      ]},
+    // Expanded curated dictionary (apostrophes handled flexibly in matcher!)
+    // Shorthand helper: [phrase, lang, [[mood, title, artist, query?], ...]]
+    const RAW_DICT = [
+      // === ENGLISH CLASSICS, ROCK, POP, BALLADS, R&B ===
+      ["i still haven't found what i'm looking for", 'en', [['melancholic', "I Still Haven't Found What I'm Looking For", 'U2']]],
+      ["still haven't found what i'm looking for", 'en', [['melancholic', "I Still Haven't Found What I'm Looking For", 'U2']]],
+      ["i've been thinking about you", 'en', [['party', "I've Been Thinking About You", 'Londonbeat'], ['romantic', "I've Been Thinking About You", 'Londonbeat']]],
+      ["thinking about you", 'en', [['party', "I've Been Thinking About You", 'Londonbeat'], ['romantic', 'Thinking Out Loud', 'Ed Sheeran']]],
+      ["everybody hurts", 'en', [['melancholic', 'Everybody Hurts', 'R.E.M.']]],
+      ["miss you", 'en', [['melancholic', 'I Miss You', 'blink-182'], ['energetic', 'Miss You', 'The Rolling Stones'], ['party', 'Miss You', 'Oliver Tree & Robin Schulz']]],
+      ["i miss you", 'en', [['melancholic', 'I Miss You', 'blink-182'], ['romantic', 'Miss You', 'The Rolling Stones']]],
+      ["my way", 'en', [['melancholic', 'My Way', 'Frank Sinatra'], ['energetic', 'My Way', 'Limp Bizkit'], ['party', 'My Way', 'Calvin Harris']]],
+      ["the one", 'en', [['melancholic', 'One', 'U2'], ['energetic', 'One', 'Metallica'], ['romantic', 'The One', 'Elton John']]],
+      ["with or without you", 'en', [['melancholic', 'With or Without You', 'U2']]],
+      ["nothing else matters", 'en', [['romantic', 'Nothing Else Matters', 'Metallica'], ['melancholic', 'Nothing Else Matters', 'Metallica']]],
+      ["wish you were here", 'en', [['melancholic', 'Wish You Were Here', 'Pink Floyd']]],
+      ["return to sender", 'en', [['party', 'Return to Sender', 'Elvis Presley']]],
+      ["jailhouse rock", 'en', [['energetic', 'Jailhouse Rock', 'Elvis Presley']]],
+      ["can't help falling in love", 'en', [['romantic', "Can't Help Falling in Love", 'Elvis Presley']]],
+      ["i will always love you", 'en', [['romantic', 'I Will Always Love You', 'Whitney Houston']]],
+      ["always", 'en', [['romantic', 'Always', 'Bon Jovi'], ['melancholic', 'Always Remember Us This Way', 'Lady Gaga']]],
+      ["still loving you", 'en', [['romantic', 'Still Loving You', 'Scorpions']]],
+      ["wind of change", 'en', [['melancholic', 'Wind of Change', 'Scorpions']]],
+      ["every breath you take", 'en', [['romantic', 'Every Breath You Take', 'The Police']]],
+      ["stand by me", 'en', [['romantic', 'Stand by Me', 'Ben E. King']]],
+      ["don't stop believin", 'en', [['energetic', "Don't Stop Believin'", 'Journey']]],
+      ["don't worry be happy", 'en', [['party', "Don't Worry, Be Happy", 'Bobby McFerrin']]],
+      ["what a wonderful world", 'en', [['romantic', 'What a Wonderful World', 'Louis Armstrong']]],
+      ["wonderful world", 'en', [['romantic', 'What a Wonderful World', 'Louis Armstrong']]],
+      ["wonderful tonight", 'en', [['romantic', 'Wonderful Tonight', 'Eric Clapton']]],
+      ["tears in heaven", 'en', [['melancholic', 'Tears in Heaven', 'Eric Clapton']]],
+      ["someone like you", 'en', [['melancholic', 'Someone Like You', 'Adele']]],
+      ["hello", 'en', [['melancholic', 'Hello', 'Adele'], ['romantic', 'Hello', 'Lionel Richie']]],
+      ["yesterday", 'en', [['melancholic', 'Yesterday', 'The Beatles']]],
+      ["let it be", 'en', [['melancholic', 'Let It Be', 'The Beatles']]],
+      ["here comes the sun", 'en', [['party', 'Here Comes the Sun', 'The Beatles']]],
+      ["imagine", 'en', [['melancholic', 'Imagine', 'John Lennon']]],
+      ["lonely", 'en', [['melancholic', 'Lonely', 'Akon'], ['energetic', 'Boulevard of Broken Dreams', 'Green Day']]],
+      ["at last", 'en', [['romantic', 'At Last', 'Etta James']]],
+      ["all of me", 'en', [['romantic', 'All of Me', 'John Legend']]],
+      ["perfect", 'en', [['romantic', 'Perfect', 'Ed Sheeran'], ['energetic', 'Perfect', 'Simple Plan']]],
+      ["you've got a friend", 'en', [['party', "You've Got a Friend in Me", 'Randy Newman'], ['romantic', "You've Got a Friend", 'Carole King']]],
+      ["friend in me", 'en', [['party', "You've Got a Friend in Me", 'Randy Newman']]],
+      ["good times", 'en', [['party', 'Good Times', 'Chic']]],
+      ["happy birthday", 'en', [['party', 'Happy Birthday', 'Stevie Wonder']]],
+      ["celebrate", 'en', [['party', 'Celebration', 'Kool & The Gang']]],
+      ["sunshine", 'en', [['party', 'Walking on Sunshine', 'Katrina & The Waves'], ['romantic', "Ain't No Sunshine", 'Bill Withers']]],
+      ["ain't no sunshine", 'en', [['melancholic', "Ain't No Sunshine", 'Bill Withers']]],
+      ["take my hand", 'en', [['romantic', 'I Want to Hold Your Hand', 'The Beatles']]],
+      ["fix you", 'en', [['melancholic', 'Fix You', 'Coldplay']]],
+      ["yellow", 'en', [['romantic', 'Yellow', 'Coldplay']]],
+      ["losing my religion", 'en', [['melancholic', 'Losing My Religion', 'R.E.M.']]],
+      ["hallelujah", 'en', [['melancholic', 'Hallelujah', 'Leonard Cohen'], ['romantic', 'Hallelujah', 'Jeff Buckley']]],
+      ["time after time", 'en', [['romantic', 'Time After Time', 'Cyndi Lauper']]],
+      ["true colors", 'en', [['romantic', 'True Colors', 'Cyndi Lauper']]],
+      ["careless whisper", 'en', [['romantic', 'Careless Whisper', 'George Michael']]],
+      ["sweet child", 'en', [['energetic', "Sweet Child o' Mine", "Guns N' Roses"]]],
+      ["november rain", 'en', [['melancholic', 'November Rain', "Guns N' Roses"]]],
+      ["wonderwall", 'en', [['romantic', 'Wonderwall', 'Oasis']]],
+      ["hotel california", 'en', [['energetic', 'Hotel California', 'Eagles']]],
+      ["bohemian rhapsody", 'en', [['energetic', 'Bohemian Rhapsody', 'Queen']]],
+      ["we are the champions", 'en', [['energetic', 'We Are the Champions', 'Queen']]],
+      ["don't stop me now", 'en', [['party', "Don't Stop Me Now", 'Queen']]],
+      ["i want to break free", 'en', [['energetic', 'I Want to Break Free', 'Queen']]],
+      ["purple rain", 'en', [['melancholic', 'Purple Rain', 'Prince']]],
+      ["heal the world", 'en', [['romantic', 'Heal the World', 'Michael Jackson']]],
+      ["happy", 'en', [['party', 'Happy', 'Pharrell Williams']]],
+      ["counting stars", 'en', [['party', 'Counting Stars', 'OneRepublic']]],
+      ["someone you loved", 'en', [['melancholic', 'Someone You Loved', 'Lewis Capaldi']]],
+      ["shallow", 'en', [['melancholic', 'Shallow', 'Lady Gaga & Bradley Cooper']]],
+      ["say you won't let go", 'en', [['romantic', "Say You Won't Let Go", 'James Arthur']]],
+      ["just the way you are", 'en', [['romantic', 'Just the Way You Are', 'Bruno Mars']]],
+      ["marry you", 'en', [['party', 'Marry You', 'Bruno Mars']]],
+      ["i'm sorry", 'en', [['melancholic', 'Sorry Seems to Be the Hardest Word', 'Elton John'], ['party', 'Sorry', 'Justin Bieber']]],
+      ["sorry", 'en', [['melancholic', 'Sorry Seems to Be the Hardest Word', 'Elton John'], ['party', 'Sorry', 'Justin Bieber']]],
+      ["thank you", 'en', [['romantic', 'Thank You', 'Dido'], ['energetic', 'Thank You', 'Led Zeppelin']]],
+      ["never give up", 'en', [['energetic', 'Never Gonna Give You Up', 'Rick Astley']]],
+      ["i love you", 'en', [['romantic', 'I Just Called to Say I Love You', 'Stevie Wonder']]],
+      ["love you", 'en', [['romantic', 'I Will Always Love You', 'Whitney Houston'], ['party', 'Love You Like a Love Song', 'Selena Gomez']]],
+      ["take on me", 'en', [['party', 'Take on Me', 'a-ha']]],
+      ["total eclipse of the heart", 'en', [['melancholic', 'Total Eclipse of the Heart', 'Bonnie Tyler']]],
+      ["unchained melody", 'en', [['romantic', 'Unchained Melody', 'The Righteous Brothers']]],
+      ["my heart will go on", 'en', [['romantic', 'My Heart Will Go On', 'Céline Dion']]],
+      ["crazy in love", 'en', [['party', 'Crazy in Love', 'Beyoncé']]],
+      ["crazy", 'en', [['melancholic', 'Crazy', 'Gnarls Barkley'], ['romantic', 'Crazy', 'Aerosmith']]],
+      ["beautiful day", 'en', [['party', 'Beautiful Day', 'U2']]],
+      ["it's my life", 'en', [['energetic', "It's My Life", 'Bon Jovi']]],
+      ["livin' on a prayer", 'en', [['energetic', "Livin' on a Prayer", 'Bon Jovi']]],
+      ["another brick in the wall", 'en', [['energetic', 'Another Brick in the Wall', 'Pink Floyd']]],
+      ["creep", 'en', [['melancholic', 'Creep', 'Radiohead']]],
+      ["zombie", 'en', [['energetic', 'Zombie', 'The Cranberries']]],
+      ["dreams", 'en', [['romantic', 'Dreams', 'Fleetwood Mac'], ['melancholic', 'Dreams', 'The Cranberries']]],
+      ["believer", 'en', [['energetic', 'Believer', 'Imagine Dragons']]],
+      ["demons", 'en', [['melancholic', 'Demons', 'Imagine Dragons']]],
+      ["titanium", 'en', [['energetic', 'Titanium', 'David Guetta & Sia']]],
+      ["chasing cars", 'en', [['romantic', 'Chasing Cars', 'Snow Patrol']]],
+      ["hurt", 'en', [['melancholic', 'Hurt', 'Johnny Cash']]],
+      ["let her go", 'en', [['melancholic', 'Let Her Go', 'Passenger']]],
+      ["stay with me", 'en', [['melancholic', 'Stay With Me', 'Sam Smith']]],
+      ["all you need is love", 'en', [['romantic', 'All You Need Is Love', 'The Beatles']]],
 
-      // English
-      { phrase: 'my way', lang: 'en', variants: [
-        { mood: 'melancholic', title: 'My Way', artist: 'Frank Sinatra', query: 'My Way Frank Sinatra' },
-        { mood: 'energetic', title: 'My Way', artist: 'Limp Bizkit', query: 'My Way Limp Bizkit' },
-        { mood: 'party', title: 'My Way', artist: 'Calvin Harris', query: 'My Way Calvin Harris' }
-      ]},
-      { phrase: 'the one', lang: 'en', variants: [
-        { mood: 'melancholic', title: 'One', artist: 'U2', query: 'One U2' },
-        { mood: 'energetic', title: 'One', artist: 'Metallica', query: 'One Metallica' },
-        { mood: 'romantic', title: 'The One', artist: 'Elton John', query: 'The One Elton John' }
-      ]},
-      { phrase: 'lonely', lang: 'en', variants: [
-        { mood: 'melancholic', title: 'Lonely', artist: 'Akon', query: 'Lonely Akon' },
-        { mood: 'energetic', title: 'Boulevard of Broken Dreams', artist: 'Green Day', query: 'Boulevard of Broken Dreams Green Day' }
-      ]},
-      { phrase: 'at last', lang: 'en', variants: [
-        { mood: 'romantic', title: 'At Last', artist: 'Etta James', query: 'At Last Etta James' }
-      ]},
-      { phrase: 'all of me', lang: 'en', variants: [
-        { mood: 'romantic', title: 'All of Me', artist: 'John Legend', query: 'All of Me John Legend' }
-      ]},
-      { phrase: 'wonderful world', lang: 'en', variants: [
-        { mood: 'romantic', title: 'What a Wonderful World', artist: 'Louis Armstrong', query: 'What a Wonderful World Louis Armstrong' }
-      ]},
-      { phrase: 'friend in me', lang: 'en', variants: [
-        { mood: 'party', title: "You've Got a Friend in Me", artist: 'Randy Newman', query: 'Youve Got a Friend in Me Randy Newman' }
-      ]},
-      { phrase: 'good times', lang: 'en', variants: [
-        { mood: 'party', title: 'Good Times', artist: 'Chic', query: 'Good Times Chic' }
-      ]},
-      { phrase: 'happy birthday', lang: 'en', variants: [
-        { mood: 'party', title: 'Happy Birthday', artist: 'Stevie Wonder', query: 'Happy Birthday Stevie Wonder' }
-      ]},
-      { phrase: 'celebrate', lang: 'en', variants: [
-        { mood: 'party', title: 'Celebration', artist: 'Kool & The Gang', query: 'Celebration Kool The Gang' }
-      ]},
-      { phrase: 'sunshine', lang: 'en', variants: [
-        { mood: 'party', title: 'Walking on Sunshine', artist: 'Katrina & The Waves', query: 'Walking on Sunshine Katrina' }
-      ]},
-      { phrase: 'take my hand', lang: 'en', variants: [
-        { mood: 'romantic', title: 'I Want to Hold Your Hand', artist: 'The Beatles', query: 'I Want to Hold Your Hand Beatles' }
-      ]},
+      // === ROMANIAN ===
+      ['fara tine', 'ro', [['melancholic', 'Fără tine', 'B.U.G. Mafia'], ['romantic', 'Fără tine', 'Andra']]],
+      ['dragostea din tei', 'ro', [['party', 'Dragostea Din Tei', 'O-Zone']]],
+      ['tot ce am', 'ro', [['romantic', 'Tot ce am', 'Smiley']]],
+      ['drumul spre casa', 'ro', [['romantic', 'Acasă', 'Smiley']]],
+      ['acasa', 'ro', [['romantic', 'Acasă', 'Smiley']]],
+      ['prieteni pe viata', 'ro', [['party', 'Prietenii', 'Voltaj', 'Voltaj prieteni']]],
+      ['prieteni', 'ro', [['party', 'Prietenii', 'Voltaj', 'Voltaj prieteni']]],
+      ['drumul meu', 'ro', [['energetic', 'Dacă ploaia s-ar opri', 'Cargo'], ['melancholic', 'My Way', 'Frank Sinatra']]],
+      ['daca ploaia s ar opri', 'ro', [['melancholic', 'Dacă ploaia s-ar opri', 'Cargo']]],
+      ['ziua ta', 'ro', [['party', 'De ziua ta', '3 Sud Est'], ['romantic', 'La mulți ani', 'Andra']]],
+      ['la multi ani', 'ro', [['party', 'La Mulți Ani', 'Andra']]],
+      ['ingeras', 'ro', [['romantic', 'Înger și demon', 'Holograf', 'Holograf']]],
+      ['vara nu dorm', 'ro', [['party', 'Vara nu dorm', 'Connect-R']]],
+      ['vara', 'ro', [['party', 'Vara nu dorm', 'Connect-R'], ['romantic', 'Vara asta', 'Vama']]],
+      ['soare', 'ro', [['party', 'Soare din nori', 'Delia', 'Delia Soare']]],
+      ['invingator', 'ro', [['energetic', 'We Are the Champions', 'Queen']]],
+      ['te iubesc', 'ro', [['romantic', 'Te iubesc', 'Andra'], ['melancholic', 'Sub pielea mea', "Carla's Dreams"]]],
+      ['mi e dor de tine', 'ro', [['melancholic', 'Dor de tine', 'Voltaj']]],
+      ['dor de tine', 'ro', [['melancholic', 'Dor de tine', 'Voltaj']]],
+      ['o mie', 'ro', [['romantic', 'O mie', 'Aliona Moon']]],
+      ['perfect fara tine', 'ro', [['melancholic', 'Perfect fără tine', 'Vama']]],
+      ['epilog', 'ro', [['melancholic', 'Epilog', 'Vama Veche']]],
+      ['18 ani', 'ro', [['party', '18 ani', 'Vama Veche']]],
+      ['floare de colt', 'ro', [['romantic', 'Floare de colț', 'Ducu Bertzi']]],
+      ['andrii popa', 'ro', [['energetic', 'Andrii Popa', 'Phoenix']]],
+      ['in umbra marelui urss', 'ro', [['energetic', 'În umbra marelui U.R.S.S.', 'Phoenix']]],
+      ['sa nu mi iei niciodata dragostea', 'ro', [['romantic', 'Să nu-mi iei niciodată dragostea', 'Holograf']]],
+      ['ti am dat un inel', 'ro', [['romantic', 'Ți-am dat un inel', 'Holograf']]],
+      ['ochii tai', 'ro', [['romantic', 'Ochii tăi', 'Holograf']]],
+      ['strada ta', 'ro', [['melancholic', 'Strada ta', 'Iris']]],
+      ['floare de iris', 'ro', [['romantic', 'Floare de Iris', 'Iris']]],
+      ['pe aripi de vant', 'ro', [['melancholic', 'Pe aripi de vânt', 'Delia & Kaira']]],
+      ['ce are ea', 'ro', [['melancholic', 'Ce are ea', 'Delia']]],
+      ['visele', 'ro', [['melancholic', 'Visele', 'Irina Rimes']]],
+      ['cosmos', 'ro', [['romantic', 'Cosmos', 'Irina Rimes']]],
+      ['weekend', 'ro', [['romantic', 'Weekend', 'The Motans & Delia']]],
+      ['versus', 'ro', [['melancholic', 'Versus', 'The Motans']]],
+      ['imperfect', 'ro', [['melancholic', 'Imperfect', "Carla's Dreams"]]],
+      ['eroina', 'ro', [['melancholic', 'Sub pielea mea', "Carla's Dreams"]]],
+      ['hopa hopa', 'ro', [['party', 'Hopa Hopa', 'Bosquito']]],
+      ['pepita', 'ro', [['party', 'Pepita', 'Bosquito']]],
+      ['amintirile', 'ro', [['melancholic', 'Amintirile', '3 Sud Est']]],
+      ['emotii', 'ro', [['romantic', 'Emoții', '3 Sud Est']]],
+      ['inevitabil va fi bine', 'ro', [['party', 'Inevitabil va fi bine', 'Andra']]],
+      ['iubirea schimba tot', 'ro', [['romantic', 'Iubirea schimbă tot', 'Andra']]],
+      ['de la capat', 'ro', [['energetic', 'De la capăt', 'Voltaj']]],
+      ['20 de ani', 'ro', [['party', '20', 'Voltaj']]],
+      ['basul si cu toba mare', 'ro', [['energetic', 'Basul și cu toba mare', 'Vița de Vie']]],
 
-      // German
-      { phrase: 'uber den wolken', lang: 'de', variants: [
-        { mood: 'melancholic', title: 'Über den Wolken', artist: 'Reinhard Mey', query: 'Uber den Wolken Reinhard Mey' }
-      ]},
-      { phrase: 'atemlos', lang: 'de', variants: [
-        { mood: 'party', title: 'Atemlos durch die Nacht', artist: 'Helene Fischer', query: 'Atemlos durch die Nacht Helene Fischer' }
-      ]},
-      { phrase: '99 luftballons', lang: 'de', variants: [
-        { mood: 'energetic', title: '99 Luftballons', artist: 'Nena', query: '99 Luftballons Nena' }
-      ]},
-      { phrase: 'tage wie diese', lang: 'de', variants: [
-        { mood: 'party', title: 'Tage wie diese', artist: 'Die Toten Hosen', query: 'Tage wie diese Die Toten Hosen' }
-      ]},
-
-      // French
-      { phrase: 'la vie en rose', lang: 'fr', variants: [
-        { mood: 'romantic', title: 'La Vie en Rose', artist: 'Édith Piaf', query: 'La Vie en Rose Edith Piaf' }
-      ]},
-      { phrase: 'formidable', lang: 'fr', variants: [
-        { mood: 'melancholic', title: 'Formidable', artist: 'Stromae', query: 'Formidable Stromae' }
-      ]},
-      { phrase: 'je te promets', lang: 'fr', variants: [
-        { mood: 'romantic', title: 'Je te promets', artist: 'Johnny Hallyday', query: 'Je te promets Johnny Hallyday' }
-      ]},
-
-      // Spanish
-      { phrase: 'vivir mi vida', lang: 'es', variants: [
-        { mood: 'party', title: 'Vivir Mi Vida', artist: 'Marc Anthony', query: 'Vivir Mi Vida Marc Anthony' }
-      ]},
-      { phrase: 'despacito', lang: 'es', variants: [
-        { mood: 'party', title: 'Despacito', artist: 'Luis Fonsi', query: 'Despacito Luis Fonsi' }
-      ]},
-      { phrase: 'bailando', lang: 'es', variants: [
-        { mood: 'party', title: 'Bailando', artist: 'Enrique Iglesias', query: 'Bailando Enrique Iglesias' }
-      ]}
+      // === GERMAN, FRENCH, SPANISH ===
+      ['uber den wolken', 'de', [['melancholic', 'Über den Wolken', 'Reinhard Mey']]],
+      ['atemlos', 'de', [['party', 'Atemlos durch die Nacht', 'Helene Fischer']]],
+      ['99 luftballons', 'de', [['energetic', '99 Luftballons', 'Nena']]],
+      ['tage wie diese', 'de', [['party', 'Tage wie diese', 'Die Toten Hosen']]],
+      ['du hast', 'de', [['energetic', 'Du Hast', 'Rammstein']]],
+      ['la vie en rose', 'fr', [['romantic', 'La Vie en Rose', 'Édith Piaf']]],
+      ['formidable', 'fr', [['melancholic', 'Formidable', 'Stromae']]],
+      ['je te promets', 'fr', [['romantic', 'Je te promets', 'Johnny Hallyday']]],
+      ['alors on danse', 'fr', [['party', 'Alors on danse', 'Stromae']]],
+      ['vivir mi vida', 'es', [['party', 'Vivir Mi Vida', 'Marc Anthony']]],
+      ['despacito', 'es', [['party', 'Despacito', 'Luis Fonsi']]],
+      ['bailando', 'es', [['party', 'Bailando', 'Enrique Iglesias']]]
     ];
+
+    const DICTIONARY = RAW_DICT.map(([phrase, lang, variants]) => ({
+      phrase,
+      lang,
+      variants: variants.map(v => ({
+        mood: v[0],
+        title: v[1],
+        artist: v[2],
+        query: v[3] || (v[1] + ' ' + v[2])
+      }))
+    }));
 
     // ==================== STATE ====================
     const state = {
-      mode: 'editor', // 'editor' | 'card'
+      mode: 'editor',
       theme: 'dark',
-      occasion: 'letter',
-      lang: 'ro',
+      occasion: 'friend',
+      lang: 'all',
       mood: 'auto',
       detectedMood: 'romantic',
       to: '',
       from: '',
       ev: { ti: '', dt: '', lo: '', rs: '' },
       text: '',
-      // pinnedMap: normalizedPhrase -> { phrase, trackId, title, artist, previewUrl, artworkUrl, trackViewUrl, pinned: true }
       pinnedMap: new Map(),
-      // autoChoiceMap: normalizedPhrase -> track object (user-changed or mood-picked)
       autoChoiceMap: new Map(),
-      // activeMatches: array of { start, end, phrase, norm, pinned, track }
       matches: [],
-      // modal context
       modalPhrase: '',
       modalNorm: '',
-      // audio player
       audio: new Audio(),
       playingKey: null,
       playAllActive: false,
@@ -1209,18 +1204,19 @@
       playAllTimer: null,
       playAllStartTs: 0,
       playAllRaf: null,
-      trackCache: new Map() // query/id -> track info
+      trackCache: new Map(),
+      cardTracksOpen: false
     };
 
-    const PLAY_ALL_DURATION = 12000; // 12 seconds per track
+    const PLAY_ALL_DURATION = 12000;
 
     // ==================== DOM REFS ====================
     const $ = (id) => document.getElementById(id);
     const els = {
       editorView: $('editorView'),
       cardView: $('cardView'),
-      btnModeToggle: $('btnModeToggle'),
       btnThemeToggle: $('btnThemeToggle'),
+      btnCardTheme: $('btnCardTheme'),
       alertBanner: $('alertBanner'),
       occasionChips: $('occasionChips'),
       langChips: $('langChips'),
@@ -1235,7 +1231,7 @@
       evRsvp: $('evRsvp'),
       letterInput: $('letterInput'),
       moodBadge: $('moodBadge'),
-      btnAnalyzeMood: $('btnAnalyzeMood'),
+      btnScanItunes: $('btnScanItunes'),
       moodSelect: $('moodSelect'),
       btnManualSearch: $('btnManualSearch'),
       interactiveLetter: $('interactiveLetter'),
@@ -1255,17 +1251,20 @@
       cardSalutation: $('cardSalutation'),
       cardBody: $('cardBody'),
       cardSignature: $('cardSignature'),
-      mpCover: $('mpCover'),
-      mpStatus: $('mpStatus'),
+      simplePlayer: $('simplePlayer'),
       mpTitle: $('mpTitle'),
       mpArtist: $('mpArtist'),
-      mpLinks: $('mpLinks'),
       mpProgress: $('mpProgress'),
+      spNav: $('spNav'),
       btnPlayAll: $('btnPlayAll'),
       btnPrevTrack: $('btnPrevTrack'),
       btnNextTrack: $('btnNextTrack'),
+      cardTracksToggleWrap: $('cardTracksToggleWrap'),
+      btnToggleCardTracks: $('btnToggleCardTracks'),
+      cardTracksDrawer: $('cardTracksDrawer'),
       cardTrackList: $('cardTrackList'),
       btnCreateOwn: $('btnCreateOwn'),
+      btnEditCard: $('btnEditCard'),
       // Selection & Modal
       selectionFloat: $('selectionFloat'),
       songModal: $('songModal'),
@@ -1300,12 +1299,14 @@
       els.alertBanner.classList.add('show');
     }
 
+    // Typo-tolerant normalization (collapses 3+ repeated letters, removes diacritics & punctuation)
     function normalizeText(str) {
       return (str || '')
         .toLowerCase()
         .replace(/ß/g, 'ss')
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
+        .replace(/([a-z])\1{2,}/g, '$1$1')
         .replace(/[^a-z0-9\s]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
@@ -1337,7 +1338,7 @@
       );
     }
 
-    // ==================== URL-SAFE COMPRESSION (v5.3) ====================
+    // ==================== URL-SAFE COMPRESSION ====================
     function bytesToBase64Url(bytes) {
       let binary = '';
       const chunkSize = 0x8000;
@@ -1365,9 +1366,7 @@
           writer.write(utf8);
           writer.close();
           const compressed = new Uint8Array(await new Response(cs.readable).arrayBuffer());
-          if (compressed.length < utf8.length) {
-            return 'z' + bytesToBase64Url(compressed);
-          }
+          if (compressed.length < utf8.length) return 'z' + bytesToBase64Url(compressed);
         } catch (_) {}
       }
       return 'u' + bytesToBase64Url(utf8);
@@ -1378,7 +1377,7 @@
       const prefix = encoded[0];
       const body = encoded.slice(1);
       if (prefix === 'z') {
-        if (typeof DecompressionStream !== 'function') throw new Error('Browser does not support DecompressionStream');
+        if (typeof DecompressionStream !== 'function') throw new Error('No DecompressionStream');
         const bytes = base64UrlToBytes(body);
         const ds = new DecompressionStream('deflate-raw');
         const writer = ds.writable.getWriter();
@@ -1389,35 +1388,24 @@
       } else if (prefix === 'u') {
         return new TextDecoder().decode(base64UrlToBytes(body));
       } else {
-        // Legacy fallback (v5.2 raw base64)
         return decodeURIComponent(escape(atob(encoded)));
       }
     }
 
-    // ==================== iTUNES API (SEARCH & BATCH LOOKUP) ====================
+    // ==================== iTUNES API ====================
     function jsonpFetch(url) {
       return new Promise((resolve, reject) => {
         const cbName = 'sl_cb_' + Math.random().toString(36).slice(2);
         const script = document.createElement('script');
-        const timer = setTimeout(() => {
-          cleanup();
-          reject(new Error('JSONP timeout'));
-        }, 9000);
+        const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 9000);
         function cleanup() {
           clearTimeout(timer);
           try { delete window[cbName]; } catch (_) { window[cbName] = undefined; }
           if (script.parentNode) script.parentNode.removeChild(script);
         }
-        window[cbName] = (data) => {
-          cleanup();
-          resolve(data);
-        };
-        script.onerror = () => {
-          cleanup();
-          reject(new Error('JSONP error'));
-        };
-        const sep = url.includes('?') ? '&' : '?';
-        script.src = url + sep + 'callback=' + cbName;
+        window[cbName] = (data) => { cleanup(); resolve(data); };
+        script.onerror = () => { cleanup(); reject(new Error('err')); };
+        script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cbName;
         document.head.appendChild(script);
       });
     }
@@ -1442,7 +1430,7 @@
     }
 
     async function searchItunes(term, country, limit) {
-      const c = country || LANG_COUNTRY[state.lang] || 'RO';
+      const c = country || LANG_COUNTRY[state.lang] || 'US';
       const url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(term) +
         '&media=music&entity=song&country=' + encodeURIComponent(c) +
         '&limit=' + (limit || 10);
@@ -1454,7 +1442,6 @@
       const unique = Array.from(new Set(trackIds.filter(Boolean).map(Number).filter(n => !isNaN(n))));
       const map = new Map();
       if (!unique.length) return map;
-      // iTunes lookup supports comma-separated IDs
       const url = 'https://itunes.apple.com/lookup?id=' + unique.join(',');
       try {
         const data = await itunesFetch(url);
@@ -1473,20 +1460,16 @@
     async function ensureTrackResolved(track) {
       if (!track) return track;
       if (track.trackId && track.previewUrl) return track;
-      const cacheKey = track.trackId ? ('id:' + track.trackId) : ('q:' + normalizeText((track.query || (track.title + ' ' + track.artist))));
-      if (state.trackCache.has(cacheKey)) {
-        return Object.assign({}, track, state.trackCache.get(cacheKey));
-      }
+      const cacheKey = track.trackId ? ('id:' + track.trackId) : ('q:' + normalizeText(track.query || (track.title + ' ' + track.artist)));
+      if (state.trackCache.has(cacheKey)) return Object.assign({}, track, state.trackCache.get(cacheKey));
       try {
         if (track.trackId) {
           const batch = await lookupItunesBatch([track.trackId]);
-          if (batch.has(Number(track.trackId))) {
-            return Object.assign({}, track, batch.get(Number(track.trackId)));
-          }
+          if (batch.has(Number(track.trackId))) return Object.assign({}, track, batch.get(Number(track.trackId)));
         } else {
           const q = track.query || ((track.title || '') + ' ' + (track.artist || '')).trim();
           if (q) {
-            const results = await searchItunes(q, LANG_COUNTRY[state.lang] || 'RO', 1);
+            const results = await searchItunes(q, LANG_COUNTRY[state.lang] || 'US', 1);
             if (results.length) {
               state.trackCache.set(cacheKey, results[0]);
               return Object.assign({}, track, results[0]);
@@ -1497,25 +1480,21 @@
       return track;
     }
 
-    // ==================== MOOD & MATCHING ENGINE ====================
+    // ==================== SMART TYPO-TOLERANT MATCHING ENGINE ====================
     function detectMoodFromText(text) {
       const n = normalizeText(text);
       const scores = { melancholic: 0, energetic: 0, romantic: 0, party: 0 };
       const kw = {
-        melancholic: ['trist', 'dor', 'fara tine', 'singur', 'plang', 'lacrimi', 'uit', 'lonely', 'sad', 'miss', 'cry', 'broken', 'traum', 'formidable'],
+        melancholic: ['trist', 'dor', 'fara tine', 'singur', 'plang', 'lacrimi', 'uit', 'lonely', 'sad', 'miss', 'hurt', 'hurts', 'cry', 'broken', 'looking for', 'formidable'],
         energetic: ['putere', 'lupta', 'invingator', 'rock', 'foc', 'liber', 'strong', 'power', 'fire', 'fight', 'champion', 'luftballons'],
-        romantic: ['iubesc', 'dragoste', 'inima', 'nunta', 'casatorim', 'inger', 'perfect', 'love', 'heart', 'wedding', 'forever', 'rose', 'promets', 'boda'],
+        romantic: ['iubesc', 'dragoste', 'inima', 'nunta', 'casatorim', 'inger', 'perfect', 'love', 'heart', 'wedding', 'forever', 'rose', 'promets'],
         party: ['petrecere', 'la multi ani', 'prieteni', 'ziua ta', 'pahar', 'dans', 'party', 'birthday', 'celebrate', 'drink', 'friend', 'atemlos', 'bailando', 'vivir']
       };
-      Object.keys(kw).forEach(m => {
-        kw[m].forEach(w => { if (n.includes(w)) scores[m] += 1; });
-      });
+      Object.keys(kw).forEach(m => { kw[m].forEach(w => { if (n.includes(w)) scores[m] += 1; }); });
       if (state.occasion === 'wedding' || state.occasion === 'baptism') scores.romantic += 1.5;
       if (state.occasion === 'birthday' || state.occasion === 'friend') scores.party += 1.5;
       let best = 'romantic', bestVal = -1;
-      Object.keys(scores).forEach(m => {
-        if (scores[m] > bestVal) { bestVal = scores[m]; best = m; }
-      });
+      Object.keys(scores).forEach(m => { if (scores[m] > bestVal) { bestVal = scores[m]; best = m; } });
       return best;
     }
 
@@ -1528,23 +1507,37 @@
       return Object.assign({}, exact || entry.variants[0]);
     }
 
-    // Build normalized character index map so we can match diacritic-insensitively on raw text
+    // Maps raw text to a normalized string while keeping exact character index mapping AND collapsing 3+ repeated letters (e.g., "stilll" -> "still")
     function buildNormIndex(rawText) {
-      let normChars = [];
-      let origIndices = [];
+      const normChars = [];
+      const origIndices = [];
+      let lastChar = '';
+      let runLen = 0;
+
       for (let i = 0; i < rawText.length; i++) {
         const ch = rawText[i];
         let rep = ch.toLowerCase();
         if (rep === 'ß') {
           normChars.push('s', 's');
           origIndices.push(i, i);
+          lastChar = 's';
+          runLen = 2;
           continue;
         }
         rep = rep.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         if (/^[a-z0-9]$/.test(rep)) {
+          if (rep === lastChar) {
+            runLen++;
+            if (runLen > 2) continue; // collapse 3+ identical letters (stilll -> still)
+          } else {
+            lastChar = rep;
+            runLen = 1;
+          }
           normChars.push(rep);
           origIndices.push(i);
         } else {
+          lastChar = ' ';
+          runLen = 1;
           normChars.push(' ');
           origIndices.push(i);
         }
@@ -1552,9 +1545,28 @@
       return { normStr: normChars.join(''), origIndices };
     }
 
-    function isWordChar(c) {
-      return c && /[a-z0-9]/.test(c);
+    // Builds a regex from a phrase where apostrophes allow optional whitespace (haven't matches haven't, haven t, havent; i'm matches i'm, i' m, im)
+    function phraseToFlexibleRegex(phrase) {
+      const cleaned = (phrase || '')
+        .toLowerCase()
+        .replace(/ß/g, 'ss')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/([a-z])\1{2,}/g, '$1$1')
+        .replace(/['’`]/g, '\u0001') // temporary marker for apostrophe
+        .replace(/[^a-z0-9\s\u0001]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const pattern = cleaned
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        .replace(/\u0001/g, '\\s*')
+        .replace(/\s+/g, '\\s+');
+
+      return new RegExp(pattern, 'g');
     }
+
+    function isWordChar(c) { return c && /[a-z0-9]/.test(c); }
 
     function findMatchesInText() {
       const raw = state.text || '';
@@ -1574,29 +1586,29 @@
       // 1. Pinned phrases (highest priority)
       state.pinnedMap.forEach((item, normKey) => {
         if (!normKey) return;
-        candidates.push({ norm: normKey, pinned: true, priority: 2, track: item });
+        candidates.push({ rawPhrase: item.phrase || normKey, norm: normKey, pinned: true, priority: 3, track: item });
       });
 
-      // 2. Dictionary phrases for selected language
+      // 2. ALL dictionary phrases (selected language gets slightly higher priority, never blocks other languages!)
       DICTIONARY.forEach(entry => {
-        if (state.lang !== 'all' && entry.lang !== state.lang) return;
-        if (state.pinnedMap.has(entry.phrase)) return;
-        const chosen = state.autoChoiceMap.get(entry.phrase) || pickVariantForMood(entry, mood);
-        candidates.push({ norm: entry.phrase, pinned: false, priority: 1, track: chosen });
+        const entryNorm = normalizeText(entry.phrase);
+        if (state.pinnedMap.has(entryNorm)) return;
+        const chosen = state.autoChoiceMap.get(entryNorm) || pickVariantForMood(entry, mood);
+        const langBoost = (state.lang !== 'all' && entry.lang === state.lang) ? 2 : 1;
+        candidates.push({ rawPhrase: entry.phrase, norm: entryNorm, pinned: false, priority: langBoost, track: chosen });
       });
 
-      // Sort: pinned first, then longest phrase first
-      candidates.sort((a, b) => (b.priority - a.priority) || (b.norm.length - a.norm.length));
+      // Sort: pinned first, then longest phrase first, then language preference
+      candidates.sort((a, b) => (b.pinned - a.pinned) || (b.norm.length - a.norm.length) || (b.priority - a.priority));
 
       const occupied = new Uint8Array(raw.length);
       const found = [];
 
       candidates.forEach(cand => {
-        // Match cand.norm with flexible whitespace in normStr
-        const escaped = cand.norm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
-        const re = new RegExp(escaped, 'g');
+        const re = phraseToFlexibleRegex(cand.rawPhrase);
         let m;
         while ((m = re.exec(normStr)) !== null) {
+          if (!m[0].length) break;
           const nStart = m.index;
           const nEnd = m.index + m[0].length - 1;
           const beforeOk = nStart === 0 || !isWordChar(normStr[nStart - 1]);
@@ -1604,7 +1616,11 @@
           if (!beforeOk || !afterOk) continue;
 
           const origStart = origIndices[nStart];
-          const origEnd = origIndices[nEnd] + 1;
+          // Extend origEnd to include any collapsed trailing repeated letters (e.g. "stilll")
+          let origEnd = origIndices[nEnd] + 1;
+          while (origEnd < raw.length && raw[origEnd].toLowerCase() === raw[origEnd - 1].toLowerCase() && /[a-z]/i.test(raw[origEnd])) {
+            origEnd++;
+          }
 
           let overlap = false;
           for (let i = origStart; i < origEnd; i++) {
@@ -1621,13 +1637,86 @@
             pinned: cand.pinned,
             track: cand.track
           });
-          // Match first occurrence per phrase to keep soundtrack clean
           break;
         }
       });
 
       found.sort((a, b) => a.start - b.start);
       state.matches = found;
+    }
+
+    // Auto-Scan unmatched clauses on iTunes!
+    async function scanUnmatchedClausesOnItunes() {
+      const raw = state.text || '';
+      if (!raw.trim()) {
+        showToast('Scrie mai întâi un mesaj.');
+        return;
+      }
+      els.btnScanItunes.disabled = true;
+      els.btnScanItunes.textContent = '⏳ Se scanează pe iTunes...';
+
+      try {
+        // Extract text segments NOT already covered by matches
+        const occupied = new Uint8Array(raw.length);
+        state.matches.forEach(m => { for (let i = m.start; i < m.end; i++) occupied[i] = 1; });
+
+        const gaps = [];
+        let cur = '';
+        for (let i = 0; i < raw.length; i++) {
+          if (!occupied[i]) cur += raw[i];
+          else { if (cur.trim()) gaps.push(cur); cur = ''; }
+        }
+        if (cur.trim()) gaps.push(cur);
+
+        // Split gaps by punctuation & common connectors into candidate clauses
+        const clauses = [];
+        gaps.forEach(g => {
+          g.split(/[,.;:!?\n]+|\b(?:cause|because|and|but|sau|dar|si|și|ca|că)\b/i).forEach(part => {
+            const clean = part.trim().replace(/^['"\-–—\s]+|['"\-–—\s]+$/g, '');
+            const words = clean.split(/\s+/).filter(Boolean);
+            if (words.length >= 2 && words.length <= 8) {
+              clauses.push(clean);
+            }
+          });
+        });
+
+        const toQuery = clauses.slice(0, 6);
+        if (!toQuery.length) {
+          showToast('Toate frazele principale au deja piese asociate!');
+          return;
+        }
+
+        let added = 0;
+        const country = LANG_COUNTRY[state.lang] || 'US';
+
+        for (const clause of toQuery) {
+          const normClause = normalizeText(clause);
+          if (!normClause || state.pinnedMap.has(normClause)) continue;
+          const results = await searchItunes(clause, country, 5);
+          // Find a track whose normalized title closely matches the clause or is contained in it
+          const hit = results.find(r => {
+            const nt = normalizeText(r.title.replace(/\(.*?\)|\[.*?\]/g, ''));
+            if (!nt || nt.length < 4) return false;
+            return nt === normClause || normClause.includes(nt) || (normClause.length >= 8 && nt.includes(normClause));
+          });
+          if (hit) {
+            const cleanTitle = hit.title.replace(/\(.*?\)|\[.*?\]/g, '').trim();
+            const normTitle = normalizeText(cleanTitle);
+            // If the song title is a sub-phrase of the clause, bind to that sub-phrase; otherwise bind to the clause
+            const bindPhrase = normClause.includes(normTitle) && normTitle.length >= 4 ? cleanTitle : clause;
+            state.pinnedMap.set(normalizeText(bindPhrase), Object.assign({}, hit, { phrase: bindPhrase, pinned: true }));
+            added++;
+          }
+        }
+
+        renderEditor();
+        showToast(added ? ('✨ Am găsit încă ' + added + (added === 1 ? ' piesă' : ' piese') + ' pe iTunes!') : 'Nu am găsit potriviri exacte noi. Poți selecta manual orice cuvânt!');
+      } catch (_) {
+        showToast('Eroare la scanarea iTunes.');
+      } finally {
+        els.btnScanItunes.disabled = false;
+        els.btnScanItunes.textContent = '✨ Găsește piese extra pe iTunes';
+      }
     }
 
     // ==================== RENDERING ====================
@@ -1637,16 +1726,13 @@
 
       function wrapPlain(segment) {
         if (!interactiveWords) return escHtml(segment);
-        // Split words so single click on a word works easily
         return segment.replace(/([^\s.,!?;:()"'„”«»\-—]+)/g, (w) => {
           return '<span class="word-plain" data-word="' + escHtml(w) + '">' + escHtml(w) + '</span>';
         });
       }
 
       matches.forEach((m, idx) => {
-        if (m.start > cursor) {
-          html += wrapPlain(raw.slice(cursor, m.start));
-        }
+        if (m.start > cursor) html += wrapPlain(raw.slice(cursor, m.start));
         const key = 'match-' + idx;
         const isPlaying = state.playingKey === key;
         const cls = 'phrase-hit' + (m.pinned ? ' pinned' : '') + (isPlaying ? ' playing' : '');
@@ -1656,15 +1742,13 @@
         cursor = m.end;
       });
 
-      if (cursor < raw.length) {
-        html += wrapPlain(raw.slice(cursor));
-      }
-      return html || '<span style="color:var(--text-muted)">Scrie un mesaj mai sus pentru a vedea potrivirile muzicale...</span>';
+      if (cursor < raw.length) html += wrapPlain(raw.slice(cursor));
+      return html || '<span style="color:var(--text-muted)">Scrie un mesaj mai sus pentru a vedea melodiile detectate...</span>';
     }
 
     function renderTrackList(container, matches, isCard) {
       if (!matches.length) {
-        container.innerHTML = '<div style="color:var(--text-muted);font-size:0.86rem;">Nicio piesă asociată încă. Scrie un mesaj sau selectează orice cuvânt din scrisoarea interactivă.</div>';
+        container.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Nicio piesă asociată încă. Scrie un mesaj sau apasă pe orice cuvânt de mai sus.</div>';
         return;
       }
 
@@ -1672,10 +1756,8 @@
         const key = 'match-' + idx;
         const isPlaying = state.playingKey === key;
         const t = m.track || {};
-        const coverHtml = t.artworkUrl
-          ? '<img src="' + escHtml(t.artworkUrl) + '" alt="" loading="lazy" />'
-          : '🎵';
-        const playLabel = isPlaying ? '⏸ Pauză' : '▶ Play';
+        const coverHtml = t.artworkUrl ? '<img src="' + escHtml(t.artworkUrl) + '" alt="" loading="lazy" />' : '🎵';
+        const playLabel = isPlaying ? '⏸' : '▶';
         const changeBtn = isCard ? '' : '<button type="button" class="btn-xs" data-action="change" data-idx="' + idx + '">🔄 Schimbă</button>';
         const removeBtn = (!isCard && m.pinned) ? '<button type="button" class="btn-xs btn-danger" data-action="unpin" data-norm="' + escHtml(m.norm) + '">✕</button>' : '';
 
@@ -1683,7 +1765,7 @@
           '<div class="track-item' + (isPlaying ? ' is-playing' : '') + '">' +
             '<div class="track-cover">' + coverHtml + '</div>' +
             '<div class="track-meta">' +
-              '<div class="track-phrase' + (m.pinned ? ' pinned' : '') + '">' + (m.pinned ? '📌 Fixat pe: ' : '🎵 Potrivit pe: ') + '„' + escHtml(m.phrase) + '”</div>' +
+              '<div class="track-phrase' + (m.pinned ? ' pinned' : '') + '">„' + escHtml(m.phrase) + '”</div>' +
               '<div class="track-title">' + escHtml(t.title || 'Piesă') + '</div>' +
               '<div class="track-artist">' + escHtml(t.artist || '') + '</div>' +
             '</div>' +
@@ -1711,7 +1793,6 @@
       els.cardShell.className = 'card-shell ' + occ.cls;
       els.cardOccBadge.textContent = occ.label;
 
-      // Event box
       const ev = state.ev || {};
       const hasEvData = !!(ev.ti || ev.dt || ev.lo || ev.rs);
       els.cardEventBox.classList.toggle('hidden', !hasEvData);
@@ -1724,15 +1805,20 @@
         els.cardEventGrid.innerHTML = rows.join('');
       }
 
-      // Salutation & Signature
       els.cardSalutation.classList.toggle('hidden', !state.to.trim());
       els.cardSalutation.textContent = state.to;
       els.cardSignature.classList.toggle('hidden', !state.from.trim());
       els.cardSignature.textContent = state.from;
 
-      // Body & Tracklist
       els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
-      renderTrackList(els.cardTrackList, state.matches, true);
+      els.simplePlayer.classList.toggle('hidden', !state.matches.length);
+      els.cardTracksToggleWrap.classList.toggle('hidden', !state.matches.length);
+      els.btnToggleCardTracks.textContent = (state.cardTracksOpen ? '🎶 Ascunde melodiile ▴' : '🎶 Vezi cele ' + state.matches.length + (state.matches.length === 1 ? ' piesă ▾' : ' melodii ▾'));
+      els.cardTracksDrawer.classList.toggle('hidden', !state.cardTracksOpen || !state.matches.length);
+
+      if (state.cardTracksOpen) {
+        renderTrackList(els.cardTrackList, state.matches, true);
+      }
       updateMiniPlayerUI();
     }
 
@@ -1740,11 +1826,15 @@
       state.mode = mode;
       stopAudio();
       const isCard = mode === 'card';
+      document.body.classList.toggle('card-mode', isCard);
       els.editorView.classList.toggle('hidden', isCard);
       els.cardView.classList.toggle('hidden', !isCard);
-      els.btnModeToggle.classList.toggle('hidden', !isCard);
-      if (isCard) renderCard();
-      else renderEditor();
+      if (isCard) {
+        state.cardTracksOpen = false;
+        renderCard();
+      } else {
+        renderEditor();
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1756,11 +1846,13 @@
       clearTimeout(state.playAllTimer);
       cancelAnimationFrame(state.playAllRaf);
       els.mpProgress.style.width = '0%';
-      els.btnPlayAll.textContent = '▶ Play All';
+      els.btnPlayAll.textContent = '▶';
+      els.spNav.classList.add('hidden');
       els.btnStopAllEditor.classList.add('hidden');
       if (state.mode === 'card') {
         els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
-        renderTrackList(els.cardTrackList, state.matches, true);
+        if (state.cardTracksOpen) renderTrackList(els.cardTrackList, state.matches, true);
+        updateMiniPlayerUI();
       } else {
         els.interactiveLetter.innerHTML = buildHighlightedHtml(state.text, state.matches, true);
         renderTrackList(els.editorTrackList, state.matches, false);
@@ -1771,17 +1863,15 @@
       if (typeof matchIdx === 'number' && state.matches[matchIdx]) {
         const m = state.matches[matchIdx];
         const t = m.track || {};
-        els.mpCover.innerHTML = t.artworkUrl ? '<img src="' + escHtml(t.artworkUrl) + '" alt="" />' : '🎵';
-        els.mpStatus.textContent = (state.playAllActive ? ('Play All (' + (matchIdx + 1) + '/' + state.matches.length + ') • ') : '') + '„' + m.phrase + '”';
-        els.mpTitle.textContent = t.title || 'Piesă';
-        els.mpArtist.textContent = t.artist || '';
-        els.mpLinks.innerHTML = renderPlatformButtonsHtml(t);
+        els.mpTitle.textContent = (t.title || 'Piesă') + (t.artist ? ' — ' + t.artist : '');
+        els.mpArtist.textContent = (state.playAllActive ? ((matchIdx + 1) + '/' + state.matches.length + ' • ') : '') + '„' + m.phrase + '”';
+        els.spNav.classList.toggle('hidden', state.matches.length < 2);
       } else {
-        els.mpCover.innerHTML = '🎵';
-        els.mpStatus.textContent = state.matches.length ? (state.matches.length + ' piese în scrisoare') : 'Nicio piesă';
-        els.mpTitle.textContent = 'Apasă Play All pentru a asculta scrisoarea';
-        els.mpArtist.textContent = 'Fiecare piesă se redă câte 12 secunde';
-        els.mpLinks.innerHTML = '';
+        els.mpTitle.textContent = 'Ascultă scrisoarea';
+        els.mpArtist.textContent = state.matches.length
+          ? (state.matches.length + (state.matches.length === 1 ? ' melodie ascunsă în text' : ' melodii ascunse în text') + ' • apasă Play')
+          : 'Nicio piesă';
+        els.spNav.classList.add('hidden');
       }
     }
 
@@ -1798,9 +1888,8 @@
       clearTimeout(state.playAllTimer);
       cancelAnimationFrame(state.playAllRaf);
 
-      // Resolve preview URL if needed
       if (!m.track.previewUrl) {
-        showToast('Se încarcă preview audio...', 1500);
+        showToast('Se încarcă melodia...', 1400);
         const resolved = await ensureTrackResolved(m.track);
         m.track = resolved;
         if (m.pinned) state.pinnedMap.set(m.norm, Object.assign({}, resolved, { phrase: m.phrase, pinned: true }));
@@ -1818,18 +1907,19 @@
       try {
         state.audio.src = m.track.previewUrl;
         await state.audio.play();
-      } catch (err) {
-        showToast('Apasă din nou Play pentru a porni sunetul pe telefon.');
+      } catch (_) {
+        showToast('Apasă din nou ▶ pentru a porni sunetul.');
         state.playingKey = null;
         state.playAllActive = false;
-        els.btnPlayAll.textContent = '▶ Play All';
+        els.btnPlayAll.textContent = '▶';
         return;
       }
 
+      els.btnPlayAll.textContent = '⏸';
       els.btnStopAllEditor.classList.remove('hidden');
       if (state.mode === 'card') {
         els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
-        renderTrackList(els.cardTrackList, state.matches, true);
+        if (state.cardTracksOpen) renderTrackList(els.cardTrackList, state.matches, true);
         updateMiniPlayerUI(idx);
       } else {
         els.interactiveLetter.innerHTML = buildHighlightedHtml(state.text, state.matches, true);
@@ -1853,12 +1943,8 @@
 
     function playNextInQueue() {
       const next = state.playAllIndex + 1;
-      if (next < state.matches.length) {
-        playMatchAt(next, true);
-      } else {
-        stopAudio();
-        showToast('Coloana sonoră s-a încheiat! 🎵');
-      }
+      if (next < state.matches.length) playMatchAt(next, true);
+      else { stopAudio(); showToast('Scrisoarea s-a încheiat 🎵'); }
     }
 
     state.audio.addEventListener('ended', () => {
@@ -1867,10 +1953,7 @@
     });
 
     async function previewTempUrl(url, btnEl) {
-      if (!url) {
-        showToast('Această piesă nu are preview de 30s.');
-        return;
-      }
+      if (!url) { showToast('Preview indisponibil.'); return; }
       if (state.playingKey === ('temp:' + url)) {
         stopAudio();
         if (btnEl) btnEl.textContent = '▶';
@@ -1882,12 +1965,10 @@
         state.audio.src = url;
         await state.audio.play();
         if (btnEl) btnEl.textContent = '⏸';
-      } catch (_) {
-        state.playingKey = null;
-      }
+      } catch (_) { state.playingKey = null; }
     }
 
-    // ==================== SHORT LINK GENERATION & HYDRATION (v5.3) ====================
+    // ==================== SHORT LINK GENERATION & HYDRATION ====================
     async function resolveAllMatchesForShare() {
       const unresolved = state.matches.filter(m => !m.track || !m.track.trackId);
       if (unresolved.length) {
@@ -1902,14 +1983,7 @@
 
     async function buildShortShareUrl() {
       await resolveAllMatchesForShare();
-
-      // Ultra-compact payload: store only trackId (numbers), omit empty fields!
-      const payload = {
-        v: 53,
-        o: state.occasion,
-        l: state.lang,
-        t: state.text
-      };
+      const payload = { v: 54, o: state.occasion, l: state.lang, t: state.text };
       if (state.to.trim()) payload.to = state.to.trim();
       if (state.from.trim()) payload.fr = state.from.trim();
       const evClean = {};
@@ -1919,13 +1993,11 @@
       if (state.ev.rs.trim()) evClean.rs = state.ev.rs.trim();
       if (Object.keys(evClean).length) payload.ev = evClean;
 
-      // Songs array: [phrase, trackId, isPinned(1|0)] — if no trackId fallback to [phrase, 0, isPinned, title, artist]
       if (state.matches.length) {
         payload.s = state.matches.map(m => {
           const tid = m.track && m.track.trackId ? Number(m.track.trackId) : 0;
-          const pin = m.pinned ? 1 : 0;
-          if (tid) return pin ? [m.phrase, tid, 1] : [m.phrase, tid];
-          return [m.phrase, 0, pin, (m.track && m.track.title) || '', (m.track && m.track.artist) || ''];
+          if (tid) return [m.phrase, tid];
+          return [m.phrase, 0, (m.track && m.track.title) || '', (m.track && m.track.artist) || ''];
         });
       }
 
@@ -1937,35 +2009,27 @@
     async function tryLoadFromUrl() {
       let rawParam = '';
       const hash = window.location.hash || '';
-      if (hash.includes('d=')) {
-        rawParam = hash.split('d=')[1].split('&')[0];
-      } else if (window.location.search.includes('d=')) {
-        const sp = new URLSearchParams(window.location.search);
-        rawParam = sp.get('d') || '';
-      }
+      if (hash.includes('d=')) rawParam = hash.split('d=')[1].split('&')[0];
+      else if (window.location.search.includes('d=')) rawParam = new URLSearchParams(window.location.search).get('d') || '';
       if (!rawParam) return false;
 
       try {
         const jsonStr = await decompressString(decodeURIComponent(rawParam));
         const data = JSON.parse(jsonStr);
-        if (!data || typeof data.t !== 'string') throw new Error('Invalid structure');
+        if (!data || typeof data.t !== 'string') throw new Error('Invalid');
 
         state.occasion = OCCASIONS[data.o] ? data.o : 'letter';
-        state.lang = LANG_COUNTRY[data.l] ? data.l : 'ro';
+        state.lang = LANG_COUNTRY[data.l] ? data.l : 'all';
         state.text = data.t;
         state.to = data.to || '';
         state.from = data.fr || '';
         state.ev = Object.assign({ ti: '', dt: '', lo: '', rs: '' }, data.ev || {});
         state.pinnedMap.clear();
         state.autoChoiceMap.clear();
-
-        // Sync editor inputs too in case user clicks "Editează"
         syncInputsFromState();
 
-        // Hydrate tracks via single batch iTunes Lookup
         const songs = Array.isArray(data.s) ? data.s : [];
         const ids = songs.map(s => Number(s[1])).filter(n => n > 0);
-        showToast('Se încarcă coloana sonoră...', 2000);
         const lookupMap = await lookupItunesBatch(ids);
 
         songs.forEach(s => {
@@ -1973,19 +2037,10 @@
           const norm = normalizeText(phrase);
           if (!norm) return;
           const tid = Number(s[1]) || 0;
-          const isPinned = !!s[2];
           let trackObj = lookupMap.get(tid);
           if (!trackObj) {
-            trackObj = {
-              trackId: tid,
-              title: s[3] || phrase,
-              artist: s[4] || '',
-              previewUrl: '',
-              artworkUrl: '',
-              trackViewUrl: ''
-            };
+            trackObj = { trackId: tid, title: s[2] || s[3] || phrase, artist: s[3] || s[4] || '', previewUrl: '', artworkUrl: '', trackViewUrl: '' };
           }
-          // Pin every track from shared link so the exact user-selected tracks are 100% preserved
           state.pinnedMap.set(norm, Object.assign({}, trackObj, { phrase, pinned: true }));
         });
 
@@ -1993,22 +2048,21 @@
         setViewMode('card');
         showAlert('');
         return true;
-      } catch (err) {
-        showAlert('⚠️ Link-ul primit pare incomplet sau tăiat de aplicația de mesagerie. Cere expeditorului să îl retrimită din SongLetter v5.3.');
+      } catch (_) {
+        showAlert('⚠️ Link-ul primit pare incomplet sau tăiat de aplicația de mesagerie.');
         return false;
       }
     }
 
-    // ==================== MODAL (CHANGE / SEARCH / PIN) ====================
+    // ==================== MODAL ====================
     function openSongModal(phrase, existingMatch) {
       state.modalPhrase = (phrase || '').trim();
       state.modalNorm = normalizeText(state.modalPhrase);
       els.modalTitle.textContent = state.modalPhrase ? ('🎵 Piesă pentru „' + state.modalPhrase + '”') : '🔍 Caută o piesă';
-      els.modalCountrySelect.value = LANG_COUNTRY[state.lang] || 'RO';
+      els.modalCountrySelect.value = LANG_COUNTRY[state.lang] || 'US';
       els.modalSearchInput.value = state.modalPhrase;
       els.modalSearchResults.innerHTML = '';
 
-      // Current track box
       if (existingMatch && existingMatch.track) {
         const t = existingMatch.track;
         els.modalCurrentBox.classList.remove('hidden');
@@ -2025,13 +2079,12 @@
         els.modalCurrentBox.classList.add('hidden');
       }
 
-      // Suggestions from dictionary
-      const dictEntry = DICTIONARY.find(d => d.phrase === state.modalNorm);
+      const dictEntry = DICTIONARY.find(d => normalizeText(d.phrase) === state.modalNorm);
       if (dictEntry && dictEntry.variants.length) {
         els.modalSuggestionsBox.classList.remove('hidden');
         els.modalSuggestionsList.innerHTML = dictEntry.variants.map((v, i) =>
           '<div class="result-row">' +
-            '<div class="track-meta"><div class="track-title">' + escHtml(v.title) + '</div><div class="track-artist">' + escHtml(v.artist) + ' • stare: ' + escHtml(v.mood) + '</div></div>' +
+            '<div class="track-meta"><div class="track-title">' + escHtml(v.title) + '</div><div class="track-artist">' + escHtml(v.artist) + ' • ' + escHtml(v.mood) + '</div></div>' +
             '<button type="button" class="btn-xs btn-primary" data-suggest-idx="' + i + '">Alege</button>' +
           '</div>'
         ).join('');
@@ -2043,9 +2096,7 @@
       if (state.modalPhrase) runModalSearch();
     }
 
-    function closeSongModal() {
-      els.songModal.classList.remove('open');
-    }
+    function closeSongModal() { els.songModal.classList.remove('open'); }
 
     async function runModalSearch() {
       const q = els.modalSearchInput.value.trim();
@@ -2069,7 +2120,7 @@
           '</div>'
         ).join('');
       } catch (_) {
-        els.modalSearchResults.innerHTML = '<div style="color:var(--danger);font-size:0.85rem;">Eroare la conectarea cu iTunes. Verifică internetul.</div>';
+        els.modalSearchResults.innerHTML = '<div style="color:var(--danger);font-size:0.85rem;">Eroare la conectarea cu iTunes.</div>';
       }
     }
 
@@ -2113,7 +2164,7 @@
     }
 
     function loadTemplateForCurrent() {
-      const langKey = state.lang === 'all' ? 'ro' : state.lang;
+      const langKey = state.lang === 'all' ? 'en' : state.lang;
       const tplSet = TEMPLATES[langKey] || TEMPLATES.ro;
       const tpl = tplSet[state.occasion] || tplSet.letter;
       state.to = tpl.to || '';
@@ -2124,7 +2175,6 @@
       state.autoChoiceMap.clear();
       syncInputsFromState();
       renderEditor();
-      showToast('Șablon încărcat!');
     }
 
     // ==================== THEME ====================
@@ -2132,18 +2182,27 @@
       state.theme = theme === 'light' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', state.theme);
       els.btnThemeToggle.textContent = state.theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+      els.btnCardTheme.textContent = state.theme === 'dark' ? '☀️' : '🌙';
       try { localStorage.setItem('sl_theme', state.theme); } catch (_) {}
     }
 
     // ==================== EVENT LISTENERS ====================
-    els.btnThemeToggle.addEventListener('click', () => {
-      applyTheme(state.theme === 'dark' ? 'light' : 'dark');
-    });
+    els.btnThemeToggle.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
+    els.btnCardTheme.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
 
-    els.btnModeToggle.addEventListener('click', () => setViewMode('editor'));
+    els.btnEditCard.addEventListener('click', () => setViewMode('editor'));
     els.btnCreateOwn.addEventListener('click', () => {
       try { history.replaceState(null, '', window.location.pathname); } catch (_) {}
+      state.to = ''; state.from = ''; state.text = '';
+      state.ev = { ti: '', dt: '', lo: '', rs: '' };
+      state.pinnedMap.clear(); state.autoChoiceMap.clear();
+      syncInputsFromState();
       setViewMode('editor');
+    });
+
+    els.btnToggleCardTracks.addEventListener('click', () => {
+      state.cardTracksOpen = !state.cardTracksOpen;
+      renderCard();
     });
 
     els.occasionChips.addEventListener('click', (e) => {
@@ -2162,11 +2221,8 @@
       renderEditor();
     });
 
-    els.btnLoadTemplate.addEventListener('click', loadTemplateForCurrent);
-
-    els.btnToggleEvent.addEventListener('click', () => {
-      els.eventFields.classList.toggle('hidden');
-    });
+    els.btnLoadTemplate.addEventListener('click', () => { loadTemplateForCurrent(); showToast('Șablon încărcat!'); });
+    els.btnToggleEvent.addEventListener('click', () => els.eventFields.classList.toggle('hidden'));
 
     [
       [els.inputTo, (v) => state.to = v],
@@ -2175,9 +2231,7 @@
       [els.evDate, (v) => state.ev.dt = v],
       [els.evLoc, (v) => state.ev.lo = v],
       [els.evRsvp, (v) => state.ev.rs = v]
-    ].forEach(([el, fn]) => {
-      el.addEventListener('input', () => fn(el.value));
-    });
+    ].forEach(([el, fn]) => el.addEventListener('input', () => fn(el.value)));
 
     els.letterInput.addEventListener('input', () => {
       state.text = els.letterInput.value;
@@ -2190,59 +2244,37 @@
       renderEditor();
     });
 
-    els.btnAnalyzeMood.addEventListener('click', () => {
-      state.mood = 'auto';
-      els.moodSelect.value = 'auto';
-      state.autoChoiceMap.clear();
-      renderEditor();
-      showToast('Stare analizată: ' + getActiveMood());
-    });
-
+    els.btnScanItunes.addEventListener('click', scanUnmatchedClausesOnItunes);
     els.btnManualSearch.addEventListener('click', () => openSongModal('', null));
     els.btnStopAllEditor.addEventListener('click', stopAudio);
 
-    // Interactive letter click & drag selection
     els.interactiveLetter.addEventListener('click', (e) => {
       const sel = window.getSelection();
       if (sel && sel.toString().trim().length > 1) return;
-
       const hit = e.target.closest('.phrase-hit');
       if (hit) {
-        const idx = Number(hit.dataset.matchIdx);
-        const m = state.matches[idx];
+        const m = state.matches[Number(hit.dataset.matchIdx)];
         if (m) openSongModal(m.phrase, m);
         return;
       }
       const w = e.target.closest('.word-plain');
-      if (w && w.dataset.word) {
-        openSongModal(w.dataset.word, null);
-      }
+      if (w && w.dataset.word) openSongModal(w.dataset.word, null);
     });
 
     function handleTextSelection() {
       const sel = window.getSelection();
-      if (!sel || sel.isCollapsed) {
-        els.selectionFloat.style.display = 'none';
-        return;
-      }
+      if (!sel || sel.isCollapsed) { els.selectionFloat.style.display = 'none'; return; }
       const txt = sel.toString().replace(/\s+/g, ' ').trim();
-      if (!txt || txt.length > 60) {
-        els.selectionFloat.style.display = 'none';
-        return;
-      }
-      const anchorNode = sel.anchorNode;
-      if (!anchorNode || !els.interactiveLetter.contains(anchorNode)) {
+      if (!txt || txt.length > 70 || !sel.anchorNode || !els.interactiveLetter.contains(sel.anchorNode)) {
         els.selectionFloat.style.display = 'none';
         return;
       }
       const rect = sel.getRangeAt(0).getBoundingClientRect();
       els.selectionFloat.dataset.phrase = txt;
-      els.selectionFloat.textContent = '🎵 Caută piesă pentru „' + (txt.length > 22 ? txt.slice(0, 22) + '…' : txt) + '”';
+      els.selectionFloat.textContent = '🎵 Piesă pentru „' + (txt.length > 22 ? txt.slice(0, 22) + '…' : txt) + '”';
       els.selectionFloat.style.display = 'inline-flex';
-      const top = Math.max(12, rect.top - 48);
-      const left = Math.min(window.innerWidth - 220, Math.max(12, rect.left));
-      els.selectionFloat.style.top = top + 'px';
-      els.selectionFloat.style.left = left + 'px';
+      els.selectionFloat.style.top = Math.max(12, rect.top - 48) + 'px';
+      els.selectionFloat.style.left = Math.min(window.innerWidth - 220, Math.max(12, rect.left)) + 'px';
     }
 
     document.addEventListener('mouseup', () => setTimeout(handleTextSelection, 20));
@@ -2254,14 +2286,12 @@
       if (phrase) openSongModal(phrase, null);
     });
 
-    // Tracklist delegation (Editor & Card)
     function handleTrackListClick(e) {
       const btn = e.target.closest('button[data-action]');
       if (!btn) return;
       const action = btn.dataset.action;
-      if (action === 'play') {
-        playMatchAt(Number(btn.dataset.idx), false);
-      } else if (action === 'change') {
+      if (action === 'play') playMatchAt(Number(btn.dataset.idx), false);
+      else if (action === 'change') {
         const m = state.matches[Number(btn.dataset.idx)];
         if (m) openSongModal(m.phrase, m);
       } else if (action === 'unpin') {
@@ -2274,49 +2304,37 @@
     els.editorTrackList.addEventListener('click', handleTrackListClick);
     els.cardTrackList.addEventListener('click', handleTrackListClick);
 
-    // Card phrase click -> play that track
     els.cardBody.addEventListener('click', (e) => {
       const hit = e.target.closest('.phrase-hit');
-      if (!hit) return;
-      playMatchAt(Number(hit.dataset.matchIdx), false);
+      if (hit) playMatchAt(Number(hit.dataset.matchIdx), false);
     });
 
-    // Mini Player controls
     els.btnPlayAll.addEventListener('click', () => {
-      if (!state.matches.length) {
-        showToast('Nu există piese în această scrisoare.');
-        return;
-      }
-      if (state.playAllActive) {
+      if (!state.matches.length) { showToast('Nu există piese în această scrisoare.'); return; }
+      if (state.playingKey) {
         stopAudio();
       } else {
         state.playAllActive = true;
-        els.btnPlayAll.textContent = '⏹ Stop';
         playMatchAt(0, true);
       }
     });
 
     els.btnPrevTrack.addEventListener('click', () => {
       if (!state.matches.length) return;
-      const prev = Math.max(0, state.playAllIndex - 1);
-      playMatchAt(prev, state.playAllActive);
+      playMatchAt(Math.max(0, state.playAllIndex - 1), state.playAllActive);
     });
 
     els.btnNextTrack.addEventListener('click', () => {
       if (!state.matches.length) return;
-      const next = (state.playAllIndex + 1) % state.matches.length;
-      playMatchAt(next, state.playAllActive);
+      playMatchAt((state.playAllIndex + 1) % state.matches.length, state.playAllActive);
     });
 
-    // Share & Preview buttons
     els.btnPreviewCard.addEventListener('click', async () => {
       els.btnPreviewCard.disabled = true;
       try {
         await resolveAllMatchesForShare();
         setViewMode('card');
-      } finally {
-        els.btnPreviewCard.disabled = false;
-      }
+      } finally { els.btnPreviewCard.disabled = false; }
     });
 
     els.btnCopyLink.addEventListener('click', async () => {
@@ -2340,12 +2358,10 @@
           try { document.execCommand('copy'); copied = true; } catch (_) {}
           document.body.removeChild(ta);
         }
-        showToast((copied ? '✅ Link scurt copiat! ' : '🔗 Link generat! ') + '(' + url.length + ' caractere)', 3200);
-      } catch (err) {
+        showToast((copied ? '✅ Link scurt copiat! ' : '🔗 Link generat! ') + '(' + url.length + ' caractere)', 3000);
+      } catch (_) {
         showToast('Eroare la generarea link-ului.');
-      } finally {
-        els.btnCopyLink.disabled = false;
-      }
+      } finally { els.btnCopyLink.disabled = false; }
     });
 
     els.btnShareWA.addEventListener('click', async () => {
@@ -2353,22 +2369,15 @@
       try {
         const url = await buildShortShareUrl();
         const occ = OCCASIONS[state.occasion] || OCCASIONS.letter;
-        const msg = occ.label + ' — Deschide mesajul și ascultă piesele:\n' + url;
+        const msg = occ.label + ' — Deschide mesajul și ascultă melodiile:\n' + url;
         window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-      } finally {
-        els.btnShareWA.disabled = false;
-      }
+      } finally { els.btnShareWA.disabled = false; }
     });
 
-    // Modal events
     els.btnCloseModal.addEventListener('click', closeSongModal);
-    els.songModal.addEventListener('click', (e) => {
-      if (e.target === els.songModal) closeSongModal();
-    });
+    els.songModal.addEventListener('click', (e) => { if (e.target === els.songModal) closeSongModal(); });
     els.btnModalSearch.addEventListener('click', runModalSearch);
-    els.modalSearchInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') runModalSearch();
-    });
+    els.modalSearchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') runModalSearch(); });
     els.modalCountrySelect.addEventListener('change', runModalSearch);
 
     els.modalCurrentTrack.addEventListener('click', (e) => {
@@ -2376,14 +2385,14 @@
         state.pinnedMap.delete(state.modalNorm);
         closeSongModal();
         renderEditor();
-        showToast('Piesa fixată a fost eliminată.');
+        showToast('Piesă eliminată.');
       }
     });
 
     els.modalSuggestionsList.addEventListener('click', async (e) => {
       const btn = e.target.closest('button[data-suggest-idx]');
       if (!btn) return;
-      const entry = DICTIONARY.find(d => d.phrase === state.modalNorm);
+      const entry = DICTIONARY.find(d => normalizeText(d.phrase) === state.modalNorm);
       if (!entry) return;
       const variant = entry.variants[Number(btn.dataset.suggestIdx)];
       if (!variant) return;
@@ -2415,9 +2424,7 @@
       applyTheme(savedTheme);
 
       const loaded = await tryLoadFromUrl();
-      if (!loaded) {
-        loadTemplateForCurrent();
-      }
+      if (!loaded) loadTemplateForCurrent();
     }
 
     init();
