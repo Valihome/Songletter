@@ -10,42 +10,92 @@
   <meta property="og:type" content="website" />
   <style>
     :root {
-      --bg: #0b0f19;
-      --bg-elev: #131a2a;
-      --bg-card: #161f33;
-      --bg-input: #0e1422;
-      --border: #25324d;
-      --text: #eef2ff;
-      --text-muted: #94a3b8;
-      --accent: #8b5cf6;
-      --accent-2: #ec4899;
-      --accent-soft: rgba(139, 92, 246, 0.2);
-      --pin: #10b981;
-      --pin-soft: rgba(16, 185, 129, 0.2);
-      --danger: #ef4444;
-      --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-      --radius: 16px;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-      --font-serif: Georgia, "Times New Roman", serif;
+      --bg: #050507;
+      --surface: rgba(24, 24, 30, 0.66);
+      --surface-solid: #141418;
+      --surface-2: rgba(255, 255, 255, 0.055);
+      --surface-hover: rgba(255, 255, 255, 0.09);
+      --border: rgba(255, 255, 255, 0.11);
+      --border-strong: rgba(255, 255, 255, 0.2);
+      --specular: rgba(255, 255, 255, 0.16);
+      --text: #f5f5f7;
+      --text-secondary: rgba(235, 235, 245, 0.64);
+      --text-tertiary: rgba(235, 235, 245, 0.42);
+      --accent: #a78bfa;
+      --accent-2: #f472b6;
+      --accent-glow: rgba(167, 139, 250, 0.28);
+      --pin: #34d399;
+      --pin-soft: rgba(52, 211, 153, 0.16);
+      --danger: #ff453a;
+      --orb-1: rgba(124, 58, 237, 0.42);
+      --orb-2: rgba(236, 72, 153, 0.30);
+      --orb-3: rgba(14, 165, 233, 0.24);
+      --shadow-card: 0 32px 80px rgba(0, 0, 0, 0.65), inset 0 1px 0 var(--specular);
+      --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.35);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+      --font-serif: "New York", "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
     }
 
     html[data-theme="light"] {
-      --bg: #f4f6fb;
-      --bg-elev: #ffffff;
-      --bg-card: #ffffff;
-      --bg-input: #f8fafc;
-      --border: #dce3f0;
-      --text: #0f172a;
-      --text-muted: #52607a;
-      --accent: #7c3aed;
+      --bg: #f2f2f7;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-solid: #ffffff;
+      --surface-2: rgba(0, 0, 0, 0.038);
+      --surface-hover: rgba(0, 0, 0, 0.065);
+      --border: rgba(0, 0, 0, 0.085);
+      --border-strong: rgba(0, 0, 0, 0.16);
+      --specular: rgba(255, 255, 255, 0.9);
+      --text: #1d1d1f;
+      --text-secondary: rgba(29, 29, 31, 0.62);
+      --text-tertiary: rgba(29, 29, 31, 0.42);
+      --accent: #6d28d9;
       --accent-2: #db2777;
-      --accent-soft: rgba(124, 58, 237, 0.12);
+      --accent-glow: rgba(109, 40, 217, 0.14);
       --pin: #059669;
       --pin-soft: rgba(5, 150, 105, 0.12);
-      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --danger: #ff3b30;
+      --orb-1: rgba(167, 139, 250, 0.34);
+      --orb-2: rgba(244, 114, 182, 0.25);
+      --orb-3: rgba(56, 189, 248, 0.24);
+      --shadow-card: 0 24px 64px rgba(15, 23, 42, 0.10), inset 0 1px 0 var(--specular);
+      --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
 
-    * { box-sizing: border-box; }
+    /* Occasion-specific ambient palettes */
+    body.occ-wedding {
+      --orb-1: rgba(245, 158, 11, 0.32);
+      --orb-2: rgba(244, 114, 182, 0.24);
+      --orb-3: rgba(251, 191, 36, 0.20);
+      --accent: #f59e0b;
+      --accent-2: #ec4899;
+    }
+    body.occ-baptism {
+      --orb-1: rgba(56, 189, 248, 0.36);
+      --orb-2: rgba(129, 140, 248, 0.28);
+      --orb-3: rgba(196, 181, 253, 0.22);
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+    }
+    body.occ-friend {
+      --orb-1: rgba(16, 185, 129, 0.34);
+      --orb-2: rgba(6, 182, 212, 0.28);
+      --orb-3: rgba(99, 102, 241, 0.24);
+      --accent: #10b981;
+      --accent-2: #06b6d4;
+    }
+    body.occ-birthday {
+      --orb-1: rgba(244, 63, 94, 0.36);
+      --orb-2: rgba(245, 158, 11, 0.28);
+      --orb-3: rgba(168, 85, 247, 0.26);
+      --accent: #f43f5e;
+      --accent-2: #f59e0b;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       margin: 0;
@@ -56,162 +106,243 @@
       line-height: 1.55;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      transition: background 0.45s var(--ease), color 0.3s var(--ease);
+    }
+
+    /* ==================== AMBIENT APPLE MESH BACKGROUND ==================== */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(88px);
+      opacity: 0.85;
+      will-change: transform;
+      transition: background 0.8s var(--ease), opacity 0.6s ease;
+    }
+
+    .orb-1 {
+      width: 56vw; height: 56vw; max-width: 620px; max-height: 620px;
+      top: -16%; left: -12%;
+      background: radial-gradient(circle, var(--orb-1) 0%, transparent 70%);
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 52vw; height: 52vw; max-width: 560px; max-height: 560px;
+      bottom: -18%; right: -10%;
+      background: radial-gradient(circle, var(--orb-2) 0%, transparent 70%);
+      animation: drift2 22s ease-in-out infinite alternate;
+    }
+
+    .orb-3 {
+      width: 44vw; height: 44vw; max-width: 460px; max-height: 460px;
+      top: 38%; left: 32%;
+      background: radial-gradient(circle, var(--orb-3) 0%, transparent 70%);
+      animation: drift3 26s ease-in-out infinite alternate;
+    }
+
+    body.is-playing .orb {
+      opacity: 1;
+      animation-duration: 9s;
+    }
+
+    @keyframes drift1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8%, 10%) scale(1.12); }
+    }
+    @keyframes drift2 {
+      0% { transform: translate(0, 0) scale(1.05); }
+      100% { transform: translate(-9%, -8%) scale(0.95); }
+    }
+    @keyframes drift3 {
+      0% { transform: translate(-6%, 4%) scale(0.95); }
+      100% { transform: translate(8%, -6%) scale(1.1); }
     }
 
     .container {
-      max-width: 920px;
+      position: relative;
+      z-index: 1;
+      max-width: 880px;
       margin: 0 auto;
-      padding: 16px 16px 72px;
+      padding: 18px 16px 88px;
     }
 
     body.card-mode .container {
-      max-width: 660px;
-      padding-top: 24px;
+      max-width: 640px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 28px 16px 48px;
     }
 
+    /* ==================== HEADER ==================== */
     header.topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 10px 0 16px;
-      border-bottom: 1px solid var(--border);
+      padding: 8px 0 18px;
       margin-bottom: 18px;
       flex-wrap: wrap;
     }
 
-    body.card-mode header.topbar {
-      display: none;
-    }
+    body.card-mode header.topbar { display: none; }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand-logo {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       display: grid;
       place-items: center;
       font-size: 19px;
-      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+      box-shadow: 0 8px 22px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.35);
       flex-shrink: 0;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: 1.18rem;
-      letter-spacing: -0.02em;
+      font-size: 1.24rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
     }
 
     .brand .sub {
       font-size: 0.76rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+      letter-spacing: -0.005em;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
     .badge-ver {
-      font-size: 0.72rem;
-      padding: 4px 9px;
+      font-size: 0.7rem;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
       font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
+    /* ==================== BUTTONS ==================== */
     button, .btn {
       font-family: inherit;
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       font-weight: 600;
+      letter-spacing: -0.01em;
       border: 1px solid var(--border);
-      background: var(--bg-elev);
+      background: var(--surface-2);
       color: var(--text);
-      padding: 8px 13px;
-      border-radius: 10px;
+      padding: 9px 15px;
+      border-radius: 999px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.16s var(--ease), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       text-decoration: none;
       user-select: none;
     }
 
-    button:hover, .btn:hover { border-color: var(--accent); }
-    button:active, .btn:active { transform: scale(0.98); }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button:hover, .btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-strong);
+    }
+
+    button:active, .btn:active { transform: scale(0.96); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       border-color: transparent;
       color: #fff;
+      box-shadow: 0 8px 24px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.28);
     }
 
-    .btn-primary:hover { filter: brightness(1.08); border-color: transparent; }
+    .btn-primary:hover {
+      filter: brightness(1.07);
+      border-color: transparent;
+      box-shadow: 0 10px 28px var(--accent-glow);
+    }
 
     .btn-pin {
       background: var(--pin);
       border-color: transparent;
-      color: #fff;
+      color: #04130d;
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.14);
-      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(255, 69, 58, 0.14);
+      border-color: rgba(255, 69, 58, 0.35);
       color: var(--danger);
     }
 
     .btn-ghost {
       background: transparent;
       border-color: transparent;
-      color: var(--text-muted);
-      padding: 6px 10px;
-      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 6px 11px;
+      font-size: 0.82rem;
     }
 
     .btn-ghost:hover {
       color: var(--text);
+      background: var(--surface-2);
       border-color: transparent;
-      background: var(--accent-soft);
     }
 
-    .btn-sm { padding: 6px 11px; font-size: 0.8rem; border-radius: 9px; }
-    .btn-xs { padding: 4px 8px; font-size: 0.73rem; border-radius: 7px; }
+    .btn-sm { padding: 6px 13px; font-size: 0.8rem; }
+    .btn-xs { padding: 4px 10px; font-size: 0.73rem; }
 
-    .btn-spotify { background: rgba(29, 185, 84, 0.14); border-color: rgba(29, 185, 84, 0.4); color: #1db954; }
-    .btn-apple { background: rgba(250, 45, 72, 0.14); border-color: rgba(250, 45, 72, 0.4); color: #fa2d48; }
-    .btn-tidal { background: rgba(0, 229, 255, 0.12); border-color: rgba(0, 229, 255, 0.35); color: #00d8f5; }
-    html[data-theme="light"] .btn-tidal { color: #0284c7; border-color: rgba(2, 132, 199, 0.35); background: rgba(2, 132, 199, 0.08); }
-    .btn-wa { background: rgba(37, 211, 102, 0.15); border-color: rgba(37, 211, 102, 0.45); color: #25d366; }
+    .btn-spotify { background: rgba(29, 185, 84, 0.14); border-color: rgba(29, 185, 84, 0.35); color: #1db954; }
+    .btn-apple { background: rgba(250, 45, 72, 0.14); border-color: rgba(250, 45, 72, 0.35); color: #fa2d48; }
+    .btn-tidal { background: rgba(0, 229, 255, 0.12); border-color: rgba(0, 229, 255, 0.32); color: #00d8f5; }
+    html[data-theme="light"] .btn-tidal { color: #0284c7; border-color: rgba(2, 132, 199, 0.3); background: rgba(2, 132, 199, 0.08); }
+    .btn-wa { background: rgba(37, 211, 102, 0.16); border-color: rgba(37, 211, 102, 0.4); color: #25d366; }
     html[data-theme="light"] .btn-wa { color: #15803d; }
 
+    /* ==================== GLASS PANELS (EDITOR) ==================== */
     .panel {
-      background: var(--bg-elev);
+      background: var(--surface);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
+      border-radius: 22px;
+      padding: 18px;
       margin-bottom: 16px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-soft), inset 0 1px 0 var(--specular);
     }
 
     .panel-title {
-      font-size: 0.82rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
       font-weight: 700;
-      margin: 0 0 10px;
+      margin: 0 0 11px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -222,20 +353,23 @@
     .chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
 
     .chip {
-      padding: 6px 11px;
+      padding: 6px 13px;
       border-radius: 999px;
       font-size: 0.82rem;
       font-weight: 600;
       border: 1px solid var(--border);
-      background: var(--bg-input);
-      color: var(--text);
+      background: var(--surface-2);
+      color: var(--text-secondary);
       cursor: pointer;
+      transition: all 0.2s var(--ease);
     }
 
+    .chip:hover { color: var(--text); background: var(--surface-hover); }
+
     .chip.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      background: var(--text);
+      border-color: transparent;
+      color: var(--bg);
     }
 
     .grid-2 {
@@ -244,103 +378,119 @@
       gap: 12px;
     }
 
-    @media (max-width: 700px) {
-      .grid-2 { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 680px) { .grid-2 { grid-template-columns: 1fr; } }
 
     label.field-label {
       display: block;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
       font-weight: 600;
     }
 
     input[type="text"], textarea, select {
       width: 100%;
-      background: var(--bg-input);
+      background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
+      border-radius: 14px;
+      padding: 11px 14px;
       font-family: inherit;
       font-size: 0.94rem;
       outline: none;
-      transition: border-color 0.15s ease;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
 
-    input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--accent); }
+    input[type="text"]:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
 
     textarea#letterInput {
-      min-height: 125px;
+      min-height: 130px;
       resize: vertical;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 12px;
       align-items: center;
     }
 
     .interactive-letter {
-      background: var(--bg-input);
-      border: 1px dashed var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 1.05rem;
-      line-height: 1.95;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 1.06rem;
+      line-height: 2;
       white-space: pre-wrap;
       word-wrap: break-word;
       user-select: text;
       -webkit-user-select: text;
-      min-height: 84px;
+      min-height: 88px;
     }
 
     .word-plain {
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 5px;
       padding: 1px 0;
-      transition: background 0.12s;
+      transition: background 0.14s ease;
     }
 
-    .word-plain:hover { background: rgba(148, 163, 184, 0.18); }
+    .word-plain:hover { background: var(--surface-hover); }
 
+    /* Musical Phrase Pill — Apple Music Lyrics Style */
     .phrase-hit {
       display: inline;
-      padding: 2px 7px;
-      margin: 0 1px;
-      border-radius: 8px;
-      background: var(--accent-soft);
-      border-bottom: 2px solid var(--accent);
+      padding: 2px 9px;
+      margin: 0 2px;
+      border-radius: 999px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       color: var(--text);
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s, box-shadow 0.15s;
+      transition: all 0.25s var(--ease);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
     }
 
-    .phrase-hit:hover { background: rgba(139, 92, 246, 0.32); }
-    .phrase-hit.pinned { background: var(--pin-soft); border-bottom-color: var(--pin); }
+    html[data-theme="light"] .phrase-hit {
+      border-color: rgba(109, 40, 217, 0.18);
+    }
+
+    .phrase-hit:hover {
+      filter: brightness(1.15);
+    }
+
+    .phrase-hit.pinned {
+      background: var(--pin-soft);
+      border-color: rgba(52, 211, 153, 0.32);
+    }
+
     .phrase-hit.playing {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: #fff;
-      border-bottom-color: transparent;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.35);
+      border-color: transparent;
+      box-shadow: 0 0 22px var(--accent-glow);
     }
 
-    .phrase-badge { font-size: 0.72em; margin-right: 3px; opacity: 0.9; }
+    .phrase-icon {
+      display: inline-block;
+      font-size: 0.72em;
+      margin-right: 4px;
+      opacity: 0.85;
+      vertical-align: 1px;
+    }
 
     .hint-box {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+      font-size: 0.79rem;
+      color: var(--text-secondary);
+      margin-top: 10px;
     }
 
     .selection-float {
@@ -351,195 +501,351 @@
       color: #fff;
       border: none;
       border-radius: 999px;
-      padding: 9px 15px;
-      font-size: 0.85rem;
+      padding: 9px 16px;
+      font-size: 0.84rem;
       font-weight: 700;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
       cursor: pointer;
     }
 
-    .track-list { display: flex; flex-direction: column; gap: 9px; }
+    .track-list { display: flex; flex-direction: column; gap: 8px; }
 
     .track-item {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       padding: 10px 12px;
-      background: var(--bg-input);
+      background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 15px;
       flex-wrap: wrap;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     .track-item.is-playing {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent-soft);
+      background: var(--accent-glow);
     }
 
     .track-cover {
       width: 44px;
       height: 44px;
-      border-radius: 9px;
-      background: var(--bg-card);
+      border-radius: 10px;
+      background: var(--surface-solid);
       flex-shrink: 0;
       display: grid;
       place-items: center;
       font-size: 18px;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     .track-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .track-meta { flex: 1; min-width: 150px; }
-    .track-phrase { font-size: 0.74rem; color: var(--accent); font-weight: 700; margin-bottom: 2px; }
+    .track-meta { flex: 1; min-width: 140px; }
+    .track-phrase { font-size: 0.72rem; color: var(--accent); font-weight: 700; margin-bottom: 1px; }
     .track-phrase.pinned { color: var(--pin); }
-    .track-title { font-weight: 700; font-size: 0.92rem; }
-    .track-artist { font-size: 0.8rem; color: var(--text-muted); }
+    .track-title { font-weight: 600; font-size: 0.92rem; letter-spacing: -0.01em; }
+    .track-artist { font-size: 0.79rem; color: var(--text-secondary); }
     .track-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
-    /* ==================== MINIMALIST CARD VIEW ==================== */
-    .card-shell {
-      border-radius: 24px;
-      padding: 28px 24px 22px;
-      background: var(--bg-card);
+    /* ==================== WOW ENVELOPE / REVEAL OVERLAY ==================== */
+    .reveal-stage {
+      text-align: center;
+      padding: 46px 28px 40px;
+      border-radius: 32px;
+      background: var(--surface);
+      backdrop-filter: blur(36px) saturate(190%);
+      -webkit-backdrop-filter: blur(36px) saturate(190%);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-card);
+      animation: cardEnter 0.75s var(--ease) both;
+    }
+
+    .reveal-seal {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 22px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      box-shadow: 0 18px 44px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.45);
+      animation: floatSeal 3.6s ease-in-out infinite;
+    }
+
+    @keyframes floatSeal {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .reveal-kicker {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-tertiary);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .reveal-heading {
+      font-size: clamp(1.55rem, 5vw, 2.05rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin: 0 0 10px;
+    }
+
+    .reveal-sub {
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+      margin: 0 0 28px;
+    }
+
+    .reveal-cta {
+      padding: 14px 28px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      border-radius: 999px;
+    }
+
+    .reveal-silent {
+      display: block;
+      margin: 14px auto 0;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ==================== APPLE-STYLE RECIPIENT CARD ==================== */
+    .card-shell {
+      border-radius: 32px;
+      padding: 32px 28px 24px;
+      background: var(--surface);
+      backdrop-filter: blur(36px) saturate(190%);
+      -webkit-backdrop-filter: blur(36px) saturate(190%);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
       position: relative;
       overflow: hidden;
+      animation: cardEnter 0.7s var(--ease) both;
     }
 
-    .card-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--card-c1, var(--accent)), var(--card-c2, var(--accent-2)));
+    @media (max-width: 520px) {
+      .card-shell { padding: 24px 20px 20px; border-radius: 26px; }
     }
 
-    .card-shell.occ-letter { --card-c1: #8b5cf6; --card-c2: #ec4899; }
-    .card-shell.occ-wedding { --card-c1: #d97706; --card-c2: #f59e0b; font-family: var(--font-serif); }
-    .card-shell.occ-baptism { --card-c1: #38bdf8; --card-c2: #818cf8; }
-    .card-shell.occ-friend { --card-c1: #10b981; --card-c2: #06b6d4; }
-    .card-shell.occ-birthday { --card-c1: #f43f5e; --card-c2: #f59e0b; }
+    @keyframes cardEnter {
+      0% { opacity: 0; transform: translateY(22px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
     .card-top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 14px;
-      font-family: var(--font-sans);
+      gap: 10px;
+      margin-bottom: 22px;
     }
 
-    .card-occ-badge {
+    .card-occ-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 11px;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      background: var(--accent-soft);
-      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
     }
 
     .card-event-box {
-      background: var(--bg-input);
+      background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 13px 15px;
-      margin: 0 0 18px;
-      font-family: var(--font-sans);
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin: 0 0 24px;
     }
 
-    .card-event-title { font-size: 1.08rem; font-weight: 800; margin: 0 0 6px; }
+    .card-event-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
 
     .card-event-grid {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 0.86rem;
-      color: var(--text-muted);
+      gap: 5px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
     }
 
-    .card-event-grid strong { color: var(--text); }
+    .card-event-grid strong { color: var(--text); font-weight: 600; }
 
     .card-salutation {
-      font-size: 1.08rem;
-      font-weight: 700;
-      margin-bottom: 10px;
+      font-family: var(--font-serif);
+      font-size: clamp(1.3rem, 4vw, 1.55rem);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin-bottom: 16px;
+      color: var(--text);
     }
 
     .card-body {
-      font-size: 1.16rem;
-      line-height: 2;
+      font-family: var(--font-serif);
+      font-size: clamp(1.08rem, 3.3vw, 1.22rem);
+      line-height: 2.02;
       white-space: pre-wrap;
-      margin: 8px 0 18px;
+      margin: 0 0 24px;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+
+    .card-body .phrase-hit {
+      font-family: var(--font-sans);
+      font-size: 0.88em;
+      padding: 3px 10px;
+      vertical-align: 1px;
     }
 
     .card-signature {
+      font-family: var(--font-serif);
       text-align: right;
-      font-size: 1.02rem;
+      font-size: 1.08rem;
       font-style: italic;
-      color: var(--text-muted);
-      margin-top: 8px;
+      color: var(--text-secondary);
+      margin-top: 6px;
     }
 
-    /* Clean Simple Player */
-    .simple-player {
-      margin-top: 22px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: var(--bg-input);
+    /* Apple Music Style Floating Now-Playing Pill */
+    .apple-player {
+      margin-top: 28px;
+      padding: 12px 14px;
+      border-radius: 22px;
+      background: rgba(12, 12, 16, 0.55);
       border: 1px solid var(--border);
-      font-family: var(--font-sans);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 var(--specular);
+      transition: transform 0.3s var(--ease), border-color 0.3s ease;
     }
 
-    .sp-main {
+    html[data-theme="light"] .apple-player {
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08), inset 0 1px 0 #fff;
+    }
+
+    .ap-row {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .sp-play-btn {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      padding: 0;
-      font-size: 1.15rem;
+    .ap-art {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      position: relative;
     }
 
-    .sp-meta {
+    .ap-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .ap-meta {
       flex: 1;
       min-width: 0;
     }
 
-    .sp-title {
-      font-weight: 700;
-      font-size: 0.94rem;
+    .ap-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .ap-title {
+      font-weight: 600;
+      font-size: 0.93rem;
+      letter-spacing: -0.01em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .sp-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .ap-sub {
+      font-size: 0.79rem;
+      color: var(--text-secondary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-top: 1px;
     }
 
-    .sp-nav {
+    /* Animated Equalizer Bars */
+    .eq-bars {
+      display: none;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    body.is-playing .eq-bars { display: inline-flex; }
+
+    .eq-bars span {
+      width: 2.5px;
+      background: var(--accent);
+      border-radius: 999px;
+      animation: eqBounce 0.9s ease-in-out infinite;
+    }
+
+    .eq-bars span:nth-child(1) { height: 5px; animation-delay: 0s; }
+    .eq-bars span:nth-child(2) { height: 11px; animation-delay: 0.2s; }
+    .eq-bars span:nth-child(3) { height: 7px; animation-delay: 0.4s; }
+
+    @keyframes eqBounce {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1); }
+    }
+
+    .ap-controls {
       display: flex;
       align-items: center;
       gap: 4px;
       flex-shrink: 0;
     }
 
+    .ap-play-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 1rem;
+    }
+
+    .ap-nav-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 0.85rem;
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-secondary);
+    }
+
+    .ap-nav-btn:hover { background: var(--surface-2); color: var(--text); }
+
     .progress-bar {
       width: 100%;
-      height: 4px;
+      height: 3px;
       background: var(--border);
       border-radius: 999px;
       margin-top: 11px;
@@ -554,18 +860,17 @@
     }
 
     .card-tracks-toggle {
-      margin-top: 14px;
+      margin-top: 16px;
       text-align: center;
-      font-family: var(--font-sans);
     }
 
     .card-tracks-drawer {
       margin-top: 12px;
-      font-family: var(--font-sans);
+      animation: cardEnter 0.35s var(--ease) both;
     }
 
     .card-footer {
-      margin-top: 20px;
+      margin-top: 22px;
       padding-top: 14px;
       border-top: 1px solid var(--border);
       display: flex;
@@ -573,15 +878,15 @@
       justify-content: space-between;
       gap: 8px;
       flex-wrap: wrap;
-      font-family: var(--font-sans);
     }
 
-    /* Modal */
+    /* ==================== MODAL ==================== */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 23, 0.75);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
       display: none;
       align-items: center;
@@ -593,14 +898,15 @@
 
     .modal {
       width: 100%;
-      max-width: 560px;
-      max-height: 88vh;
+      max-width: 540px;
+      max-height: 86vh;
       overflow-y: auto;
-      background: var(--bg-elev);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow);
+      background: var(--surface-solid);
+      border: 1px solid var(--border-strong);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65);
+      animation: cardEnter 0.3s var(--ease) both;
     }
 
     .modal-head {
@@ -608,10 +914,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    .modal-head h3 { margin: 0; font-size: 1.04rem; }
+    .modal-head h3 { margin: 0; font-size: 1.05rem; letter-spacing: -0.015em; }
 
     .search-row {
       display: flex;
@@ -621,7 +927,7 @@
     }
 
     .search-row input { flex: 1; min-width: 160px; }
-    .search-row select { width: auto; min-width: 90px; }
+    .search-row select { width: auto; min-width: 92px; }
 
     .result-list { display: flex; flex-direction: column; gap: 8px; }
 
@@ -629,28 +935,31 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 10px;
-      border-radius: 11px;
-      background: var(--bg-input);
+      padding: 9px 11px;
+      border-radius: 14px;
+      background: var(--surface-2);
       border: 1px solid var(--border);
       flex-wrap: wrap;
     }
 
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: #1e293b;
+      background: rgba(24, 24, 30, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #fff;
-      padding: 10px 16px;
+      padding: 10px 18px;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
       z-index: 1200;
       max-width: 92vw;
       text-align: center;
@@ -660,11 +969,11 @@
 
     .alert-banner {
       background: rgba(245, 158, 11, 0.14);
-      border: 1px solid rgba(245, 158, 11, 0.45);
+      border: 1px solid rgba(245, 158, 11, 0.4);
       color: var(--text);
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin-bottom: 14px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      margin-bottom: 16px;
       font-size: 0.85rem;
       display: none;
     }
@@ -673,22 +982,29 @@
     .hidden { display: none !important; }
 
     .link-box {
-      margin-top: 10px;
-      padding: 10px 12px;
-      background: var(--bg-input);
+      margin-top: 12px;
+      padding: 11px 14px;
+      background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.76rem;
-      color: var(--text-muted);
+      border-radius: 14px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
       word-break: break-all;
       display: none;
     }
 
     .link-box.show { display: block; }
-    .share-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+    .share-bar { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 8px; align-items: center; }
   </style>
 </head>
-<body>
+<body class="occ-friend">
+  <!-- Ambient Breathing Mesh Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="container">
     <header class="topbar">
       <div class="brand">
@@ -699,7 +1015,7 @@
         </div>
       </div>
       <div class="top-actions">
-        <span class="badge-ver">v5.4.1 SmartMatch</span>
+        <span class="badge-ver">v6.0 Apple Glass</span>
         <button id="btnThemeToggle" class="btn-sm" type="button">☀️ Light</button>
       </div>
     </header>
@@ -710,20 +1026,20 @@
     <main id="editorView">
       <section class="panel">
         <div class="panel-title">
-          <span>✨ Tip mesaj / Ocazie</span>
+          <span>Ocazie</span>
           <button id="btnLoadTemplate" class="btn-xs" type="button">✨ Încarcă șablon</button>
         </div>
-        <div id="occasionChips" class="chip-row" style="margin-bottom: 14px;">
-          <button type="button" class="chip active" data-occ="letter">💌 Scrisoare</button>
+        <div id="occasionChips" class="chip-row" style="margin-bottom: 16px;">
+          <button type="button" class="chip" data-occ="letter">💌 Scrisoare</button>
           <button type="button" class="chip" data-occ="wedding">💍 Nuntă</button>
           <button type="button" class="chip" data-occ="baptism">👶 Botez</button>
-          <button type="button" class="chip" data-occ="friend">🍻 Prieten</button>
+          <button type="button" class="chip active" data-occ="friend">🍻 Prieten</button>
           <button type="button" class="chip" data-occ="birthday">🎂 Aniversare</button>
         </div>
 
-        <div class="panel-title"><span>🌐 Prioritate limbă &amp; Magazin iTunes (detecția funcționează în toate limbile)</span></div>
+        <div class="panel-title"><span>Prioritate magazin iTunes (detecția funcționează în toate limbile)</span></div>
         <div id="langChips" class="chip-row">
-          <button type="button" class="chip active" data-lang="all">🌍 Auto (Toate)</button>
+          <button type="button" class="chip active" data-lang="all">🌍 Auto</button>
           <button type="button" class="chip" data-lang="ro">🇷🇴 Română</button>
           <button type="button" class="chip" data-lang="en">🇬🇧 Engleză</button>
           <button type="button" class="chip" data-lang="de">🇩🇪 Germană</button>
@@ -734,21 +1050,21 @@
 
       <section class="panel">
         <div class="panel-title">
-          <span>👤 Destinatar, Expeditor &amp; Detalii</span>
+          <span>Destinatar &amp; Expeditor</span>
           <button id="btnToggleEvent" class="btn-xs" type="button">➕ Detalii eveniment</button>
         </div>
         <div class="grid-2">
           <div>
             <label class="field-label" for="inputTo">Pentru (opțional)</label>
-            <input id="inputTo" type="text" placeholder="ex. Dragă Ana" />
+            <input id="inputTo" type="text" placeholder="ex. My favorite people," />
           </div>
           <div>
             <label class="field-label" for="inputFrom">De la (opțional)</label>
-            <input id="inputFrom" type="text" placeholder="ex. Cu drag, Alex" />
+            <input id="inputFrom" type="text" placeholder="ex. Gratefully yours, Vali" />
           </div>
         </div>
 
-        <div id="eventFields" class="hidden" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);">
+        <div id="eventFields" class="hidden" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);">
           <div class="grid-2">
             <div>
               <label class="field-label" for="evTitle">Titlu invitație</label>
@@ -772,18 +1088,18 @@
 
       <section class="panel">
         <div class="panel-title">
-          <span>✍️ Textul mesajului</span>
+          <span>Mesajul tău</span>
           <span id="moodBadge" class="badge-ver">Stare: Auto</span>
         </div>
-        <textarea id="letterInput" placeholder="Scrie mesajul tău aici (ex: miss you too, cause i still haven't found what i'm looking for, cause everybody hurts)..."></textarea>
+        <textarea id="letterInput" placeholder="Scrie mesajul tău aici..."></textarea>
         <div class="toolbar">
-          <button id="btnScanItunes" class="btn-primary btn-sm" type="button">✨ Găsește piese extra pe iTunes</button>
-          <select id="moodSelect" style="width: auto; padding: 6px 10px; font-size: 0.82rem;">
+          <button id="btnScanItunes" class="btn-primary btn-sm" type="button">✨ Caută piese extra pe iTunes</button>
+          <select id="moodSelect" style="width: auto; padding: 7px 12px; font-size: 0.8rem; border-radius: 999px;">
             <option value="auto">Stare: Auto</option>
-            <option value="melancholic">Melancolic / Sensibil</option>
+            <option value="melancholic">Melancolic</option>
             <option value="energetic">Energic / Rock</option>
             <option value="romantic">Romantic / Cald</option>
-            <option value="party">Petrecere / Vesel</option>
+            <option value="party">Vesel / Petrecere</option>
           </select>
           <button id="btnManualSearch" class="btn-sm" type="button">🔍 Caută manual</button>
         </div>
@@ -791,27 +1107,27 @@
 
       <section class="panel">
         <div class="panel-title">
-          <span>🎶 Scrisoarea interactivă</span>
+          <span>Scrisoarea interactivă</span>
           <span id="matchStats" class="badge-ver">0 piese</span>
         </div>
         <div id="interactiveLetter" class="interactive-letter"></div>
         <div class="hint-box">
-          <span>💡 <strong>Click</strong> pe orice expresie evidențiată ca să schimbi piesa, sau <strong>selectează / apasă</strong> pe orice cuvânt ca să legi o piesă nouă.</span>
+          Click pe orice expresie evidențiată pentru a schimba piesa, sau atinge / selectează orice cuvânt ca să legi o melodie nouă.
         </div>
       </section>
 
       <section class="panel">
         <div class="panel-title">
-          <span>🎧 Coloana sonoră</span>
+          <span>Coloana sonoră</span>
           <button id="btnStopAllEditor" class="btn-xs hidden" type="button">⏹ Oprește</button>
         </div>
         <div id="editorTrackList" class="track-list"></div>
       </section>
 
       <section class="panel">
-        <div class="panel-title"><span>🚀 Trimite Felicitarea (Link scurt, Zero-Storage)</span></div>
+        <div class="panel-title"><span>Trimite experiența (Link scurt • Zero-Storage)</span></div>
         <div class="share-bar">
-          <button id="btnPreviewCard" class="btn-primary" type="button">💌 Previzualizează</button>
+          <button id="btnPreviewCard" class="btn-primary" type="button">✨ Previzualizează</button>
           <button id="btnCopyLink" class="btn" type="button">🔗 Copiază Link</button>
           <button id="btnShareWA" class="btn btn-wa" type="button">💬 WhatsApp</button>
         </div>
@@ -819,11 +1135,22 @@
       </section>
     </main>
 
-    <!-- ==================== MINIMALIST CARD / RECIPIENT VIEW ==================== -->
+    <!-- ==================== RECIPIENT / WOW CARD VIEW ==================== -->
     <main id="cardView" class="hidden">
-      <article id="cardShell" class="card-shell occ-letter">
+      <!-- Envelope / Reveal Intro Stage -->
+      <section id="revealStage" class="reveal-stage hidden">
+        <div id="revealSeal" class="reveal-seal">🎵</div>
+        <div id="revealKicker" class="reveal-kicker">Ai primit un mesaj muzical</div>
+        <h2 id="revealHeading" class="reveal-heading">O scrisoare specială pentru tine</h2>
+        <p id="revealSub" class="reveal-sub">Apasă mai jos ca să deschizi mesajul cu sunet.</p>
+        <button id="btnOpenWithSound" class="btn-primary reveal-cta" type="button">▶ Deschide &amp; Ascultă</button>
+        <button id="btnOpenSilent" class="btn-ghost reveal-silent" type="button">Citește fără sunet</button>
+      </section>
+
+      <!-- Main Glass Letter Card -->
+      <article id="cardShell" class="card-shell hidden">
         <div class="card-top-row">
-          <div id="cardOccBadge" class="card-occ-badge">💌 Scrisoare Muzicală</div>
+          <div id="cardOccBadge" class="card-occ-pill">💌 Scrisoare Muzicală</div>
           <button id="btnCardTheme" class="btn-ghost" type="button" title="Schimbă tema">☀️</button>
         </div>
 
@@ -836,32 +1163,36 @@
         <div id="cardBody" class="card-body"></div>
         <div id="cardSignature" class="card-signature hidden"></div>
 
-        <!-- Simple Clean Player -->
-        <div id="simplePlayer" class="simple-player">
-          <div class="sp-main">
-            <button id="btnPlayAll" class="btn-primary sp-play-btn" type="button" aria-label="Ascultă scrisoarea">▶</button>
-            <div class="sp-meta">
-              <div id="mpTitle" class="sp-title">Ascultă scrisoarea</div>
-              <div id="mpArtist" class="sp-sub">Apasă Play sau atinge cuvintele evidențiate</div>
+        <!-- Apple Music Floating Player -->
+        <div id="simplePlayer" class="apple-player">
+          <div class="ap-row">
+            <div id="apArt" class="ap-art">🎵</div>
+            <div class="ap-meta">
+              <div class="ap-title-row">
+                <div class="eq-bars" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div id="mpTitle" class="ap-title">Ascultă scrisoarea</div>
+              </div>
+              <div id="mpArtist" class="ap-sub">Apasă Play sau atinge cuvintele evidențiate</div>
             </div>
-            <div id="spNav" class="sp-nav hidden">
-              <button id="btnPrevTrack" class="btn-ghost" type="button" title="Anterioara">⏮</button>
-              <button id="btnNextTrack" class="btn-ghost" type="button" title="Următoarea">⏭</button>
+            <div class="ap-controls">
+              <button id="btnPrevTrack" class="ap-nav-btn hidden" type="button" title="Anterioara">⏮</button>
+              <button id="btnPlayAll" class="btn-primary ap-play-btn" type="button" aria-label="Play">▶</button>
+              <button id="btnNextTrack" class="ap-nav-btn hidden" type="button" title="Următoarea">⏭</button>
             </div>
           </div>
           <div class="progress-bar"><div id="mpProgress" class="progress-fill"></div></div>
         </div>
 
-        <!-- Collapsible Soundtrack Details (hidden by default for clean look) -->
+        <!-- Collapsible Soundtrack -->
         <div id="cardTracksToggleWrap" class="card-tracks-toggle">
-          <button id="btnToggleCardTracks" class="btn-ghost" type="button">🎶 Vezi melodiile ▾</button>
+          <button id="btnToggleCardTracks" class="btn-ghost" type="button">Vezi melodiile ▾</button>
         </div>
         <div id="cardTracksDrawer" class="card-tracks-drawer hidden">
           <div id="cardTrackList" class="track-list"></div>
         </div>
 
         <div class="card-footer">
-          <button id="btnCreateOwn" class="btn-ghost" type="button">✨ Creează și tu o scrisoare</button>
+          <button id="btnCreateOwn" class="btn-ghost" type="button">✨ Creează o scrisoare</button>
           <button id="btnEditCard" class="btn-ghost" type="button">✏️ Editează</button>
         </div>
       </article>
@@ -912,11 +1243,11 @@
     'use strict';
 
     const OCCASIONS = {
-      letter:   { label: '💌 Scrisoare Muzicală', cls: 'occ-letter', hasEvent: false },
-      wedding:  { label: '💍 Invitație la Nuntă', cls: 'occ-wedding', hasEvent: true },
-      baptism:  { label: '👶 Invitație la Botez', cls: 'occ-baptism', hasEvent: true },
-      friend:   { label: '🍻 Mesaj pentru un prieten', cls: 'occ-friend', hasEvent: false },
-      birthday: { label: '🎂 La Mulți Ani!', cls: 'occ-birthday', hasEvent: false }
+      letter:   { label: '💌 Scrisoare Muzicală', icon: '💌', cls: 'occ-letter', hasEvent: false },
+      wedding:  { label: '💍 Invitație la Nuntă', icon: '💍', cls: 'occ-wedding', hasEvent: true },
+      baptism:  { label: '👶 Invitație la Botez', icon: '👶', cls: 'occ-baptism', hasEvent: true },
+      friend:   { label: '🍻 Pentru Prieteni', icon: '✨', cls: 'occ-friend', hasEvent: false },
+      birthday: { label: '🎂 La Mulți Ani', icon: '🎂', cls: 'occ-birthday', hasEvent: false }
     };
 
     const LANG_COUNTRY = { all: 'RO', ro: 'RO', en: 'US', de: 'DE', fr: 'FR', es: 'ES' };
@@ -941,9 +1272,9 @@
           text: 'Micuțul nostru îngeraș face primul pas mare din viața lui! Haideți să îi fim alături și să îi urăm o viață plină de soare și zâmbete.'
         },
         friend: {
-          to: 'Salut, prietene!',
-          from: 'Al tău, Mihai',
-          text: 'A trecut prea mult timp de când nu am mai ieșit la o poveste. Știi că suntem prieteni pe viață și mergem mereu pe drumul meu, fără regrete. Hai să ne vedem weekendul ăsta!'
+          to: 'Gașca mea dragă,',
+          from: 'Cu recunoștință, Vali',
+          text: 'Nu spun asta destul de des, dar vreau să vă mulțumesc pur și simplu că sunteți în viața mea. Cu voi mă simt mereu acasă, indiferent unde ne aflăm.\n\nÎmi plac la nebunie toate amintirile pe care le-am strâns împreună și faptul că lângă voi știu că inevitabil va fi bine. Suntem prieteni pe viață.\n\nNe vedem în weekend să mai adăugăm o poveste nouă?'
         },
         birthday: {
           to: 'La mulți ani, Vlad!',
@@ -1003,10 +1334,8 @@
       }
     };
 
-    // Expanded curated dictionary (apostrophes handled flexibly in matcher!)
-    // Shorthand helper: [phrase, lang, [[mood, title, artist, query?], ...]]
     const RAW_DICT = [
-      // === ENGLISH CLASSICS, ROCK, POP, BALLADS, R&B ===
+      // English
       ["i still haven't found what i'm looking for", 'en', [['melancholic', "I Still Haven't Found What I'm Looking For", 'U2']]],
       ["still haven't found what i'm looking for", 'en', [['melancholic', "I Still Haven't Found What I'm Looking For", 'U2']]],
       ["i've been thinking about you", 'en', [['party', "I've Been Thinking About You", 'Londonbeat'], ['romantic', "I've Been Thinking About You", 'Londonbeat']]],
@@ -1104,7 +1433,7 @@
       ["stay with me", 'en', [['melancholic', 'Stay With Me', 'Sam Smith']]],
       ["all you need is love", 'en', [['romantic', 'All You Need Is Love', 'The Beatles']]],
 
-      // === ROMANIAN ===
+      // Romanian
       ['fara tine', 'ro', [['melancholic', 'Fără tine', 'B.U.G. Mafia'], ['romantic', 'Fără tine', 'Andra']]],
       ['dragostea din tei', 'ro', [['party', 'Dragostea Din Tei', 'O-Zone']]],
       ['tot ce am', 'ro', [['romantic', 'Tot ce am', 'Smiley']]],
@@ -1130,7 +1459,6 @@
       ['18 ani', 'ro', [['party', '18 ani', 'Vama Veche']]],
       ['floare de colt', 'ro', [['romantic', 'Floare de colț', 'Ducu Bertzi']]],
       ['andrii popa', 'ro', [['energetic', 'Andrii Popa', 'Phoenix']]],
-      ['in umbra marelui urss', 'ro', [['energetic', 'În umbra marelui U.R.S.S.', 'Phoenix']]],
       ['sa nu mi iei niciodata dragostea', 'ro', [['romantic', 'Să nu-mi iei niciodată dragostea', 'Holograf']]],
       ['ti am dat un inel', 'ro', [['romantic', 'Ți-am dat un inel', 'Holograf']]],
       ['ochii tai', 'ro', [['romantic', 'Ochii tăi', 'Holograf']]],
@@ -1143,7 +1471,6 @@
       ['weekend', 'ro', [['romantic', 'Weekend', 'The Motans & Delia']]],
       ['versus', 'ro', [['melancholic', 'Versus', 'The Motans']]],
       ['imperfect', 'ro', [['melancholic', 'Imperfect', "Carla's Dreams"]]],
-      ['eroina', 'ro', [['melancholic', 'Sub pielea mea', "Carla's Dreams"]]],
       ['hopa hopa', 'ro', [['party', 'Hopa Hopa', 'Bosquito']]],
       ['pepita', 'ro', [['party', 'Pepita', 'Bosquito']]],
       ['amintirile', 'ro', [['melancholic', 'Amintirile', '3 Sud Est']]],
@@ -1154,7 +1481,7 @@
       ['20 de ani', 'ro', [['party', '20', 'Voltaj']]],
       ['basul si cu toba mare', 'ro', [['energetic', 'Basul și cu toba mare', 'Vița de Vie']]],
 
-      // === GERMAN, FRENCH, SPANISH ===
+      // German, French, Spanish
       ['uber den wolken', 'de', [['melancholic', 'Über den Wolken', 'Reinhard Mey']]],
       ['atemlos', 'de', [['party', 'Atemlos durch die Nacht', 'Helene Fischer']]],
       ['99 luftballons', 'de', [['energetic', '99 Luftballons', 'Nena']]],
@@ -1187,7 +1514,7 @@
       occasion: 'friend',
       lang: 'all',
       mood: 'auto',
-      detectedMood: 'romantic',
+      detectedMood: 'party',
       to: '',
       from: '',
       ev: { ti: '', dt: '', lo: '', rs: '' },
@@ -1205,7 +1532,8 @@
       playAllStartTs: 0,
       playAllRaf: null,
       trackCache: new Map(),
-      cardTracksOpen: false
+      cardTracksOpen: false,
+      openedFromLink: false
     };
 
     const PLAY_ALL_DURATION = 12000;
@@ -1215,6 +1543,13 @@
     const els = {
       editorView: $('editorView'),
       cardView: $('cardView'),
+      revealStage: $('revealStage'),
+      revealSeal: $('revealSeal'),
+      revealKicker: $('revealKicker'),
+      revealHeading: $('revealHeading'),
+      revealSub: $('revealSub'),
+      btnOpenWithSound: $('btnOpenWithSound'),
+      btnOpenSilent: $('btnOpenSilent'),
       btnThemeToggle: $('btnThemeToggle'),
       btnCardTheme: $('btnCardTheme'),
       alertBanner: $('alertBanner'),
@@ -1252,10 +1587,10 @@
       cardBody: $('cardBody'),
       cardSignature: $('cardSignature'),
       simplePlayer: $('simplePlayer'),
+      apArt: $('apArt'),
       mpTitle: $('mpTitle'),
       mpArtist: $('mpArtist'),
       mpProgress: $('mpProgress'),
-      spNav: $('spNav'),
       btnPlayAll: $('btnPlayAll'),
       btnPrevTrack: $('btnPrevTrack'),
       btnNextTrack: $('btnNextTrack'),
@@ -1286,20 +1621,15 @@
       els.toast.textContent = msg;
       els.toast.classList.add('show');
       clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => els.toast.classList.remove('show'), ms || 2600);
+      showToast._t = setTimeout(() => els.toast.classList.remove('show'), ms || 2500);
     }
 
     function showAlert(msg) {
-      if (!msg) {
-        els.alertBanner.classList.remove('show');
-        els.alertBanner.textContent = '';
-        return;
-      }
+      if (!msg) { els.alertBanner.classList.remove('show'); els.alertBanner.textContent = ''; return; }
       els.alertBanner.textContent = msg;
       els.alertBanner.classList.add('show');
     }
 
-    // Typo-tolerant normalization (collapses 3+ repeated letters, removes diacritics & punctuation)
     function normalizeText(str) {
       return (str || '')
         .toLowerCase()
@@ -1318,6 +1648,12 @@
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
+    }
+
+    function applyOccasionThemeClass() {
+      const occ = OCCASIONS[state.occasion] || OCCASIONS.letter;
+      document.body.classList.remove('occ-letter', 'occ-wedding', 'occ-baptism', 'occ-friend', 'occ-birthday');
+      document.body.classList.add(occ.cls);
     }
 
     function getPlatformLinks(track) {
@@ -1480,7 +1816,7 @@
       return track;
     }
 
-    // ==================== SMART TYPO-TOLERANT MATCHING ENGINE ====================
+    // ==================== SMART TYPO-TOLERANT MATCHING ====================
     function detectMoodFromText(text) {
       const n = normalizeText(text);
       const scores = { melancholic: 0, energetic: 0, romantic: 0, party: 0 };
@@ -1498,16 +1834,13 @@
       return best;
     }
 
-    function getActiveMood() {
-      return state.mood === 'auto' ? state.detectedMood : state.mood;
-    }
+    function getActiveMood() { return state.mood === 'auto' ? state.detectedMood : state.mood; }
 
     function pickVariantForMood(entry, mood) {
       const exact = entry.variants.find(v => v.mood === mood);
       return Object.assign({}, exact || entry.variants[0]);
     }
 
-    // Maps raw text to a normalized string while keeping exact character index mapping AND collapsing 3+ repeated letters (e.g., "stilll" -> "still")
     function buildNormIndex(rawText) {
       const normChars = [];
       const origIndices = [];
@@ -1528,7 +1861,7 @@
         if (/^[a-z0-9]$/.test(rep)) {
           if (rep === lastChar) {
             runLen++;
-            if (runLen > 2) continue; // collapse 3+ identical letters (stilll -> still)
+            if (runLen > 2) continue;
           } else {
             lastChar = rep;
             runLen = 1;
@@ -1545,7 +1878,6 @@
       return { normStr: normChars.join(''), origIndices };
     }
 
-    // Builds a regex from a phrase where apostrophes allow optional whitespace (haven't matches haven't, haven t, havent; i'm matches i'm, i' m, im)
     function phraseToFlexibleRegex(phrase) {
       const cleaned = (phrase || '')
         .toLowerCase()
@@ -1553,7 +1885,7 @@
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/([a-z])\1{2,}/g, '$1$1')
-        .replace(/['’`]/g, '\u0001') // temporary marker for apostrophe
+        .replace(/['’`]/g, '\u0001')
         .replace(/[^a-z0-9\s\u0001]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
@@ -1572,24 +1904,19 @@
       const raw = state.text || '';
       state.detectedMood = detectMoodFromText(raw);
       const mood = getActiveMood();
-      const moodLabels = { melancholic: 'Melancolic', energetic: 'Energic', romantic: 'Romantic', party: 'Petrecere' };
+      const moodLabels = { melancholic: 'Melancolic', energetic: 'Energic', romantic: 'Romantic', party: 'Vesel' };
       els.moodBadge.textContent = 'Stare: ' + (moodLabels[mood] || mood) + (state.mood === 'auto' ? ' (Auto)' : '');
 
-      if (!raw.trim()) {
-        state.matches = [];
-        return;
-      }
+      if (!raw.trim()) { state.matches = []; return; }
 
       const { normStr, origIndices } = buildNormIndex(raw);
       const candidates = [];
 
-      // 1. Pinned phrases (highest priority)
       state.pinnedMap.forEach((item, normKey) => {
         if (!normKey) return;
         candidates.push({ rawPhrase: item.phrase || normKey, norm: normKey, pinned: true, priority: 3, track: item });
       });
 
-      // 2. ALL dictionary phrases (selected language gets slightly higher priority, never blocks other languages!)
       DICTIONARY.forEach(entry => {
         const entryNorm = normalizeText(entry.phrase);
         if (state.pinnedMap.has(entryNorm)) return;
@@ -1598,7 +1925,6 @@
         candidates.push({ rawPhrase: entry.phrase, norm: entryNorm, pinned: false, priority: langBoost, track: chosen });
       });
 
-      // Sort: pinned first, then longest phrase first, then language preference
       candidates.sort((a, b) => (b.pinned - a.pinned) || (b.norm.length - a.norm.length) || (b.priority - a.priority));
 
       const occupied = new Uint8Array(raw.length);
@@ -1616,16 +1942,13 @@
           if (!beforeOk || !afterOk) continue;
 
           const origStart = origIndices[nStart];
-          // Extend origEnd to include any collapsed trailing repeated letters (e.g. "stilll")
           let origEnd = origIndices[nEnd] + 1;
           while (origEnd < raw.length && raw[origEnd].toLowerCase() === raw[origEnd - 1].toLowerCase() && /[a-z]/i.test(raw[origEnd])) {
             origEnd++;
           }
 
           let overlap = false;
-          for (let i = origStart; i < origEnd; i++) {
-            if (occupied[i]) { overlap = true; break; }
-          }
+          for (let i = origStart; i < origEnd; i++) { if (occupied[i]) { overlap = true; break; } }
           if (overlap) continue;
 
           for (let i = origStart; i < origEnd; i++) occupied[i] = 1;
@@ -1645,18 +1968,13 @@
       state.matches = found;
     }
 
-    // Auto-Scan unmatched clauses on iTunes!
     async function scanUnmatchedClausesOnItunes() {
       const raw = state.text || '';
-      if (!raw.trim()) {
-        showToast('Scrie mai întâi un mesaj.');
-        return;
-      }
+      if (!raw.trim()) { showToast('Scrie mai întâi un mesaj.'); return; }
       els.btnScanItunes.disabled = true;
-      els.btnScanItunes.textContent = '⏳ Se scanează pe iTunes...';
+      els.btnScanItunes.textContent = '⏳ Se caută pe iTunes...';
 
       try {
-        // Extract text segments NOT already covered by matches
         const occupied = new Uint8Array(raw.length);
         state.matches.forEach(m => { for (let i = m.start; i < m.end; i++) occupied[i] = 1; });
 
@@ -1668,23 +1986,17 @@
         }
         if (cur.trim()) gaps.push(cur);
 
-        // Split gaps by punctuation & common connectors into candidate clauses
         const clauses = [];
         gaps.forEach(g => {
           g.split(/[,.;:!?\n]+|\b(?:cause|because|and|but|sau|dar|si|și|ca|că)\b/i).forEach(part => {
             const clean = part.trim().replace(/^['"\-–—\s]+|['"\-–—\s]+$/g, '');
             const words = clean.split(/\s+/).filter(Boolean);
-            if (words.length >= 2 && words.length <= 8) {
-              clauses.push(clean);
-            }
+            if (words.length >= 2 && words.length <= 8) clauses.push(clean);
           });
         });
 
         const toQuery = clauses.slice(0, 6);
-        if (!toQuery.length) {
-          showToast('Toate frazele principale au deja piese asociate!');
-          return;
-        }
+        if (!toQuery.length) { showToast('Frazele principale au deja melodii asociate.'); return; }
 
         let added = 0;
         const country = LANG_COUNTRY[state.lang] || 'US';
@@ -1693,7 +2005,6 @@
           const normClause = normalizeText(clause);
           if (!normClause || state.pinnedMap.has(normClause)) continue;
           const results = await searchItunes(clause, country, 5);
-          // Find a track whose normalized title closely matches the clause or is contained in it
           const hit = results.find(r => {
             const nt = normalizeText(r.title.replace(/\(.*?\)|\[.*?\]/g, ''));
             if (!nt || nt.length < 4) return false;
@@ -1702,7 +2013,6 @@
           if (hit) {
             const cleanTitle = hit.title.replace(/\(.*?\)|\[.*?\]/g, '').trim();
             const normTitle = normalizeText(cleanTitle);
-            // If the song title is a sub-phrase of the clause, bind to that sub-phrase; otherwise bind to the clause
             const bindPhrase = normClause.includes(normTitle) && normTitle.length >= 4 ? cleanTitle : clause;
             state.pinnedMap.set(normalizeText(bindPhrase), Object.assign({}, hit, { phrase: bindPhrase, pinned: true }));
             added++;
@@ -1710,12 +2020,12 @@
         }
 
         renderEditor();
-        showToast(added ? ('✨ Am găsit încă ' + added + (added === 1 ? ' piesă' : ' piese') + ' pe iTunes!') : 'Nu am găsit potriviri exacte noi. Poți selecta manual orice cuvânt!');
+        showToast(added ? ('✨ Am găsit încă ' + added + (added === 1 ? ' piesă' : ' piese') + '!') : 'Nu am găsit potriviri noi. Poți selecta manual orice cuvânt.');
       } catch (_) {
         showToast('Eroare la scanarea iTunes.');
       } finally {
         els.btnScanItunes.disabled = false;
-        els.btnScanItunes.textContent = '✨ Găsește piese extra pe iTunes';
+        els.btnScanItunes.textContent = '✨ Caută piese extra pe iTunes';
       }
     }
 
@@ -1736,19 +2046,19 @@
         const key = 'match-' + idx;
         const isPlaying = state.playingKey === key;
         const cls = 'phrase-hit' + (m.pinned ? ' pinned' : '') + (isPlaying ? ' playing' : '');
-        const badge = m.pinned ? '📌' : '🎵';
+        const icon = isPlaying ? '♪' : (m.pinned ? '♪' : '♪');
         html += '<span class="' + cls + '" data-match-idx="' + idx + '" title="' + escHtml(m.track.title + ' — ' + m.track.artist) + '">' +
-          '<span class="phrase-badge">' + badge + '</span>' + escHtml(m.phrase) + '</span>';
+          '<span class="phrase-icon">' + icon + '</span>' + escHtml(m.phrase) + '</span>';
         cursor = m.end;
       });
 
       if (cursor < raw.length) html += wrapPlain(raw.slice(cursor));
-      return html || '<span style="color:var(--text-muted)">Scrie un mesaj mai sus pentru a vedea melodiile detectate...</span>';
+      return html || '<span style="color:var(--text-tertiary)">Scrie un mesaj mai sus pentru a vedea melodiile detectate...</span>';
     }
 
     function renderTrackList(container, matches, isCard) {
       if (!matches.length) {
-        container.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Nicio piesă asociată încă. Scrie un mesaj sau apasă pe orice cuvânt de mai sus.</div>';
+        container.innerHTML = '<div style="color:var(--text-tertiary);font-size:0.84rem;">Nicio piesă asociată încă.</div>';
         return;
       }
 
@@ -1758,7 +2068,7 @@
         const t = m.track || {};
         const coverHtml = t.artworkUrl ? '<img src="' + escHtml(t.artworkUrl) + '" alt="" loading="lazy" />' : '🎵';
         const playLabel = isPlaying ? '⏸' : '▶';
-        const changeBtn = isCard ? '' : '<button type="button" class="btn-xs" data-action="change" data-idx="' + idx + '">🔄 Schimbă</button>';
+        const changeBtn = isCard ? '' : '<button type="button" class="btn-xs" data-action="change" data-idx="' + idx + '">Schimbă</button>';
         const removeBtn = (!isCard && m.pinned) ? '<button type="button" class="btn-xs btn-danger" data-action="unpin" data-norm="' + escHtml(m.norm) + '">✕</button>' : '';
 
         return (
@@ -1781,6 +2091,7 @@
     }
 
     function renderEditor() {
+      applyOccasionThemeClass();
       findMatchesInText();
       els.interactiveLetter.innerHTML = buildHighlightedHtml(state.text, state.matches, true);
       els.matchStats.textContent = state.matches.length + (state.matches.length === 1 ? ' piesă' : ' piese');
@@ -1788,9 +2099,31 @@
       els.btnStopAllEditor.classList.toggle('hidden', !state.playingKey);
     }
 
-    function renderCard() {
+    function populateRevealStage() {
       const occ = OCCASIONS[state.occasion] || OCCASIONS.letter;
-      els.cardShell.className = 'card-shell ' + occ.cls;
+      els.revealSeal.textContent = occ.icon;
+      els.revealKicker.textContent = occ.label.replace(/^[^\s]+\s/, '');
+
+      const cleanTo = state.to.replace(/[,:\s]+$/, '');
+      const cleanFrom = state.from.replace(/^.*,\s*/, '').trim() || state.from.trim();
+
+      if (cleanTo) {
+        els.revealHeading.textContent = cleanTo;
+      } else {
+        els.revealHeading.textContent = 'Ai primit un mesaj muzical';
+      }
+
+      const songCountText = state.matches.length
+        ? (state.matches.length + (state.matches.length === 1 ? ' melodie ascunsă' : ' melodii ascunse') + ' printre cuvinte')
+        : 'Un mesaj scris special pentru tine';
+      els.revealSub.textContent = (cleanFrom ? ('De la ' + cleanFrom + ' • ') : '') + songCountText;
+      els.btnOpenWithSound.textContent = state.matches.length ? '▶ Deschide & Ascultă' : 'Deschide mesajul';
+      els.btnOpenSilent.classList.toggle('hidden', !state.matches.length);
+    }
+
+    function renderCard() {
+      applyOccasionThemeClass();
+      const occ = OCCASIONS[state.occasion] || OCCASIONS.letter;
       els.cardOccBadge.textContent = occ.label;
 
       const ev = state.ev || {};
@@ -1813,29 +2146,48 @@
       els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
       els.simplePlayer.classList.toggle('hidden', !state.matches.length);
       els.cardTracksToggleWrap.classList.toggle('hidden', !state.matches.length);
-      els.btnToggleCardTracks.textContent = (state.cardTracksOpen ? '🎶 Ascunde melodiile ▴' : '🎶 Vezi cele ' + state.matches.length + (state.matches.length === 1 ? ' piesă ▾' : ' melodii ▾'));
+      els.btnToggleCardTracks.textContent = state.cardTracksOpen
+        ? 'Ascunde melodiile ▴'
+        : ('Vezi cele ' + state.matches.length + (state.matches.length === 1 ? ' piesă ▾' : ' melodii ▾'));
       els.cardTracksDrawer.classList.toggle('hidden', !state.cardTracksOpen || !state.matches.length);
 
-      if (state.cardTracksOpen) {
-        renderTrackList(els.cardTrackList, state.matches, true);
-      }
+      if (state.cardTracksOpen) renderTrackList(els.cardTrackList, state.matches, true);
       updateMiniPlayerUI();
     }
 
-    function setViewMode(mode) {
+    function setViewMode(mode, showReveal) {
       state.mode = mode;
       stopAudio();
       const isCard = mode === 'card';
       document.body.classList.toggle('card-mode', isCard);
       els.editorView.classList.toggle('hidden', isCard);
       els.cardView.classList.toggle('hidden', !isCard);
+
       if (isCard) {
         state.cardTracksOpen = false;
         renderCard();
+        if (showReveal) {
+          populateRevealStage();
+          els.revealStage.classList.remove('hidden');
+          els.cardShell.classList.add('hidden');
+        } else {
+          els.revealStage.classList.add('hidden');
+          els.cardShell.classList.remove('hidden');
+        }
       } else {
+        els.revealStage.classList.add('hidden');
         renderEditor();
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openRevealedCard(autoplay) {
+      els.revealStage.classList.add('hidden');
+      els.cardShell.classList.remove('hidden');
+      if (autoplay && state.matches.length) {
+        state.playAllActive = true;
+        playMatchAt(0, true);
+      }
     }
 
     // ==================== AUDIO & PLAY ALL ====================
@@ -1843,12 +2195,15 @@
       try { state.audio.pause(); } catch (_) {}
       state.playingKey = null;
       state.playAllActive = false;
+      document.body.classList.remove('is-playing');
       clearTimeout(state.playAllTimer);
       cancelAnimationFrame(state.playAllRaf);
       els.mpProgress.style.width = '0%';
       els.btnPlayAll.textContent = '▶';
-      els.spNav.classList.add('hidden');
+      els.btnPrevTrack.classList.add('hidden');
+      els.btnNextTrack.classList.add('hidden');
       els.btnStopAllEditor.classList.add('hidden');
+
       if (state.mode === 'card') {
         els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
         if (state.cardTracksOpen) renderTrackList(els.cardTrackList, state.matches, true);
@@ -1863,15 +2218,21 @@
       if (typeof matchIdx === 'number' && state.matches[matchIdx]) {
         const m = state.matches[matchIdx];
         const t = m.track || {};
-        els.mpTitle.textContent = (t.title || 'Piesă') + (t.artist ? ' — ' + t.artist : '');
-        els.mpArtist.textContent = (state.playAllActive ? ((matchIdx + 1) + '/' + state.matches.length + ' • ') : '') + '„' + m.phrase + '”';
-        els.spNav.classList.toggle('hidden', state.matches.length < 2);
+        els.apArt.innerHTML = t.artworkUrl ? '<img src="' + escHtml(t.artworkUrl) + '" alt="" />' : '🎵';
+        els.mpTitle.textContent = t.title || 'Piesă';
+        els.mpArtist.textContent = (t.artist || '') + (state.playAllActive ? (' • ' + (matchIdx + 1) + '/' + state.matches.length) : '');
+        const showNav = state.matches.length > 1;
+        els.btnPrevTrack.classList.toggle('hidden', !showNav);
+        els.btnNextTrack.classList.toggle('hidden', !showNav);
       } else {
+        const firstArt = state.matches[0] && state.matches[0].track && state.matches[0].track.artworkUrl;
+        els.apArt.innerHTML = firstArt ? '<img src="' + escHtml(firstArt) + '" alt="" />' : '🎵';
         els.mpTitle.textContent = 'Ascultă scrisoarea';
         els.mpArtist.textContent = state.matches.length
-          ? (state.matches.length + (state.matches.length === 1 ? ' melodie ascunsă în text' : ' melodii ascunse în text') + ' • apasă Play')
+          ? (state.matches.length + (state.matches.length === 1 ? ' melodie • apasă Play' : ' melodii • apasă Play'))
           : 'Nicio piesă';
-        els.spNav.classList.add('hidden');
+        els.btnPrevTrack.classList.add('hidden');
+        els.btnNextTrack.classList.add('hidden');
       }
     }
 
@@ -1880,16 +2241,12 @@
       if (!m) return;
       const key = 'match-' + idx;
 
-      if (!fromPlayAll && state.playingKey === key) {
-        stopAudio();
-        return;
-      }
+      if (!fromPlayAll && state.playingKey === key) { stopAudio(); return; }
 
       clearTimeout(state.playAllTimer);
       cancelAnimationFrame(state.playAllRaf);
 
       if (!m.track.previewUrl) {
-        showToast('Se încarcă melodia...', 1400);
         const resolved = await ensureTrackResolved(m.track);
         m.track = resolved;
         if (m.pinned) state.pinnedMap.set(m.norm, Object.assign({}, resolved, { phrase: m.phrase, pinned: true }));
@@ -1908,15 +2265,18 @@
         state.audio.src = m.track.previewUrl;
         await state.audio.play();
       } catch (_) {
-        showToast('Apasă din nou ▶ pentru a porni sunetul.');
+        showToast('Apasă ▶ pentru a porni sunetul.');
         state.playingKey = null;
         state.playAllActive = false;
+        document.body.classList.remove('is-playing');
         els.btnPlayAll.textContent = '▶';
         return;
       }
 
+      document.body.classList.add('is-playing');
       els.btnPlayAll.textContent = '⏸';
       els.btnStopAllEditor.classList.remove('hidden');
+
       if (state.mode === 'card') {
         els.cardBody.innerHTML = buildHighlightedHtml(state.text, state.matches, false);
         if (state.cardTracksOpen) renderTrackList(els.cardTrackList, state.matches, true);
@@ -1944,7 +2304,7 @@
     function playNextInQueue() {
       const next = state.playAllIndex + 1;
       if (next < state.matches.length) playMatchAt(next, true);
-      else { stopAudio(); showToast('Scrisoarea s-a încheiat 🎵'); }
+      else { stopAudio(); showToast('Coloana sonoră s-a încheiat ✨'); }
     }
 
     state.audio.addEventListener('ended', () => {
@@ -1968,7 +2328,7 @@
       } catch (_) { state.playingKey = null; }
     }
 
-    // ==================== SHORT LINK GENERATION & HYDRATION ====================
+    // ==================== SHORT LINK ====================
     async function resolveAllMatchesForShare() {
       const unresolved = state.matches.filter(m => !m.track || !m.track.trackId);
       if (unresolved.length) {
@@ -1983,7 +2343,7 @@
 
     async function buildShortShareUrl() {
       await resolveAllMatchesForShare();
-      const payload = { v: 54, o: state.occasion, l: state.lang, t: state.text };
+      const payload = { v: 60, o: state.occasion, l: state.lang, t: state.text };
       if (state.to.trim()) payload.to = state.to.trim();
       if (state.from.trim()) payload.fr = state.from.trim();
       const evClean = {};
@@ -2026,6 +2386,7 @@
         state.ev = Object.assign({ ti: '', dt: '', lo: '', rs: '' }, data.ev || {});
         state.pinnedMap.clear();
         state.autoChoiceMap.clear();
+        state.openedFromLink = true;
         syncInputsFromState();
 
         const songs = Array.isArray(data.s) ? data.s : [];
@@ -2045,7 +2406,7 @@
         });
 
         findMatchesInText();
-        setViewMode('card');
+        setViewMode('card', true);
         showAlert('');
         return true;
       } catch (_) {
@@ -2058,7 +2419,7 @@
     function openSongModal(phrase, existingMatch) {
       state.modalPhrase = (phrase || '').trim();
       state.modalNorm = normalizeText(state.modalPhrase);
-      els.modalTitle.textContent = state.modalPhrase ? ('🎵 Piesă pentru „' + state.modalPhrase + '”') : '🔍 Caută o piesă';
+      els.modalTitle.textContent = state.modalPhrase ? ('Piesă pentru „' + state.modalPhrase + '”') : 'Caută o piesă';
       els.modalCountrySelect.value = LANG_COUNTRY[state.lang] || 'US';
       els.modalSearchInput.value = state.modalPhrase;
       els.modalSearchResults.innerHTML = '';
@@ -2072,7 +2433,7 @@
             '<div class="track-meta"><div class="track-title">' + escHtml(t.title) + '</div><div class="track-artist">' + escHtml(t.artist) + '</div></div>' +
             '<div class="track-actions">' +
               renderPlatformButtonsHtml(t) +
-              (existingMatch.pinned ? '<button type="button" class="btn-xs btn-danger" id="btnModalRemovePin">Elimină 📌</button>' : '') +
+              (existingMatch.pinned ? '<button type="button" class="btn-xs btn-danger" id="btnModalRemovePin">Elimină</button>' : '') +
             '</div>' +
           '</div>';
       } else {
@@ -2101,11 +2462,11 @@
     async function runModalSearch() {
       const q = els.modalSearchInput.value.trim();
       if (!q) return;
-      els.modalSearchResults.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Se caută pe iTunes...</div>';
+      els.modalSearchResults.innerHTML = '<div style="color:var(--text-tertiary);font-size:0.84rem;">Se caută pe iTunes...</div>';
       try {
         const results = await searchItunes(q, els.modalCountrySelect.value, 10);
         if (!results.length) {
-          els.modalSearchResults.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Niciun rezultat. Încearcă să adaugi numele artistului sau schimbă magazinul (RO/US/DE).</div>';
+          els.modalSearchResults.innerHTML = '<div style="color:var(--text-tertiary);font-size:0.84rem;">Niciun rezultat. Încearcă să adaugi numele artistului sau schimbă magazinul.</div>';
           return;
         }
         els.modalSearchResults._results = results;
@@ -2115,12 +2476,12 @@
             '<div class="track-meta"><div class="track-title">' + escHtml(r.title) + '</div><div class="track-artist">' + escHtml(r.artist) + '</div></div>' +
             '<div class="track-actions">' +
               '<button type="button" class="btn-xs" data-res-play="' + i + '">▶</button>' +
-              '<button type="button" class="btn-xs btn-pin" data-res-pick="' + i + '">📌 Fixează</button>' +
+              '<button type="button" class="btn-xs btn-pin" data-res-pick="' + i + '">Fixează</button>' +
             '</div>' +
           '</div>'
         ).join('');
       } catch (_) {
-        els.modalSearchResults.innerHTML = '<div style="color:var(--danger);font-size:0.85rem;">Eroare la conectarea cu iTunes.</div>';
+        els.modalSearchResults.innerHTML = '<div style="color:var(--danger);font-size:0.84rem;">Eroare la conectarea cu iTunes.</div>';
       }
     }
 
@@ -2138,7 +2499,7 @@
       state.pinnedMap.set(norm, Object.assign({}, track, { phrase, pinned: true }));
       closeSongModal();
       renderEditor();
-      showToast('📌 Fixat: ' + track.title + ' — ' + track.artist);
+      showToast('Fixat: ' + track.title + ' — ' + track.artist);
     }
 
     // ==================== SYNC & TEMPLATES ====================
@@ -2161,12 +2522,13 @@
 
       const showEv = OCCASIONS[state.occasion].hasEvent || !!(state.ev.ti || state.ev.dt || state.ev.lo || state.ev.rs);
       els.eventFields.classList.toggle('hidden', !showEv);
+      applyOccasionThemeClass();
     }
 
     function loadTemplateForCurrent() {
       const langKey = state.lang === 'all' ? 'en' : state.lang;
-      const tplSet = TEMPLATES[langKey] || TEMPLATES.ro;
-      const tpl = tplSet[state.occasion] || tplSet.letter;
+      const tplSet = TEMPLATES[langKey] || TEMPLATES.en;
+      const tpl = tplSet[state.occasion] || tplSet.friend;
       state.to = tpl.to || '';
       state.from = tpl.from || '';
       state.ev = Object.assign({ ti: '', dt: '', lo: '', rs: '' }, tpl.ev || {});
@@ -2190,14 +2552,17 @@
     els.btnThemeToggle.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
     els.btnCardTheme.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
 
-    els.btnEditCard.addEventListener('click', () => setViewMode('editor'));
+    els.btnOpenWithSound.addEventListener('click', () => openRevealedCard(true));
+    els.btnOpenSilent.addEventListener('click', () => openRevealedCard(false));
+
+    els.btnEditCard.addEventListener('click', () => setViewMode('editor', false));
     els.btnCreateOwn.addEventListener('click', () => {
       try { history.replaceState(null, '', window.location.pathname); } catch (_) {}
       state.to = ''; state.from = ''; state.text = '';
       state.ev = { ti: '', dt: '', lo: '', rs: '' };
       state.pinnedMap.clear(); state.autoChoiceMap.clear();
       syncInputsFromState();
-      setViewMode('editor');
+      setViewMode('editor', false);
     });
 
     els.btnToggleCardTracks.addEventListener('click', () => {
@@ -2221,7 +2586,7 @@
       renderEditor();
     });
 
-    els.btnLoadTemplate.addEventListener('click', () => { loadTemplateForCurrent(); showToast('Șablon încărcat!'); });
+    els.btnLoadTemplate.addEventListener('click', () => { loadTemplateForCurrent(); showToast('Șablon încărcat'); });
     els.btnToggleEvent.addEventListener('click', () => els.eventFields.classList.toggle('hidden'));
 
     [
@@ -2311,12 +2676,8 @@
 
     els.btnPlayAll.addEventListener('click', () => {
       if (!state.matches.length) { showToast('Nu există piese în această scrisoare.'); return; }
-      if (state.playingKey) {
-        stopAudio();
-      } else {
-        state.playAllActive = true;
-        playMatchAt(0, true);
-      }
+      if (state.playingKey) stopAudio();
+      else { state.playAllActive = true; playMatchAt(0, true); }
     });
 
     els.btnPrevTrack.addEventListener('click', () => {
@@ -2333,7 +2694,7 @@
       els.btnPreviewCard.disabled = true;
       try {
         await resolveAllMatchesForShare();
-        setViewMode('card');
+        setViewMode('card', true);
       } finally { els.btnPreviewCard.disabled = false; }
     });
 
@@ -2358,7 +2719,7 @@
           try { document.execCommand('copy'); copied = true; } catch (_) {}
           document.body.removeChild(ta);
         }
-        showToast((copied ? '✅ Link scurt copiat! ' : '🔗 Link generat! ') + '(' + url.length + ' caractere)', 3000);
+        showToast((copied ? '✅ Link scurt copiat! ' : '🔗 Link generat! ') + '(' + url.length + ' car.)', 3000);
       } catch (_) {
         showToast('Eroare la generarea link-ului.');
       } finally { els.btnCopyLink.disabled = false; }
